@@ -4,4 +4,4 @@
 
 global.APP_PATH = __dirname;
 global.kotlin = require("./jslib/kotlin");
-require("./out/production/KotlinElectronQuickStart/KotlinElectronQuickStart");
+require("./out/production/MindKit/MindKit");

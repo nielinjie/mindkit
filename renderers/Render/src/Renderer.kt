@@ -14,7 +14,7 @@ val path:dynamic = js("require('path')")
 
 fun main(args: Array<String>) {
     document.body?.innerHTML = "<h1>Hello World</h1>"
-    val jsonString :String = fs.readFileSync("/Users/nielinjie/Projects/practise/KotlinElectronQuickStart/mindmap.json")
+    val jsonString :String = fs.readFileSync("/Users/nielinjie/Projects/MindKit/mindmap.json")
     println(jsonString)
     val mindMap = MindMap.fromJson(JSON.parse(jsonString))
     ViewNode.fromNode(mindMap.sheets[0].root).pretty()

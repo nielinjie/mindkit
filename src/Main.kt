@@ -21,7 +21,7 @@ class Main() {
         mainWindow = js("new this.electron.BrowserWindow({width:$windowWidth,height:$windowHeight})")
 
         mainWindow.loadURL(url.format(object {
-            val pathname: String = path.join(APP_PATH, "out", "production", "First", "index.html")
+            val pathname: String = path.join(APP_PATH, "out", "production", "Render", "index.html")
             val protocol: String = "file:"
             val slashes: Boolean = true
         }))
