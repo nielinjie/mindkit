@@ -27,7 +27,21 @@ allprojects {
 
 apply plugin: "kotlin"
 
+apply plugin: 'application'
+
 
 dependencies {
     implementation 'com.beust:klaxon:3.0.1'
+    compile "org.jtwig:jtwig-core:5.87.0.RELEASE"
+    compile 'no.tornado:tornadofx:1.7.17'
+
 }
+
+processResources{
+    from('src/main/templates')
+}
+compileKotlin {
+    kotlinOptions.jvmTarget= "1.8"
+}
+
+mainClassName = "xyz.nietongxue.mindkit.view.MainViewFxKt"
