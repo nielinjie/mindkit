@@ -13,7 +13,7 @@ interface Processor{
         }
     }
 }
-class templateProcessor(templateString:String):Processor{
+class TemplateProcessor(templateString:String):Processor{
     override fun process(node:Node):String{
         val template = JtwigTemplate.classpathTemplate("/marpSlide.twig")
         val model = JtwigModel.newModel().with("node", node)

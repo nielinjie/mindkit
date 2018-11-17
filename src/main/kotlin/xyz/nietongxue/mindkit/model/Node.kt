@@ -4,7 +4,7 @@ import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.lookup
 
-data class Node(val id:String, val title:String,val note:String?,val children:List<Node>){
+data class Node(val id:String, val title:String,val note:String?,val children:ArrayList<Node>){
     companion object {
         fun fromJson(json:JsonObject):Node{
             val children:JsonArray<JsonObject> = (json["children"]as JsonObject?) ?.array("attached") ?: JsonArray()
@@ -12,9 +12,9 @@ data class Node(val id:String, val title:String,val note:String?,val children:Li
                     json["id"] as String,
                     json["title"] as String ,
                     json.lookup<String?>("notes.plain.content")[0],
-                    children.map{
+                    ArrayList(children.map{
                         Node.fromJson(it)
-                    }.toList()
+                    }.toList())
             )
         }
     }

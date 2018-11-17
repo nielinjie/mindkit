@@ -1,11 +1,11 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.beans.property.SimpleStringProperty
-import org.jtwig.JtwigModel
-import org.jtwig.JtwigTemplate
-import xyz.nietongxue.mindkit.model.Node
 import tornadofx.getValue
 import tornadofx.setValue
+import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.Processor
+import xyz.nietongxue.mindkit.model.TemplateProcessor
 
 class AppModel {
     val treeModel = TreeModel()
@@ -34,24 +34,3 @@ class AppModel {
     }
 }
 
-interface Processor {
-    fun process(node: Node): String
-
-    companion object {
-        val nonProcessor = object : Processor {
-            override fun process(node: Node): String {
-                return ""
-            }
-        }
-    }
-}
-
-class TemplateProcessor(val templateString: String) : Processor {
-    override fun process(node: Node): String {
-
-        val template = JtwigTemplate.inlineTemplate(templateString)
-        //.classpathTemplate(templateString)
-        val model = JtwigModel.newModel().with("node", node)
-        return template.render(model)
-    }
-}
