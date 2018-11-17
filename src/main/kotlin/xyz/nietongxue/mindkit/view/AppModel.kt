@@ -13,7 +13,7 @@ class AppModel {
     var generatedString by generatedStringProperty
     fun generate(node: Node) {
         generatedString="running..."
-        val template = JtwigTemplate.classpathTemplate("/hello.twig")
+        val template = JtwigTemplate.classpathTemplate("/marpSlide.twig")
         val model = JtwigModel.newModel().with("node", node)
         generatedString = template.render(model)
 

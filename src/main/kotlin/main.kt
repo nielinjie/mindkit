@@ -17,7 +17,7 @@ fun main(args: Array<String>){
     view.pretty()
 
 
-    val template = JtwigTemplate.classpathTemplate("/hello.twig")
+    val template = JtwigTemplate.classpathTemplate("/marpSlide.twig")
     val model = JtwigModel.newModel().with("var", "World")
 
     template.render(model, System.out)

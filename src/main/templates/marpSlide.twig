@@ -1,0 +1,35 @@
+<!-- $theme: gaia -->
+
+
+{{node.title}}
+====
+
+---
+# {{node.title}}
+{%for c1 in node.children%}
+- {{c1.title}}
+{%endfor%}
+---
+
+{%for c1 in node.children%}
+# {{c1.title}}
+
+---
+# {{c1.title}}
+{%for c2 in c1.children%}
+- {{c2.title}}
+{%endfor%}
+
+---
+{%for c2 in c1.children%}
+{%if c2.children.size >0 %}
+# {{c1.title}}
+- {{c2.title}}
+{%for c3 in c2.children%}
+    - {{c3.title}}
+{%endfor%}
+---
+{%endif%}
+{%endfor%}
+
+{%endfor%}

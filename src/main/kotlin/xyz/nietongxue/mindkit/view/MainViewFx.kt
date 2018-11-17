@@ -1,8 +1,13 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.scene.control.TreeItem
+import javafx.scene.input.Clipboard
 import javafx.scene.layout.HBox
 import tornadofx.*
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.Clipboard.getSystemClipboard
+
+
 
 class DemoTreeViews : View() {
     override val root = HBox()
@@ -35,11 +40,20 @@ class DemoTreeViews : View() {
                 }
             }
             vbox {
+                this += button("copy to clipboard"){
+                    action{
+                        val clipboard = Clipboard.getSystemClipboard()
+                        val content = ClipboardContent()
+                        content.putString(model.generatedString)
+                        clipboard.setContent(content)
+                    }
+                }
                 this += text(model.generatedStringProperty)
 
             }
 
         }
+
 
 
     }
