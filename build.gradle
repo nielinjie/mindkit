@@ -3,10 +3,10 @@ buildscript {
 
     repositories {
         mavenCentral()
-            maven { url 'https://plugins.gradle.org/m2/' }
-            maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
-            maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-            maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
     }
 
     dependencies {
@@ -16,12 +16,12 @@ buildscript {
 
 
 allprojects {
-        repositories {
-            maven { url 'https://plugins.gradle.org/m2/' }
-            maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
-            maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-            maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
-        }
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+    }
 }
 
 
@@ -37,11 +37,11 @@ dependencies {
 
 }
 
-processResources{
+processResources {
     from('src/main/templates')
 }
 compileKotlin {
-    kotlinOptions.jvmTarget= "1.8"
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 mainClassName = "xyz.nietongxue.mindkit.view.MainViewFxKt"
