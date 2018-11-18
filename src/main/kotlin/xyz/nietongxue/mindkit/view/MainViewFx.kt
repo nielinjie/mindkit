@@ -5,8 +5,7 @@ import javafx.scene.input.Clipboard
 import javafx.scene.layout.HBox
 import tornadofx.*
 import javafx.scene.input.ClipboardContent
-import javafx.scene.input.Clipboard.getSystemClipboard
-
+import jfxtras.styles.jmetro8.JMetro
 
 
 class DemoTreeViews : View() {
@@ -15,9 +14,8 @@ class DemoTreeViews : View() {
 
 
     init {
+        JMetro(JMetro.Style.LIGHT).applyTheme(root)
         with(root) {
-            addClass(Styles.wrapper)
-
             vbox {
                 this += label("Based on parent-child relationships")
                 this += button("load nodes") {

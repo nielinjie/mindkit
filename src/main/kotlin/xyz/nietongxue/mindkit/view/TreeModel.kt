@@ -12,6 +12,13 @@ class TreeModel(){
 
     fun addXmind() {
         val xMindFile = XMindFile("./ppt.xmind")
+
+
+//        val watcher2 = FileWatcher(File("./ppt.xmind")) { file: File, eventType: String ->
+//            print("2-----")
+//            println(file.path)
+//            println(eventType)
+//        }
         val json = Parser().parse(xMindFile.content()) as JsonArray<JsonObject>
         val mm = MindMap.fromJson(json!!)
         root.addChildren(listOf(mm.sheets[0].root))
