@@ -9,13 +9,49 @@ import tornadofx.setValue
 
 class AppModel {
     val treeModel = TreeModel()
-    val generatedStringProperty = SimpleStringProperty("kaka")
-    var generatedString by generatedStringProperty
-    fun generate(node: Node) {
-        generatedString="running..."
-        val template = JtwigTemplate.classpathTemplate("/marpSlide.twig")
-        val model = JtwigModel.newModel().with("node", node)
-        generatedString = template.render(model)
+    val resultStringProperty = SimpleStringProperty()
+    var resultString by resultStringProperty
 
+
+    val processorStringProperty = SimpleStringProperty()
+    var processorString by processorStringProperty
+
+
+    var processor: Processor = Processor.nonProcessor
+
+    init {
+        val templateString =  AppModel::class.java.getResource("/marpSlide.twig").readText()
+
+        processor = TemplateProcessor(templateString)
+        processorString = templateString
+    }
+
+
+    fun process(node: Node) {
+        resultString = "running..."
+        resultString = this.processor!!.process(node)
+
+    }
+}
+
+interface Processor {
+    fun process(node: Node): String
+
+    companion object {
+        val nonProcessor = object : Processor {
+            override fun process(node: Node): String {
+                return ""
+            }
+        }
+    }
+}
+
+class TemplateProcessor(val templateString: String) : Processor {
+    override fun process(node: Node): String {
+
+        val template = JtwigTemplate.inlineTemplate(templateString)
+        //.classpathTemplate(templateString)
+        val model = JtwigModel.newModel().with("node", node)
+        return template.render(model)
     }
 }

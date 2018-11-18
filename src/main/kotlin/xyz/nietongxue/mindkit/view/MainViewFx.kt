@@ -8,6 +8,7 @@ import javafx.scene.input.ClipboardContent
 import jfxtras.styles.jmetro8.JMetro
 
 
+
 class DemoTreeViews : View() {
     override val root = HBox()
     val model = AppModel()
@@ -16,8 +17,8 @@ class DemoTreeViews : View() {
     init {
         JMetro(JMetro.Style.LIGHT).applyTheme(root)
         with(root) {
+
             vbox {
-                this += label("Based on parent-child relationships")
                 this += button("load nodes") {
                     action {
                         model.treeModel.addXmind()
@@ -29,7 +30,7 @@ class DemoTreeViews : View() {
                     cellFormat { text = it.node.title }
                     onUserSelect {
                         runAsync {
-                            model.generate(it.node)
+                            model.process(it.node)
                         }
                     }
                     populate {
@@ -37,16 +38,26 @@ class DemoTreeViews : View() {
                     }
                 }
             }
+            //中间处理比如templates
+            vbox{
+                this += scrollpane {
+                    text(model.processorStringProperty)
+                }
+
+            }
+            //结果
             vbox {
                 this += button("copy to clipboard"){
                     action{
                         val clipboard = Clipboard.getSystemClipboard()
                         val content = ClipboardContent()
-                        content.putString(model.generatedString)
+                        content.putString(model.resultString)
                         clipboard.setContent(content)
                     }
                 }
-                this += text(model.generatedStringProperty)
+                this += scrollpane {
+                    text(model.resultStringProperty)
+                }
 
             }
 
