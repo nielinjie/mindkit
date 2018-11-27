@@ -3,11 +3,12 @@ package xyz.nietongxue.mindkit.view
 import javafx.beans.property.SimpleStringProperty
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
+import tornadofx.Controller
 import xyz.nietongxue.mindkit.model.Node
 import tornadofx.getValue
 import tornadofx.setValue
 
-class AppModel {
+class AppController : Controller(){
     val treeModel = TreeModel()
     val resultStringProperty = SimpleStringProperty()
     var resultString by resultStringProperty
@@ -20,7 +21,7 @@ class AppModel {
     var processor: Processor = Processor.nonProcessor
 
     init {
-        val templateString =  AppModel::class.java.getResource("/marpSlide.twig").readText()
+        val templateString =  AppController::class.java.getResource("/marpSlide.twig").readText()
 
         processor = TemplateProcessor(templateString)
         processorString = templateString
