@@ -6,7 +6,7 @@ import tornadofx.*
 
 class SourceView : View(){
     override val root= VBox()
-    val controller:AppController by inject()
+    val controller:MainController by inject()
 
     init {
         with(root) {

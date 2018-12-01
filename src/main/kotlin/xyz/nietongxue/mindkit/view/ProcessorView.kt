@@ -1,11 +1,12 @@
 package xyz.nietongxue.mindkit.view
 
-import javafx.scene.layout.VBox
+import javafx.scene.control.SplitPane
 import tornadofx.*
 
 class ProcessorView : View(){
-    override val root= VBox()
-    val controller: AppController by inject()
+    override val root= SplitPane()
+    val controller: ProcessorController by inject()
+    val resultView:ResultView by inject()
     init{
         with(root){
             this+=vbox{
@@ -14,6 +15,7 @@ class ProcessorView : View(){
                 }
 
             }
+            this+=resultView
         }
     }
 }

@@ -44,4 +44,4 @@ compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-mainClassName = "xyz.nietongxue.mindkit.view.MainViewFxKt"
+mainClassName = "xyz.nietongxue.mindkit.view.MainViewKt"
