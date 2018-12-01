@@ -2,6 +2,8 @@ package xyz.nietongxue.mindkit.view
 
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
 import tornadofx.Controller
 import tornadofx.getValue
 import tornadofx.setValue
@@ -22,6 +24,7 @@ class ProcessorController : Controller() {
 
     init {
         this.processor = Processor.nonProcessor
+
     }
 
 
