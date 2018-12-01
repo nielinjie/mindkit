@@ -1,28 +1,24 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.scene.control.SplitPane
-import javafx.scene.input.Clipboard
 import tornadofx.*
-import javafx.scene.input.ClipboardContent
 import jfxtras.styles.jmetro8.JMetro
+import xyz.nietongxue.mindkit.application.marpPPT.ProcessorView
 
 
 class MainView : View() {
     override val root = SplitPane()
-    val sourceView:SourceView by inject()
-    val processorView :ProcessorView by inject()
-    val processorsView:ProcessorsView by inject()
+    val sourceView: SourceView by inject()
+    val processorsView: ProcessorsView by inject()
 
     init {
         JMetro(JMetro.Style.LIGHT).applyTheme(root)
         with(root) {
             this += sourceView.root
             //中间处理比如templates
-            vbox{
                 this += processorsView.root
-                this += processorView.root
 
-            }
+
 
         }
 

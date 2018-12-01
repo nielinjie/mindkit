@@ -2,36 +2,24 @@ package xyz.nietongxue.mindkit.model
 
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
+import xyz.nietongxue.mindkit.application.AppDescriptor
+import xyz.nietongxue.mindkit.application.AppDescriptor.Companion.nonApp
+import xyz.nietongxue.mindkit.application.marpPPT.MarpPPT
 
 interface Processor {
     fun process(node: Node): String
     val brief: String
     val description: String
+    val app: AppDescriptor
 
-    companion object {
-        val nonProcessor = object : Processor {
-            override val brief = "None"
-            override val description: String
-                get() = "什么都不做的一个处理器"
-
-            override fun process(node: Node): String {
-                return ""
-            }
-        }
-    }
 }
 
 class Processors {
     val all: List<Processor> by lazy {
-        listOf(
-                Processor.nonProcessor,
-                //TODO 作为plugin从classpath 读取。
-                object : TemplateProcessor(Processors::class.java.getResource("/marpSlide.twig").readText()) {
-                    override val brief = "Marp Slides 模板"
-                    override val description = this.templateString
+        nonApp.processors + MarpPPT.processors
+        //TODO 作为plugin从classpath 读取。
 
-                }
-        )
+
     }
 }
 

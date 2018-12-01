@@ -1,4 +1,4 @@
-package xyz.nietongxue.mindkit.view
+package xyz.nietongxue.mindkit.application.marpPPT
 
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
