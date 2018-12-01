@@ -11,7 +11,9 @@ class ProcessorView : View(){
         with(root){
             vbox{
                 scrollpane {
-                    text(controller.processorP.asString())
+                    text(controller.processorP.stringBinding{
+                        it?.description
+                    })
                 }
 
             }
