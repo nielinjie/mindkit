@@ -11,13 +11,18 @@ class MainView : View() {
     override val root = SplitPane()
     val sourceView:SourceView by inject()
     val processorView :ProcessorView by inject()
+    val processorsView:ProcessorsView by inject()
 
     init {
         JMetro(JMetro.Style.LIGHT).applyTheme(root)
         with(root) {
             this += sourceView.root
             //中间处理比如templates
-            this += processorView.root
+            vbox{
+                this += processorsView.root
+                this += processorView.root
+
+            }
 
         }
 

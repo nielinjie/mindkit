@@ -10,8 +10,8 @@ class ResultView: View(){
     val controller: ProcessorController by inject()
     init{
         with (root){
-            this+=vbox {
-                this += button("copy to clipboard"){
+            vbox {
+                button("copy to clipboard"){
                     action{
                         val clipboard = Clipboard.getSystemClipboard()
                         val content = ClipboardContent()
@@ -19,7 +19,7 @@ class ResultView: View(){
                         clipboard.setContent(content)
                     }
                 }
-                this += scrollpane {
+                scrollpane {
                     text(controller.resultStringProperty)
                 }
 

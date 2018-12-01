@@ -1,5 +1,6 @@
 package xyz.nietongxue.mindkit.view
 
+import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.Controller
 import tornadofx.getValue
@@ -16,21 +17,19 @@ class ProcessorController : Controller() {
     val processorStringProperty = SimpleStringProperty()
     var processorString by processorStringProperty
 
-
-    var processor: Processor = Processor.nonProcessor
-
+    val processorP = SimpleObjectProperty<Processor>()
+    var processor: Processor by processorP
 
     init {
-        val templateString = MainController::class.java.getResource("/marpSlide.twig").readText()
-
-        processor = TemplateProcessor(templateString)
-        processorString = templateString
+        this.processor = Processor.nonProcessor
     }
+
+
 
 
     fun process(node: Node) {
         resultString = "running..."
-        resultString = this.processor!!.process(node)
+        resultString = this.processor?.process(node)
 
     }
 }

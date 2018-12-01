@@ -9,9 +9,9 @@ class ProcessorView : View(){
     val resultView:ResultView by inject()
     init{
         with(root){
-            this+=vbox{
-                this += scrollpane {
-                    text(controller.processorStringProperty)
+            vbox{
+                scrollpane {
+                    text(controller.processorP.asString())
                 }
 
             }
