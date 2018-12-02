@@ -12,7 +12,7 @@ interface AppDescriptor {
     val view: View
     val processors: List<Processor>
     val controller:Controller
-
+    //TODO App和Processor的只能需要再捋一下，不够明确
     companion object {
 
         val nonApp: AppDescriptor = object : AppDescriptor {
