@@ -7,6 +7,8 @@ import xyz.nietongxue.mindkit.application.marpPPT.ProcessorView
 
 
 class MainView : View() {
+    //TODO 主window的prefer size，resize
+    //TODO 各个view的layout，比如margin、resize时control的位置策略
     override val root = SplitPane()
     val sourceView: SourceView by inject()
     val processorsView: ProcessorsView by inject()
