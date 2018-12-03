@@ -44,4 +44,7 @@ compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+applicationDefaultJvmArgs = [
+        "-javaagent:scenicView.jar"]
+
 mainClassName = "xyz.nietongxue.mindkit.view.MainViewKt"

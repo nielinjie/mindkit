@@ -1,6 +1,7 @@
 package xyz.nietongxue.mindkit.application.marpPPT
 
 import javafx.scene.control.SplitPane
+import javafx.scene.layout.Priority
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.Controller
 import xyz.nietongxue.mindkit.model.Node
@@ -26,6 +27,11 @@ class ProcessorView : View(), Controller {
         with(root) {
             vbox {
                 scrollpane {
+                    isFitToHeight = true;
+                    isFitToWidth = true;
+                    vboxConstraints {
+                        this.vGrow = Priority.ALWAYS
+                    }
                     text(controller.processorP.stringBinding {
                         it?.description
                     })
