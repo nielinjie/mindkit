@@ -13,7 +13,7 @@ import xyz.nietongxue.mindkit.model.Processors
 class ProcessorsView : View() {
     override val root = VBox()
     val processors: Processors = Processors()
-    val selectedProcessorP = SimpleObjectProperty<Processor>()
+    val selectedProcessorP = SimpleObjectProperty<Processor>(processors.all[0])
     val mainController:MainController by inject()
 
     val appView = VBox()
@@ -25,10 +25,9 @@ class ProcessorsView : View() {
                 this.onAction = EventHandler<ActionEvent> {
                    with(this.value){
                        appView.children.clear()
-                       appView.add(app.view)
+                       appView.add(app.controller.view)
                        app.controller.processor = this
                        mainController.processorController = app.controller
-                       //TODO processor 选择了以后应该运行一次process
                    }
                 }
                 this.converter = object : StringConverter<Processor>() {

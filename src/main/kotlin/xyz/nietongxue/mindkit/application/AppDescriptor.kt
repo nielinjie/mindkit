@@ -9,8 +9,7 @@ interface AppDescriptor {
     val name: String
     val description: String
     //TODO 有没有必要从tornadofx（或者其他什么view 技术）解耦合？
-    val view: View
-    val processors: List<Processor>
+    val providedProcessors: List<Processor>
     val controller:Controller
     //TODO App和Processor的只能需要再捋一下，不够明确
     companion object {
@@ -19,18 +18,20 @@ interface AppDescriptor {
             override val controller: Controller = object :Controller{
                 override fun process(node: Node) {
 
+
                 }
+                override val view: View
+                    get() = object : View() {
+                        override val root = VBox()
+                    }
                 override var processor:Processor? = null
             }
             override val name: String
                 get() = "None"
             override val description: String
                 get() = "None"
-            override val view: View
-                get() = object : View() {
-                    override val root = VBox()
-                }
-            override val processors: List<Processor> by lazy {
+
+            override val providedProcessors: List<Processor> by lazy {
                 listOf(nonProcessor)
             }
 
@@ -52,4 +53,5 @@ interface AppDescriptor {
 interface Controller{
     fun process(node:Node):Unit
     var processor:Processor?
+    val view: View
 }

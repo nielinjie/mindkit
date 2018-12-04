@@ -16,7 +16,7 @@ interface Processor {
 
 class Processors {
     val all: List<Processor> by lazy {
-        nonApp.processors + MarpPPT.processors
+        nonApp.providedProcessors + MarpPPT.providedProcessors
         //TODO 作为plugin从classpath 读取。
 
 

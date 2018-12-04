@@ -20,9 +20,7 @@ class SourceView : View(){
                 root.isExpanded = true
                 cellFormat { text = it.node.title }
                 onUserSelect {
-                    runAsync {
-                        controller.process(it.node)
-                    }
+                    controller.selectedNode = it.node
                 }
                 populate {
                     it.value.children
