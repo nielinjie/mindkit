@@ -2,6 +2,7 @@ package xyz.nietongxue.mindkit.application
 
 import javafx.scene.layout.VBox
 import tornadofx.View
+import xyz.nietongxue.mindkit.application.marpPPT.MarpPPT
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Processor
 
@@ -11,9 +12,7 @@ interface AppDescriptor {
     //TODO 有没有必要从tornadofx（或者其他什么view 技术）解耦合？
     val providedProcessors: List<Processor>
     val controller:Controller
-    //TODO App和Processor的只能需要再捋一下，不够明确
     companion object {
-
         val nonApp: AppDescriptor = object : AppDescriptor {
             override val controller: Controller = object :Controller{
                 override fun process(node: Node) {
@@ -45,8 +44,9 @@ interface AppDescriptor {
                 return ""
             }
 
-            override val app: AppDescriptor = nonApp
         }
+        val all = listOf(nonApp,MarpPPT)
+
 
     }
 }

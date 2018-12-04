@@ -9,9 +9,7 @@ object MarpPPT : AppDescriptor {
     override val providedProcessors: List<Processor> by lazy{
         listOf(
         object : TemplateProcessor(MarpPPT::class.java.getResource("/marpSlide.twig").readText()) {
-            override val app: AppDescriptor by lazy{
-                MarpPPT
-            }
+
             override val brief = "Marp Slides 模板"
             override val description = this.templateString
 
