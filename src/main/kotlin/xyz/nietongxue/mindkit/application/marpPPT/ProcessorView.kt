@@ -8,6 +8,9 @@ import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Processor
 
 class ProcessorView : View(), Controller {
+    override val view: View
+        get() = this
+
     override fun process(node: Node) {
         controller.process(node)
     }

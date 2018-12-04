@@ -10,17 +10,11 @@ interface Processor {
     fun process(node: Node): String
     val brief: String
     val description: String
-    val app: AppDescriptor
 
 }
 
 class Processors {
-    val all: List<Processor> by lazy {
-        nonApp.processors + MarpPPT.processors
-        //TODO 作为plugin从classpath 读取。
 
-
-    }
 }
 
 abstract class TemplateProcessor(val templateString: String) : Processor {

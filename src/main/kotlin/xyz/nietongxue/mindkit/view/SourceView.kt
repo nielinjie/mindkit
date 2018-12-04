@@ -5,9 +5,9 @@ import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
 
-class SourceView : View() {
-    override val root = VBox()
-    val controller: MainController by inject()
+class SourceView : View(){
+    override val root= VBox()
+    val controller:MainController by inject()
 
     init {
         with(root) {
@@ -27,9 +27,7 @@ class SourceView : View() {
                     root.isExpanded = true
                     cellFormat { text = it.node.title }
                     onUserSelect {
-                        runAsync {
-                            controller.process(it.node)
-                        }
+                        controller.selectedNode = it.node
                     }
                     populate {
                         it.value.children
