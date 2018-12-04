@@ -51,7 +51,7 @@ interface AppDescriptor {
     }
 }
 interface Controller{
-    fun process(node:Node):Unit
+    fun process(node:Node)
     var processor:Processor?
     val view: View
 }

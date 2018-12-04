@@ -18,14 +18,24 @@ class MainView : View() {
         with(root) {
             this += sourceView.root
             //中间处理比如templates
-                this += processorsView.root
-
-
-
+            this += processorsView.root
         }
 
+    }
+
+    override fun onUndock() {
+        config.set("width",this.currentWindow?.width?.toString())
+        config.set("height",this.currentWindow?.height?.toString())
+        config.save()
+        super.onUndock()
+    }
+
+    override fun onDock() {
+        config.double("width")?.also{this.currentWindow?.width = it }
+        config.double("height")?.also{this.currentWindow?.height = it }
 
 
+        super.onDock()
     }
 }
 
