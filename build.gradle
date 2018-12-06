@@ -35,6 +35,7 @@ dependencies {
     compile "org.jtwig:jtwig-core:5.87.0.RELEASE"
     compile 'no.tornado:tornadofx:1.7.17'
     compile  'org.jfxtras:jmetro:4.2'
+    implementation 'org.reflections:reflections:0.9.11'
 }
 
 processResources {
