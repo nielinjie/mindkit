@@ -5,25 +5,29 @@ import tornadofx.View
 import xyz.nietongxue.mindkit.application.marpPPT.MarpPPT
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Processor
+import org.reflections.Reflections
+
 
 interface AppDescriptor {
     val name: String
     val description: String
     //TODO 有没有必要从tornadofx（或者其他什么view 技术）解耦合？
     val providedProcessors: List<Processor>
-    val controller:Controller
+    val controller: Controller
+
     companion object {
         val nonApp: AppDescriptor = object : AppDescriptor {
-            override val controller: Controller = object :Controller{
+            override val controller: Controller = object : Controller {
                 override fun process(node: Node) {
 
 
                 }
+
                 override val view: View
                     get() = object : View() {
                         override val root = VBox()
                     }
-                override var processor:Processor? = null
+                override var processor: Processor? = null
             }
             override val name: String
                 get() = "None"
@@ -45,13 +49,23 @@ interface AppDescriptor {
             }
 
         }
-        val all = listOf(nonApp,MarpPPT)
+        val all: List<AppDescriptor> by lazy {
+            val reflections = Reflections("xyz.nietongxue.mindkit.application.*")
+            val descriptors = reflections.getSubTypesOf(AppDescriptor::class.java)
+            val instances = descriptors.map {
+                it.kotlin.objectInstance
+            }.toList().filterNotNull()
+                    //貌似没有用，nonApp好像在filterNotNull的时候被滤掉了。
+                    .filterNot { it== nonApp }
+            listOf(nonApp) + instances
+        }
 
 
     }
 }
-interface Controller{
-    fun process(node:Node):Unit
-    var processor:Processor?
+
+interface Controller {
+    fun process(node: Node): Unit
+    var processor: Processor?
     val view: View
 }
