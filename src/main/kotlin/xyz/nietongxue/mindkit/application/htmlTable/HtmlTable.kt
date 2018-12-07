@@ -2,6 +2,7 @@ package xyz.nietongxue.mindkit.application.htmlTable
 
 import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.Controller
+import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Processor
 
 class HtmlTable : AppDescriptor{
@@ -18,5 +19,18 @@ class HtmlTable : AppDescriptor{
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
     override val controller: Controller
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
+}
+class Table(val columns: List<String> , val rows: List<Map<String, Node>>) {
+    companion object {
+        fun fromNode(root: Node):Table{
+            val rowNodes:List<Node> = root.children
+            val columnNames:List<String> = rowNodes.flatMap { it.children.map{it.labels.firstOrNull()}.filterNotNull() }
+            val table = Table(columnNames,rowNodes.map{
+                it
+            })
+
+        }
+    }
 
 }

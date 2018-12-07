@@ -14,7 +14,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
                 fromNode(it, n, depp + 1)
             }), depp + 1)
         }
-        val emptyRoot= fromNode(Node("_root","/",null, ArrayList()))
+        val emptyRoot= fromNode(Node("_root","/", emptyList(),null, ArrayList()))
     }
 
     fun addChildren(nodes:List<Node>):ViewNode{
