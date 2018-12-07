@@ -13,9 +13,9 @@ class MainController : Controller() {
 
     init {
         selectedNodeP.onChange {
-            selectedNode?.also { processorController.process(it) } }
+            selectedNode?.also { processorController?.process(it) } }
         processorControllerP.onChange {
-            selectedNode?.also { processorController.process(it) } }
+            selectedNode?.also { processorController?.process(it) } }
     }
 //
 //    fun process(node: Node) {

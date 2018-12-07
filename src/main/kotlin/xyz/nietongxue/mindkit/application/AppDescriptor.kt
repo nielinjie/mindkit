@@ -54,9 +54,10 @@ interface AppDescriptor {
             val instances = descriptors.map {
                 it.kotlin.objectInstance
             }.toList().filterNotNull()
-                    //貌似没有用，nonApp好像在filterNotNull的时候被滤掉了。
+                    //nonApp好像在filterNotNull的时候被滤掉了。
+                    //应该是因为object：AppDescriptor这种形式不会产生kotlin object，而是产生一个class
                     .filterNot { it== nonApp }
-            listOf(nonApp) + instances
+            return@lazy listOf(nonApp) + instances
         }
 
 

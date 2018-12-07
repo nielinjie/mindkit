@@ -1,0 +1,22 @@
+<html>
+    <body>
+        <table>
+            <thead>
+            <th></th>
+            {%-for colName in table.columns%}
+                <th>{{- colName}}</th>
+            {%-endfor%}
+            </thead>
+            <tbody>
+                {%- for row in table.rows %}
+                <tr>
+                    <td>{{- row.first.title}}</td>
+                    {%-for col in table.columns%}
+                    <td>{{- row.second.get(col).title}}</td>
+                    {%-endfor%}
+                </tr>
+                {%- endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
