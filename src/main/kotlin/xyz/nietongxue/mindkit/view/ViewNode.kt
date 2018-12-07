@@ -5,7 +5,7 @@ import javafx.collections.ObservableList
 import xyz.nietongxue.mindkit.model.Node
 
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
-    var colpose: Boolean = false
+    var collapse: Boolean = false
     var focus: Boolean = false
 
     companion object {
@@ -14,13 +14,19 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
                 fromNode(it, n, depp + 1)
             }), depp + 1)
         }
-        val emptyRoot= fromNode(Node("_root","(root)",null, listOf()))
+        val emptyRoot= fromNode(Node("_root","/",null, ArrayList()))
     }
 
     fun addChildren(nodes:List<Node>):ViewNode{
+        node.children.addAll(nodes)
         this.children.addAll(nodes.map{
             ViewNode.fromNode(it,this.node,this.deep)
         })
+        return this
+    }
+    fun removeChildren():ViewNode{
+        node.children.clear()
+        this.children.clear()
         return this
     }
     fun pretty() {
