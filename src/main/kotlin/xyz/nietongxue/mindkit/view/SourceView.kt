@@ -17,8 +17,8 @@ class SourceView : View(){
                 }
             }
             scrollpane {
-                isFitToHeight = true;
-                isFitToWidth = true;
+                isFitToHeight = true
+                isFitToWidth = true
                 vboxConstraints {
                     this.vGrow = Priority.ALWAYS
                 }

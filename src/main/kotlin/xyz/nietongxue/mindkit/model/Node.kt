@@ -40,7 +40,7 @@ data class Sheet(val root:Node){
 data class MindMap(val sheets:List<Sheet>) {
     companion   object  {
         fun fromJson(json:JsonArray<JsonObject>):MindMap{
-            return MindMap(listOf(Sheet.fromJson((json).first() as JsonObject)))
+            return MindMap(listOf(Sheet.fromJson(json.first())))
         }
     }
     fun pretty(){

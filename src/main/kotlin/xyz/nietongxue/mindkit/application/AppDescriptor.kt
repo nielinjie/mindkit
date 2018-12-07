@@ -1,11 +1,10 @@
 package xyz.nietongxue.mindkit.application
 
 import javafx.scene.layout.VBox
+import org.reflections.Reflections
 import tornadofx.View
-import xyz.nietongxue.mindkit.application.marpPPT.MarpPPT
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Processor
-import org.reflections.Reflections
 
 
 interface AppDescriptor {

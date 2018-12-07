@@ -1,6 +1,5 @@
 package xyz.nietongxue.mindkit.io
 
-import java.io.File
 import java.io.InputStream
 import java.util.zip.ZipFile
 

@@ -11,7 +11,7 @@ import xyz.nietongxue.mindkit.model.Processor
 
 class ProcessorController : Controller() {
     val resultStringProperty = SimpleStringProperty()
-    var resultString by resultStringProperty
+    var resultString: String by resultStringProperty
 
 
     val processorP = SimpleObjectProperty<Processor>()
@@ -24,7 +24,7 @@ class ProcessorController : Controller() {
 
     fun process(node: Node) {
         resultString = "running..."
-        resultString = this.processor?.process(node)
+        resultString = this.processor?.process(node) !!
 
     }
 }

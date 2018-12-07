@@ -1,7 +1,6 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.collections.FXCollections
-import javafx.collections.ObservableArray
 import javafx.collections.ObservableList
 import xyz.nietongxue.mindkit.model.Node
 

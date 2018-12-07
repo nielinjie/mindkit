@@ -1,9 +1,11 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.scene.control.SplitPane
-import tornadofx.*
 import jfxtras.styles.jmetro8.JMetro
-import xyz.nietongxue.mindkit.application.marpPPT.ProcessorView
+import tornadofx.App
+import tornadofx.View
+import tornadofx.launch
+import tornadofx.plusAssign
 
 
 class MainView : View() {

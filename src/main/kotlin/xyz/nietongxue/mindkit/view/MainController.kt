@@ -8,14 +8,14 @@ class MainController : Controller() {
     val selectedNodeP = SimpleObjectProperty<Node?>(null)
     var selectedNode by selectedNodeP
     var processorControllerP = SimpleObjectProperty<xyz.nietongxue.mindkit.application.Controller>()
-    var processorController by processorControllerP
+    var processorController: xyz.nietongxue.mindkit.application.Controller by processorControllerP
 
 
     init {
         selectedNodeP.onChange {
-            selectedNode?.also { processorController?.process(it!!) } }
+            selectedNode?.also { processorController.process(it) } }
         processorControllerP.onChange {
-            selectedNode?.also { processorController?.process(it!!) } }
+            selectedNode?.also { processorController.process(it) } }
     }
 //
 //    fun process(node: Node) {

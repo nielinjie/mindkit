@@ -9,7 +9,6 @@ import tornadofx.View
 import tornadofx.combobox
 import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.model.Processor
-import xyz.nietongxue.mindkit.model.Processors
 
 class ProcessorsView : View() {
     override val root = VBox()
