@@ -8,7 +8,7 @@ import tornadofx.*
 
 class ResultView: View(){
     override val root= VBox()
-    val controller: ProcessorController by inject()
+    val controller: ProcessController by inject()
     init{
         with (root){
             vboxConstraints {

@@ -7,7 +7,7 @@ import xyz.nietongxue.mindkit.application.Controller
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Function
 
-class ProcessorView : View(), Controller {
+class ProcessView : View(), Controller {
     override val view: View
         get() = this
 
@@ -23,7 +23,7 @@ class ProcessorView : View(), Controller {
 
 
     override val root = SplitPane()
-    val controller: ProcessorController by inject()
+    val controller: ProcessController by inject()
     val resultView: ResultView by inject()
 
     init {
