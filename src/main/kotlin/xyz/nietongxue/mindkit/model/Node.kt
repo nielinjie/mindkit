@@ -5,6 +5,9 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.lookup
 
 data class Node(val id: String, val title: String, val labels: List<String>, val note: String?, val children: ArrayList<Node>) {
+    //TODO 支持marker
+    //TODO marker可能需要抽象，非xmind的source对应为啥？
+    //TODO marker是提示应用app的东西之一
     companion object {
         fun fromJson(json: JsonObject): Node {
             val children: JsonArray<JsonObject> = (json["children"] as JsonObject?)?.array("attached") ?: JsonArray()

@@ -15,6 +15,7 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
                 }
             }.toMap()
         }
+
         fun fromNode(root: Node): Table {
             val rowNodes: List<Node> = root.children
             val columnNames: List<String> = rowNodes.flatMap {
