@@ -13,14 +13,14 @@ class MainView : View() {
     //TODO 各个view的layout，比如margin、resize时control的位置策略
     override val root = SplitPane()
     val sourceView: SourceView by inject()
-    val processorsView: ProcessorsView by inject()
+    val functionsView: FunctionsView by inject()
 
     init {
         JMetro(JMetro.Style.LIGHT).applyTheme(root)
         with(root) {
             this += sourceView.root
             //中间处理比如templates
-            this += processorsView.root
+            this += functionsView.root
         }
 
     }

@@ -7,15 +7,15 @@ import tornadofx.Controller
 import tornadofx.getValue
 import tornadofx.setValue
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.Processor
+import xyz.nietongxue.mindkit.model.Function
 
 class ProcessController : Controller() {
     val resultStringProperty = SimpleStringProperty()
     var resultString: String by resultStringProperty
 
 
-    val processorP = SimpleObjectProperty<Processor>()
-    var processor: Processor? by processorP
+    val processorP = SimpleObjectProperty<Function>()
+    var function: Function? by processorP
 
 
 
@@ -24,7 +24,7 @@ class ProcessController : Controller() {
 
     fun process(node: Node) {
         resultString = "running..."
-        resultString = this.processor?.process(node) !!
+        resultString = this.function?.process(node) !!
 
     }
 }
