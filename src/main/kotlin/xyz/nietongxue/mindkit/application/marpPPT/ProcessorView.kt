@@ -5,7 +5,7 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.Controller
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.Processor
+import xyz.nietongxue.mindkit.model.Function
 
 class ProcessorView : View(), Controller {
     override val view: View
@@ -15,10 +15,10 @@ class ProcessorView : View(), Controller {
         controller.process(node)
     }
 
-    override var processor: Processor?
-        get() = controller.processor
+    override var function: Function?
+        get() = controller.function
         set(value) {
-            controller.processor = value
+            controller.function = value
         }
 
 
