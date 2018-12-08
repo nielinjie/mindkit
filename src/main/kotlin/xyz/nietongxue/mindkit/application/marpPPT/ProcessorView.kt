@@ -23,7 +23,7 @@ class ProcessorView : View(), Controller {
 
 
     override val root = SplitPane()
-    val controller: ProcessorController by inject()
+    val controller: ProcessController by inject()
     val resultView: ResultView by inject()
 
     init {

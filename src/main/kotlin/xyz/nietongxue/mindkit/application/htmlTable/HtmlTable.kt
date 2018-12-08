@@ -2,14 +2,14 @@ package xyz.nietongxue.mindkit.application.htmlTable
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.Parent
-import javafx.scene.input.Clipboard
-import javafx.scene.input.ClipboardContent
+
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.Controller
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Processor
+import xyz.nietongxue.mindkit.util.Clipboard
 
 object HtmlTable : AppDescriptor {
     //TODO xmind  里面的table，生成html（或者markdown？）table，比如可以copy到conf
@@ -48,20 +48,17 @@ class TableController : Controller {
                     scrollpane {
                         text(resultTextP)
                     }
-                    scrollpane {
-                        vbox {
+                    vbox {
+                        scrollpane {
                             webview {
                                 dynamicContent(resultTextP) {
                                     engine.loadContent(it)
                                 }
                             }
-                            button("copy") {
-                                action {
-                                    val clipboard = Clipboard.getSystemClipboard()
-                                    val content = ClipboardContent()
-                                    content.putHtml(resultText)
-                                    clipboard.setContent(content)
-                                }
+                        }
+                        button("copy") {
+                            action {
+                                Clipboard.setHTML(resultText)
                             }
                         }
                     }
