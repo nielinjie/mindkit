@@ -4,14 +4,14 @@ import javafx.scene.layout.VBox
 import org.reflections.Reflections
 import tornadofx.View
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.Processor
+import xyz.nietongxue.mindkit.model.Function
 
 
 interface AppDescriptor {
     val name: String
     val description: String
     //TODO 有没有必要从tornadofx（或者其他什么view 技术）解耦合？
-    val providedProcessors: List<Processor>
+    val providedFunctions: List<Function>
     val controller: Controller
 
     companion object {
@@ -26,19 +26,19 @@ interface AppDescriptor {
                     get() = object : View() {
                         override val root = VBox()
                     }
-                override var processor: Processor? = null
+                override var function: Function? = null
             }
             override val name: String
                 get() = "None"
             override val description: String
                 get() = "None"
 
-            override val providedProcessors: List<Processor> by lazy {
+            override val providedFunctions: List<Function> by lazy {
                 listOf(nonProcessor)
             }
 
         }
-        private val nonProcessor = object : Processor {
+        private val nonProcessor = object : Function {
             override val brief = "None"
             override val description: String
                 get() = "什么都不做的一个处理器"
@@ -65,7 +65,7 @@ interface AppDescriptor {
 }
 interface Controller{
     fun process(node:Node)
-    var processor:Processor?
+    var function: Function?
 
     val view: View
 }
