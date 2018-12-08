@@ -9,7 +9,7 @@ import tornadofx.setValue
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Processor
 
-class ProcessorController : Controller() {
+class ProcessController : Controller() {
     val resultStringProperty = SimpleStringProperty()
     var resultString: String by resultStringProperty
 

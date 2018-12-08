@@ -2,9 +2,9 @@ package xyz.nietongxue.mindkit.application.htmlTable
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.Parent
+import javafx.scene.input.Clipboard
+import javafx.scene.input.ClipboardContent
 import javafx.scene.layout.VBox
-import org.jtwig.JtwigModel
-import org.jtwig.JtwigTemplate
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.Controller
@@ -15,8 +15,6 @@ object HtmlTable : AppDescriptor {
     //TODO xmind  里面的table，生成html（或者markdown？）table，比如可以copy到conf
     // - 生成html可以（至少可以以safari打开，然后copy到conf editor）
     // 后续看看是否可以展示在fx里，然后copy到clipboard。
-
-
     override val name: String = "Html Table"
     override val description: String = "生成HTML Table，用于Copy到Conf"
     override val providedProcessors: List<Processor> = listOf(object : Processor {
@@ -46,10 +44,26 @@ class TableController : Controller {
 
         init {
             with(root) {
-                text(resultTextP)
-                webview {
-                    dynamicContent(resultTextP) {
-                        engine.loadContent(it)
+                splitpane {
+                    scrollpane {
+                        text(resultTextP)
+                    }
+                    scrollpane {
+                        vbox {
+                            webview {
+                                dynamicContent(resultTextP) {
+                                    engine.loadContent(it)
+                                }
+                            }
+                            button("copy") {
+                                action {
+                                    val clipboard = Clipboard.getSystemClipboard()
+                                    val content = ClipboardContent()
+                                    content.putHtml(resultText)
+                                    clipboard.setContent(content)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -58,28 +72,3 @@ class TableController : Controller {
     }
 }
 
-class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Node>>>) {
-    companion object {
-        fun fromNode(root: Node): Table {
-            val rowNodes: List<Node> = root.children
-            val columnNames: List<String> = rowNodes.flatMap {
-                it.children.mapNotNull { it.labels.firstOrNull() }
-            }.distinct()
-            val re = Table(columnNames, rowNodes.map {
-                it to
-                        it.children.filter { it.labels.isNotEmpty() }.map {
-                            it.labels.first() to it
-                        }.toMap()
-            })
-            return re
-
-        }
-    }
-
-    fun toHTML(): String {
-        val templateString = Table::class.java.getResource("/htmlTable.twig").readText()
-        val template = JtwigTemplate.inlineTemplate(templateString)
-        val model = JtwigModel.newModel().with("table", this)
-        return template.render(model)
-    }
-}
