@@ -22,12 +22,19 @@ object HtmlTable : AppDescriptor {
         override fun process(node: Node): String {
             val table = Table.fromNode(node)
             return table.toHTML()
-//            return node.toHtml()
         }
 
         override val brief: String = "Html Table"
         override val description: String = "生成HTML Table，用于Copy到Conf"
-    })
+    },
+            object : Function {
+                override fun process(node: Node): String {
+                    return node.toHtml()
+                }
+                override val brief: String = "Html"
+                override val description: String = "生成HTML"
+            }
+    )
     override val controller: Controller = TableController()
 }
 
