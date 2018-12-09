@@ -1,8 +1,12 @@
 package xyz.nietongxue.mindkit.application.htmlTable
 
+import kotlinx.html.*
+import kotlinx.html.stream.appendHTML
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
+import tornadofx.stringBinding
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.util.toHtml
 
 class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, List<Node>>>>) {
     companion object {
@@ -31,10 +35,42 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
         }
     }
 
-    fun toHTML(): String {
-        val templateString = Table::class.java.getResource("/htmlTable.twig").readText()
-        val template = JtwigTemplate.inlineTemplate(templateString)
-        val model = JtwigModel.newModel().with("table", this)
-        return template.render(model)
+
+    fun toHTML():String{
+        return buildString{
+            appendHTML().table {
+                thead {
+                    tr{
+                        th{}
+                        this@Table.columns.forEach {
+                            th{
+                                text(it)
+                            }
+                        }
+                    }
+                }
+                tbody {
+                    this@Table.rows.forEach { row->
+                        tr{
+                            td{
+                                //unsafe { + row.first.toHtml() }
+                                //TODO 这里可能需要一种不带children的toHTML，而不是直接title
+                               + row.first.title
+                            }
+                            this@Table.columns.forEach {
+                                td{
+                                    row.second.get(it)?.forEach{node->
+                                        unsafe {
+                                            + node.toHtml()
+                                        }
+                                        br()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

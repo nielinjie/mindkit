@@ -30,6 +30,8 @@ dependencies {
     compile 'no.tornado:tornadofx:1.7.17'
     compile  'org.jfxtras:jmetro:4.2'
     implementation 'org.reflections:reflections:0.9.11'
+    compile "org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.11"
+
 }
 
 processResources {
