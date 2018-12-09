@@ -2,9 +2,6 @@ package xyz.nietongxue.mindkit.application.htmlTable
 
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import org.jtwig.JtwigModel
-import org.jtwig.JtwigTemplate
-import tornadofx.stringBinding
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.toHtml
 
@@ -24,13 +21,12 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
             val columnNames: List<String> = rowNodes.flatMap {
                 it.children.mapNotNull { it.labels.firstOrNull() }
             }.distinct()
-            val re = Table(columnNames, rowNodes.map {
+            return Table(columnNames, rowNodes.map {
                 it to
                         (it.children.filter { it.labels.isNotEmpty() }.map {
                             it.labels.first() to it
                         }).toMapList()
             })
-            return re
 
         }
     }
@@ -59,7 +55,7 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
                             }
                             this@Table.columns.forEach {
                                 td{
-                                    row.second.get(it)?.forEach{node->
+                                    row.second[it]?.forEach{ node->
                                         unsafe {
                                             + node.toHtml()
                                         }

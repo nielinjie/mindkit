@@ -9,10 +9,10 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     var focus: Boolean = false
 
     companion object {
-        fun fromNode(n: Node, parent: Node? = null, depp: Int = 0): ViewNode {
+        fun fromNode(n: Node, parent: Node? = null, deep: Int = 0): ViewNode {
             return ViewNode(n, parent, FXCollections.observableArrayList(n.children.map {
-                fromNode(it, n, depp + 1)
-            }), depp + 1)
+                fromNode(it, n, deep + 1)
+            }), deep + 1)
         }
         val emptyRoot= fromNode(Node("_root","/", emptyList(),null, ArrayList()))
     }
