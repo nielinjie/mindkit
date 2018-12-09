@@ -12,15 +12,13 @@ class MainController : Controller() {
 
 
     init {
+        //TODO 到后台去运行，不能单用runAsync，因为他引起的ui的变化不在ui thread，需要在ui block
         selectedNodeP.onChange {
             selectedNode?.also { processorController?.process(it) } }
         processorControllerP.onChange {
             selectedNode?.also { processorController?.process(it) } }
     }
-//
-//    fun process(node: Node) {
-//        this.processorController?.process(node)
-//    }
+
 
     val treeModel = TreeModel()
 
