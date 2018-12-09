@@ -11,11 +11,11 @@ class SourceView : View(){
 
     init {
         with(root) {
-            this += button("load nodes") {
-                action {
-                    controller.treeModel.addXmind()
-                }
-            }
+//            this += button("load nodes") {
+//                action {
+//                    controller.treeModel.addXmind()
+//                }
+//            }
             scrollpane {
                 isFitToHeight = true
                 isFitToWidth = true

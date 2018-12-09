@@ -10,7 +10,6 @@ import tornadofx.plusAssign
 
 class MainView : View() {
     //TODO 各个view的layout，比如margin、resize时control的位置策略
-    //TODO 主窗口的位置 - 记忆
     override val root = SplitPane()
     val sourceView: SourceView by inject()
     val functionsView: FunctionsView by inject()
