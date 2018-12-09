@@ -28,6 +28,9 @@ class MainView : View() {
     override fun onUndock() {
         config.set("width",this.currentWindow?.width?.toString())
         config.set("height",this.currentWindow?.height?.toString())
+
+        config.set("left",this.currentWindow?.x?.toString())
+        config.set("top",this.currentWindow?.y?.toString())
         config.save()
         super.onUndock()
     }
@@ -36,6 +39,8 @@ class MainView : View() {
         config.double("width")?.also{this.currentWindow?.width = it }
         config.double("height")?.also{this.currentWindow?.height = it }
 
+        config.double("left")?.also { this.currentWindow?.x = it }
+        config.double("top")?.also { this.currentWindow?.y = it }
 
         super.onDock()
     }
