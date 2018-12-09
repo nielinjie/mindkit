@@ -17,14 +17,13 @@ class ProcessController : Controller() {
     val processorP = SimpleObjectProperty<Function>()
     var function: Function? by processorP
 
-
-
-
-
-
     fun process(node: Node) {
         resultString = "running..."
-        resultString = this.function?.process(node) !!
+        runAsync {
+            this@ProcessController.function?.process(node)
+        } ui {
+            resultString = it!!
+        }
 
     }
 }

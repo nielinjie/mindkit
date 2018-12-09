@@ -41,7 +41,11 @@ class TableController : Controller {
     val resultTextP = SimpleStringProperty()
     var resultText by resultTextP
     override fun process(node: Node) {
-        resultText = (this.function?.process(node))
+        runAsync {
+            this@TableController.function?.process(node)
+        }ui{
+            resultText = it
+        }
     }
 
     override var function: Function? = null

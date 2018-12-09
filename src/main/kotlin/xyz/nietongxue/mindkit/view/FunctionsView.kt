@@ -12,16 +12,16 @@ import xyz.nietongxue.mindkit.model.Function
 
 class FunctionsView : View() {
     override val root = VBox()
-//    val processors: Processors = Processors()
-    val mainController:MainController by inject()
+    //    val processors: Processors = Processors()
+    val mainController: MainController by inject()
 
     val appView = VBox()
-    val functionToApp:Map<Function,AppDescriptor> =
-        AppDescriptor.all.flatMap { appD: AppDescriptor ->
-            appD.providedFunctions.map{
-                it to appD
-            }
-        }.toMap()
+    val functionToApp: Map<Function, AppDescriptor> =
+            AppDescriptor.all.flatMap { appD: AppDescriptor ->
+                appD.providedFunctions.map {
+                    it to appD
+                }
+            }.toMap()
     val selectedProcessorP = SimpleObjectProperty<Function>(functionToApp.toList()[0].first)
 
 
@@ -30,13 +30,14 @@ class FunctionsView : View() {
             combobox(selectedProcessorP, functionToApp.toList().map { it.first }) {
                 isEditable = false
                 this.onAction = EventHandler<ActionEvent> {
-                   with(this.value){
-                       appView.children.clear()
-                       val app = this@FunctionsView.functionToApp[this]!!
-                       appView.add(app.controller.view)
-                       app.controller.function = this
-                       mainController.processorController = app.controller
-                   }
+                    with(this.value) {
+                        appView.children.clear()
+                        val app = this@FunctionsView.functionToApp[this]!!
+                        appView.add(app.controller.view)
+                        app.controller.function = this
+                        mainController.processorController = app.controller
+                        mainController.function = this
+                    }
                 }
                 this.converter = object : StringConverter<Function>() {
                     override fun toString(`object`: Function?): String {
@@ -51,7 +52,7 @@ class FunctionsView : View() {
 
             }
 
-             this .add(appView)
+            this.add(appView)
         }
     }
 }

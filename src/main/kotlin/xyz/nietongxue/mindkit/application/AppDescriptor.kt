@@ -64,6 +64,7 @@ interface AppDescriptor {
     }
 }
 interface Controller{
+    //TODO 到后台去运行，不能单用runAsync，因为他引起的ui的变化不在ui thread，需要在ui block。现在能做的是在实现的时候处理。
     fun process(node:Node)
     var function: Function?
 
