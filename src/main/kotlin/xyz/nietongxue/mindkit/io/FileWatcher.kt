@@ -1,7 +1,6 @@
 package xyz.nietongxue.mindkit.io
 
 import java.io.File
-import java.lang.IllegalStateException
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardWatchEventKinds

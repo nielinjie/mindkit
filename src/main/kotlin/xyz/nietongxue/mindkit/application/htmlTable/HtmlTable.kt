@@ -2,14 +2,14 @@ package xyz.nietongxue.mindkit.application.htmlTable
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.Parent
-
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.Controller
+import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.Clipboard
-import xyz.nietongxue.mindkit.model.Function
+import xyz.nietongxue.mindkit.util.toHtml
 
 object HtmlTable : AppDescriptor {
     // xmind  里面的table，生成html（或者markdown？）table，比如可以copy到conf
@@ -25,7 +25,15 @@ object HtmlTable : AppDescriptor {
 
         override val brief: String = "Html Table"
         override val description: String = "生成HTML Table，用于Copy到Conf"
-    })
+    },
+            object : Function {
+                override fun process(node: Node): String {
+                    return node.toHtml()
+                }
+                override val brief: String = "Html"
+                override val description: String = "生成HTML"
+            }
+    )
     override val controller: Controller = TableController()
 }
 
