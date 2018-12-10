@@ -15,14 +15,16 @@ import tornadofx.*
 
 data class Statistics(val deep: Int, val childrenCount: Int, val descendantsCount: Int) {
     fun addChild(child: Statistics): Statistics {
-        return Statistics(child.deep, this.childrenCount + 1, this.descendantsCount + 1 + child.descendantsCount)
+        return Statistics(deep, this.childrenCount + 1, this.descendantsCount + 1 + child.descendantsCount)
     }
 
     companion object {
-        fun fromNode(node: Node): Statistics {
-            var re = Statistics(0, 0, 0)
+        //TODO deep没有实现，
+        //TODO 是否要一个始终的repository是个问题。所以root也没有定义好。deep也没有定义好。
+        fun fromNode(node: Node,deep:Int = 0): Statistics {
+            var re = Statistics(deep, 0, 0)
             node.children.forEach {
-                re = re.addChild(fromNode(it))
+                re = re.addChild(fromNode(it,deep+1))
             }
             return re
         }
@@ -62,6 +64,8 @@ object StatisticsApp : AppDescriptor {
             init {
                 with(root) {
                     label(staP.asString())
+                    //TODO 真正要做的是某些功能，比如收藏，直接影响Repository的结构。
+                    //TODO 一个list，提供了repository的一些节点，比如root、收藏、可能的app节点、某些类型的局部根（比如一个表，一篇文章，一个xx类型的文件）
                 }
             }
 

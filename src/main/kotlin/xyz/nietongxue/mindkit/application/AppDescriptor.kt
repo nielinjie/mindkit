@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.application
 import javafx.scene.layout.VBox
 import org.reflections.Reflections
 import tornadofx.View
+import xyz.nietongxue.mindkit.application.properties.StatisticsApp
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Function
 
@@ -56,8 +57,8 @@ interface AppDescriptor {
             }.toList().filterNotNull()
                     //nonApp好像在filterNotNull的时候被滤掉了。
                     //应该是因为object：AppDescriptor这种形式不会产生kotlin object，而是产生一个class
-                    .filterNot { it== nonApp }
-            return@lazy listOf(nonApp) + instances
+                    .filterNot { it == StatisticsApp }
+            return@lazy listOf(StatisticsApp) + instances
         }
 
 

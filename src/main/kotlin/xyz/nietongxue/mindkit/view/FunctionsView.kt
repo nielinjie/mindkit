@@ -8,6 +8,7 @@ import javafx.util.StringConverter
 import tornadofx.View
 import tornadofx.combobox
 import xyz.nietongxue.mindkit.application.AppDescriptor
+import xyz.nietongxue.mindkit.application.properties.StatisticsApp
 import xyz.nietongxue.mindkit.model.Function
 
 class FunctionsView : View() {
@@ -31,9 +32,7 @@ class FunctionsView : View() {
                 isEditable = false
                 this.onAction = EventHandler<ActionEvent> {
                     with(this.value) {
-                        appView.children.clear()
-                        val app = this@FunctionsView.functionToApp[this]!!
-                        appView.add(app.controller.view)
+                        val app = setupView(this)
                         app.controller.function = this
                         mainController.processorController = app.controller
                         mainController.function = this
@@ -54,5 +53,20 @@ class FunctionsView : View() {
 
             this.add(appView)
         }
+
+        val func= StatisticsApp.providedFunctions[0]
+        val app = setupView(func)
+        app.controller.function = func
+        mainController.processorController = app.controller
+        mainController.function = func
+
+    }
+
+    private fun setupView(function: Function): AppDescriptor {
+        appView.children.clear()
+        val app = this.functionToApp[function]!!
+        appView.add(app.controller.view)
+        //TODO 这个不是setupView的职责
+        return app
     }
 }
