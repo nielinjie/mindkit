@@ -30,6 +30,7 @@ object HtmlTable : AppDescriptor {
                 override fun process(node: Node): String {
                     return node.toHtml()
                 }
+
                 override val brief: String = "Html"
                 override val description: String = "生成HTML"
             }
@@ -43,7 +44,7 @@ class TableController : Controller {
     override fun process(node: Node) {
         runAsync {
             this@TableController.function?.process(node)
-        }ui{
+        } ui {
             resultText = it
         }
     }
