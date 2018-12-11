@@ -15,7 +15,6 @@ class MainController : Controller() {
     var function by functionP
 
 
-    val treeModel = TreeModel()
 
 
     init {
@@ -30,11 +29,7 @@ class MainController : Controller() {
             selectedNode?.also { processorController?.process(it) }
         }
         
-        runAsync {
-            Source.append(treeModel.root.node)
-        } ui {
-            treeModel.root.addChildren(it)
-        }
+
     }
 
 

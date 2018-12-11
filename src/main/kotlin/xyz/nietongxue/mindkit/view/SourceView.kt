@@ -4,10 +4,12 @@ import javafx.scene.control.TreeItem
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
+import xyz.nietongxue.mindkit.model.Source
 
 class SourceView : View(){
     override val root= VBox()
     val controller:MainController by inject()
+    val treeModel=TreeModel()
 
     init {
         with(root) {
@@ -23,7 +25,7 @@ class SourceView : View(){
                     this.vGrow = Priority.ALWAYS
                 }
                 treeview<ViewNode> {
-                    root = TreeItem(controller.treeModel.root)
+                    root = TreeItem(treeModel.root)
                     root.isExpanded = true
                     cellFormat { text = it.node.title }
                     onUserSelect {
@@ -35,6 +37,13 @@ class SourceView : View(){
                 }
             }
 
+        }
+
+
+        runAsync {
+            Source.append(treeModel.root.node)
+        } ui {
+            treeModel.root.addChildren(it)
         }
 
     }

@@ -15,16 +15,17 @@ import xyz.nietongxue.mindkit.io.XMindFile
  */
 
 interface Source {
-    fun wantAppendTo(parent:Node):List<Node>
+    fun shouldAppend(parent:Node):List<Node>
     companion object {
         fun append(root:Node):List<Node>{
-            return XMindSource.wantAppendTo(root)
+            //TODO 扫描classpath
+            return XMindSource.shouldAppend(root)
         }
     }
 }
 
 object XMindSource : Source {
-    override fun wantAppendTo(parent: Node): List<Node> {
+    override fun shouldAppend(parent: Node): List<Node> {
         val xMindFile = XMindFile("./ppt.xmind")
 
 //        val watcher = FileWatcher(File(".")) { file: File, eventType: String ->
