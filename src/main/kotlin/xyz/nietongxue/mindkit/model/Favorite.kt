@@ -1,7 +1,21 @@
 package xyz.nietongxue.mindkit.model
 
-data class FileFavorite(val path:String)
+
+interface Favorite {
+    fun updateNode(root:Node):List<Node>
+    val name:String
+}
+
+data class XMindFavorite(val path:String) : Favorite{
+    override fun updateNode(root:Node):List<Node>{
+        return XMindSource(path).appendTo(root).what
+    }
+    override val name = "XMind - $path"
+}
 
 object Favorites {
-    fun all():List<FileFavorite> =listOf(FileFavorite("./ppt.xmind"))
+    val all:List<XMindFavorite> =listOf(
+            XMindFavorite("./ppt.xmind"),
+            XMindFavorite("/Users/nielinjie/Desktop/19年计划.xmind")
+    )
 }
