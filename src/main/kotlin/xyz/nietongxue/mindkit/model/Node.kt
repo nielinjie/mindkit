@@ -10,7 +10,6 @@ data class Node(val id: String, val title: String, val labels: List<String>, val
     //TODO marker可能需要抽象，非xmind的source对应为啥？
     //TODO marker是提示应用app的东西之一
 
-    //TODO 支持extensions，html table 需要。
     companion object {
         fun fromJson(json: JsonObject): Node {
             val children: JsonArray<JsonObject> = (json["children"] as JsonObject?)?.array("attached") ?: JsonArray()

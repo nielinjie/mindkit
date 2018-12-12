@@ -2,8 +2,7 @@ package xyz.nietongxue.mindkit.model
 
 
 interface Favorite {
-    //TODO 考虑是否需要从非root的去load
-    //TODO 也许所有的favorite都应该是返回source？
+    //NOTE favorite是对tree的一个快照，包括source和某些需要重现的状态，比如选中某个特定的node。
     fun load(): List<Source>
 
     val name: String

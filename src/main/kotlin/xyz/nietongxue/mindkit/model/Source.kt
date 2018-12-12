@@ -14,14 +14,14 @@ import xyz.nietongxue.mindkit.io.XMindFile
    filter跟processor如何配合？apply一个app将应用多个filter 和多个 function？
  */
 
-data class Mounting(val where:Node, val what:List<Node>)
+data class Mounting(val where: Node, val what: List<Node>)
 interface Source {
-    fun mount(tree:Node):Mounting
+    fun mount(tree: Node): Mounting
 //    companion object {
 //        fun append(root:Node):List<Node>{
 //            //TODO 扫描classpath
 //            //TODO 没有弄清楚怎么个逐步挂上去，现在只支持挂到root上。
-                //TODO 跟Favorite怎么个关系还是没搞明白
+    //TODO 跟Favorite怎么个关系还是没搞明白
 
 //            val all = listOf(XMindSource)
 //            return all.flatMap { it.mount(root).what }
@@ -29,7 +29,13 @@ interface Source {
 //    }
 }
 
-class XMindSource(val path:String) : Source {
+interface EditableSource : Source {
+    fun edit(node: Node)
+    fun remove(node: Node)
+    fun add(parent: Node, node: Node)
+}
+//TODO 不同的source跟不同的app有没有什么关系。
+class XMindSource(val path: String) : Source {
     override fun mount(tree: Node): Mounting {
         val xMindFile = XMindFile(path)
 
@@ -44,7 +50,25 @@ class XMindSource(val path:String) : Source {
 //        }
         val json = Parser().parse(xMindFile.content()) as JsonArray<JsonObject>
         val mm = MindMap.fromJson(json)
-        return Mounting(tree,listOf(mm.sheets[0].root))
+        return Mounting(tree, listOf(mm.sheets[0].root))
+    }
+}
+object MemoryTextSource:EditableSource{
+    //TODO 设计：一个输入框，输入文本，整理为树形，再通过app输出，包括纯文本输出、xmind输出。
+    override fun mount(tree: Node): Mounting {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun edit(node: Node) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun remove(node: Node) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun add(parent: Node, node: Node) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }
