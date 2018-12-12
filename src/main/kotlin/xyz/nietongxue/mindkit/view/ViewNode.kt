@@ -1,5 +1,7 @@
 package xyz.nietongxue.mindkit.view
 
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.JsonValue
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import xyz.nietongxue.mindkit.model.Node
@@ -14,7 +16,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
                 fromNode(it, n, deep + 1)
             }), deep + 1)
         }
-        val emptyRoot= fromNode(Node("_root","/", emptyList(),null, ArrayList()))
+        val emptyRoot= fromNode(Node("_root","/", emptyList(),null, JsonArray(), ArrayList()))
     }
 
     fun addChildren(nodes:List<Node>):ViewNode{

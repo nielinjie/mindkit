@@ -1,9 +1,14 @@
 package xyz.nietongxue.mindkit.application.htmlTable
 
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.JsonValue
+import com.beust.klaxon.Klaxon
+import com.beust.klaxon.PathMatcher
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.toHtml
+import java.util.regex.Pattern
 
 class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, List<Node>>>>) {
     companion object {
@@ -18,8 +23,28 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
         }
 
         fun fromNode(root: Node): Table {
+            fun orders(json:JsonArray<JsonValue>):List<String> {
+                var re = emptyList<String>()
+                val pathMatcher = object : PathMatcher {
+                    override fun pathMatches(path: String) :Boolean{
+                        return Pattern.matches(".*content.*content.*content.*", path)
+                    }
+
+                    override fun onMatch(path: String, value: Any) {
+//                        println("Adding $path = $value")
+                        re += value.toString()
+                    }
+                }
+
+                Klaxon()
+                        .pathMatcher(pathMatcher)
+                        .parseJsonArray(json.toJsonString().reader())
+                return re
+            }
+            val columnOrder:List<String>? = root.extensions?.let { orders(it) }
             val rowNodes: List<Node> = root.children
-            val columnNames: List<String> = rowNodes.flatMap {
+
+            val columnNames: List<String> =columnOrder?: rowNodes.flatMap {
                 it.children.mapNotNull { it.labels.firstOrNull() }
             }.distinct()
             return Table(columnNames, rowNodes.map {
@@ -57,11 +82,11 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
                             this@Table.columns.forEach {
                                 td{
                                     row.second[it]?.forEach{ node->
-                                        unsafe {
-                                            + node.toHtml()
-                                        }
-                                        br()
-                                    }
+                                        p {
+                                            unsafe {
+                                                +node.toHtml()
+                                            }
+                                        }                                    }
                                 }
                             }
                         }
