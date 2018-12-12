@@ -48,17 +48,19 @@ class FunctionsView : View() {
                     }
 
                 }
+                with(this.value) {
+                    val app = setupView(this)
+                    app.controller.function = this
+                    mainController.processorController = app.controller
+                    mainController.function = this
+                }
 
             }
 
             this.add(appView)
         }
 
-        val func= StatisticsApp.providedFunctions[0]
-        val app = setupView(func)
-        app.controller.function = func
-        mainController.processorController = app.controller
-        mainController.function = func
+
 
     }
 

@@ -42,6 +42,12 @@ class SourceView : View() {
                         treeModel.root.addChildren(it)
                     }
                 }
+                runAsync {
+                    this@combobox.value.updateNode(treeModel.root.node)
+                } ui {
+                    treeModel.root.removeChildren()
+                    treeModel.root.addChildren(it)
+                }
             }
 //            this += button("load nodes") {
 //                action {
