@@ -39,7 +39,7 @@ object StatisticsApp : AppDescriptor {
     override val providedFunctions: List<Function> = listOf(
             object : Function {
                 override fun process(node: Node): String {
-                    //TODO 可以什么都不干？
+                    //TODO 可以什么都不干？那么这个函数是不是应该从相关interface里面去除？
                     return ""
                 }
                 override val brief: String = "Properties"

@@ -10,7 +10,6 @@ import javafx.util.StringConverter
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Favorite
 import xyz.nietongxue.mindkit.model.Favorites
-import xyz.nietongxue.mindkit.model.Source
 import java.lang.IllegalStateException
 
 class SourceView : View() {
@@ -35,30 +34,15 @@ class SourceView : View() {
 
                 }
                 this.onAction = EventHandler<ActionEvent> {
-                    runAsync {
-                        this@combobox.value.updateNode(treeModel.root.node)
-                    } ui {
-                        treeModel.root.removeChildren()
-                        treeModel.root.addChildren(it)
-                    }
-                }
-                runAsync {
-                    this@combobox.value.updateNode(treeModel.root.node)
-                } ui {
+                    //TODO 后台载入
+                    //NOTE 代替是favorite的行为，而不是source的，所以source是append
                     treeModel.root.removeChildren()
-                    treeModel.root.addChildren(it)
+                    treeModel.mount(this.value.load())
                 }
+                treeModel.root.removeChildren()
+                treeModel.mount(this.value.load())
+
             }
-//            this += button("load nodes") {
-//                action {
-//                    runAsync {
-//                        Favorites.all[0].updateNode(treeModel.root.node)
-//                    } ui {
-//                        treeModel.root.removeChildren()
-//                        treeModel.root.addChildren(it)
-//                    }
-//                }
-//            }
             scrollpane {
                 isFitToHeight = true
                 isFitToWidth = true

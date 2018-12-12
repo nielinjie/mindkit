@@ -2,6 +2,7 @@ package xyz.nietongxue.mindkit.view
 
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonValue
+import com.beust.klaxon.internal.firstNotNullResult
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import xyz.nietongxue.mindkit.model.Node
@@ -18,7 +19,16 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         }
         val emptyRoot= fromNode(Node("_root","/", emptyList(),null, JsonArray(), ArrayList()))
     }
-
+    fun findNode(node:Node):ViewNode?{
+        return if(this.node == node)
+            this
+        else
+            this.children.firstNotNullResult { it.findNode(node) }
+    }
+    fun replaceChildren(nodes:List<Node>):ViewNode{
+        this.removeChildren()
+        return this.addChildren(nodes)
+    }
     fun addChildren(nodes:List<Node>):ViewNode{
         node.children.addAll(nodes)
         this.children.addAll(nodes.map{

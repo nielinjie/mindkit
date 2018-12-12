@@ -1,15 +1,17 @@
 package xyz.nietongxue.mindkit.view
 
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Parser
-import xyz.nietongxue.mindkit.io.XMindFile
-import xyz.nietongxue.mindkit.model.MindMap
+import xyz.nietongxue.mindkit.model.Source
 
 class TreeModel {
-    var root:ViewNode = ViewNode.emptyRoot
+    var root: ViewNode = ViewNode.emptyRoot
 
-
-
-
+    fun mount(sources: List<Source>) {
+        sources.forEach {
+            with(it.mount(root.node)) {
+                root.findNode(this.where)?.also {
+                    it.addChildren(this.what)
+                }
+            }
+        }
+    }
 }
