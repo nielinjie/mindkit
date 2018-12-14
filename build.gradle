@@ -8,6 +8,7 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
     }
 }
 
@@ -22,14 +23,15 @@ allprojects {
 apply plugin: "kotlin"
 
 apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 
 dependencies {
-    implementation 'com.beust:klaxon:3.0.1'
+    compile 'com.beust:klaxon:3.0.1'
     compile "org.jtwig:jtwig-core:5.87.0.RELEASE"
     compile 'no.tornado:tornadofx:1.7.17'
-    compile  'org.jfxtras:jmetro:4.2'
-    implementation 'org.reflections:reflections:0.9.11'
+    compile 'org.jfxtras:jmetro:4.2'
+    compile 'org.reflections:reflections:0.9.11'
     compile "org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.11"
 
 }

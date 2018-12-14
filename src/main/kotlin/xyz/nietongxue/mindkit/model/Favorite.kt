@@ -18,7 +18,10 @@ data class XMindFavorite(val path: String) : Favorite {
 
 object Favorites {
     val all: List<XMindFavorite> = listOf(
-            XMindFavorite("./ppt.xmind"),
-            XMindFavorite("/Users/nielinjie/Desktop/19年计划.xmind")
+
+            XMindFavorite("/Users/nielinjie/Desktop/ppt.xmind"),
+            XMindFavorite("/Users/nielinjie/Desktop/19年计划.xmind"),
+            FolderFavorite("/Users/nielinjie/Desktop"),
+            FolderFavorite("/Users/nielinjie/Library/Mobile Documents/com~apple~CloudDocs/思考和写作")
     )
 }
