@@ -1,5 +1,7 @@
 package xyz.nietongxue.mindkit.view
 
+import tornadofx.runAsync
+import tornadofx.ui
 import xyz.nietongxue.mindkit.model.Source
 
 class TreeModel {
@@ -7,11 +9,14 @@ class TreeModel {
 
     fun mount(sources: List<Source>) {
         sources.forEach {
-            with(it.mount(root.node)) {
-                root.findNode(this.where)?.also {
-                    it.addChildren(this.what)
-                }
+            runAsync {
+                val mounting = it.mount(root.node)
+                val viewNode = root.findNode(mounting.where)
+                viewNode to mounting
+            } ui {
+                it.first?.addChildren(it.second.what)
             }
+
         }
     }
 }

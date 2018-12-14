@@ -34,13 +34,12 @@ class SourceView : View() {
 
                 }
                 this.onAction = EventHandler<ActionEvent> {
-                    //TODO 后台载入
                     //NOTE 代替是favorite的行为，而不是source的，所以source是append
                     treeModel.root.removeChildren()
-                    treeModel.mount(this.value.load())
+                    treeModel.mount(this.value.sources())
                 }
                 treeModel.root.removeChildren()
-                treeModel.mount(this.value.load())
+                treeModel.mount(this.value.sources())
 
             }
             scrollpane {
