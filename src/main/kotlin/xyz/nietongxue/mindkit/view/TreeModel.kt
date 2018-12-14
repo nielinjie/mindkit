@@ -9,14 +9,15 @@ class TreeModel {
 
     fun mount(sources: List<Source>) {
         sources.forEach {
-            runAsync {
-                val mounting = it.mount(root.node)
-                val viewNode = root.findNode(mounting.where)
-                viewNode to mounting
-            } ui {
-                it.first?.addChildren(it.second.what)
+            it.mount(root.node).forEach {
+                runAsync {
+                    val mounting = it
+                    val viewNode = root.findNode(mounting.where)
+                    viewNode to mounting
+                } ui {
+                    it.first?.addChildren(it.second.what)
+                }
             }
-
         }
     }
 }
