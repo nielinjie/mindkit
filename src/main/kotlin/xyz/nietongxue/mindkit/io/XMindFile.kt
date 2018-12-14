@@ -4,9 +4,11 @@ import java.io.InputStream
 import java.util.zip.ZipFile
 
 class XMindFile(val path: String) {
-    fun content(): InputStream {
+    fun content(): InputStream? {
         val zipFile = ZipFile(path)
         val entry = zipFile.getEntry("content.json")
-        return zipFile.getInputStream(entry)
+        return entry?.let{
+            zipFile.getInputStream(it)
+        }
     }
 }

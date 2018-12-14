@@ -4,6 +4,7 @@ import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import xyz.nietongxue.mindkit.io.XMindFile
+import java.io.File
 
 //TODO 多文件
 //TODO 一个目录作为home（repository）
@@ -16,12 +17,11 @@ import xyz.nietongxue.mindkit.io.XMindFile
 
 data class Mounting(val where: Node, val what: List<Node>)
 interface Source {
-    fun mount(tree: Node): Mounting
+    fun mount(tree: Node, mountPoint: Node = tree): List<Mounting>
 //    companion object {
 //        fun append(root:Node):List<Node>{
 //            //TODO 扫描classpath
 //            //TODO 没有弄清楚怎么个逐步挂上去，现在只支持挂到root上。
-    //TODO 跟Favorite怎么个关系还是没搞明白
 
 //            val all = listOf(XMindSource)
 //            return all.flatMap { it.mount(root).what }
@@ -29,14 +29,34 @@ interface Source {
 //    }
 }
 
-interface EditableSource : Source {
-    fun edit(node: Node)
-    fun remove(node: Node)
-    fun add(parent: Node, node: Node)
+/**
+@flat 如果是true，表示不需要保留文件层次结构的node。
+ */
+class FolderSource(val path: String, val flat: Boolean = true) : Source {
+
+    init {
+
+    }
+
+    override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
+        //TODO 只实现了flat是true
+        assert(flat)
+        return File(path).walk().filter {
+            //TODO 实现根据文件内容选择不同的source
+             it.isFile && it.extension == "xmind"
+        }.map {
+//            println(it.path)
+            XMindSource(it.path)
+        }.toList().flatMap {
+            it.mount(tree, mountPoint)
+        }
+    }
+
 }
+
 //TODO 不同的source跟不同的app有没有什么关系。
 class XMindSource(val path: String) : Source {
-    override fun mount(tree: Node): Mounting {
+    override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         val xMindFile = XMindFile(path)
 
 //        val watcher = FileWatcher(File(".")) { file: File, eventType: String ->
@@ -48,27 +68,9 @@ class XMindSource(val path: String) : Source {
 //            println(file.path)
 //            println(eventType)
 //        }
-        val json = Parser().parse(xMindFile.content()) as JsonArray<JsonObject>
+        val content = xMindFile.content() ?: return emptyList()
+        val json = Parser().parse(content) as JsonArray<JsonObject>
         val mm = MindMap.fromJson(json)
-        return Mounting(tree, listOf(mm.sheets[0].root))
+        return listOf(Mounting(tree, listOf(mm.sheets[0].root)))
     }
-}
-object MemoryTextSource:EditableSource{
-    //TODO 设计：一个输入框，输入文本，整理为树形，再通过app输出，包括纯文本输出、xmind输出。
-    override fun mount(tree: Node): Mounting {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun edit(node: Node) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun remove(node: Node) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun add(parent: Node, node: Node) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 }
