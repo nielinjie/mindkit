@@ -37,8 +37,8 @@ class FunctionsView : View() {
                 this.onAction = EventHandler<ActionEvent> {
                     with(this.value) {
                         val app = setupView(this)
-                        app.controller.function = this
-                        mainController.processorController = app.controller
+                        app.appController.function = this
+                        mainController.processorAppController = app.appController
                         mainController.function = this
                     }
                 }
@@ -54,8 +54,8 @@ class FunctionsView : View() {
                 }
                 with(this.value) {
                     val app = setupView(this)
-                    app.controller.function = this
-                    mainController.processorController = app.controller
+                    app.appController.function = this
+                    mainController.processorAppController = app.appController
                     mainController.function = this
                 }
 
@@ -76,7 +76,7 @@ class FunctionsView : View() {
     private fun setupView(function: Function): AppDescriptor {
         appView.children.clear()
         val app = this.functionToApp[function]!!
-        appView.add(app.controller.view)
+        appView.add(app.appController.view)
         //TODO 这个不是setupView的职责
         return app
     }

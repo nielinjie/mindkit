@@ -3,11 +3,11 @@ package xyz.nietongxue.mindkit.application.marpPPT
 import javafx.scene.control.SplitPane
 import javafx.scene.layout.Priority
 import tornadofx.*
-import xyz.nietongxue.mindkit.application.Controller
+import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.Function
 
-class ProcessView : View(), Controller {
+class ProcessView : View(), AppController {
     override val view: View
         get() = this
 

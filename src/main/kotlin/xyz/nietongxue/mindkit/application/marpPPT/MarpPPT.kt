@@ -19,6 +19,6 @@ object MarpPPT : AppDescriptor {
     override val name: String= "Marp PPT"
     override val description:String = "Marp PPT"
 
-    override val controller = find(ProcessView::class)
+    override val appController = find(ProcessView::class)
 
 }

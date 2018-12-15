@@ -1,12 +1,11 @@
 package xyz.nietongxue.mindkit.application.htmlTable
 
 import javafx.beans.property.SimpleStringProperty
-import javafx.scene.Parent
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.AppDescriptor
-import xyz.nietongxue.mindkit.application.Controller
+import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.Clipboard
@@ -36,15 +35,15 @@ object HtmlTable : AppDescriptor {
                 override val description: String = "生成HTML"
             }
     )
-    override val controller: Controller = TableController()
+    override val appController: AppController = TableAppController()
 }
 
-class TableController : Controller {
+class TableAppController : AppController {
     val resultTextP = SimpleStringProperty()
     var resultText by resultTextP
     override fun process(node: Node) {
         runAsync {
-            this@TableController.function?.process(node)
+            this@TableAppController.function?.process(node)
         } ui {
             resultText = it
         }

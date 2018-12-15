@@ -4,13 +4,12 @@ import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.Source
 
 class MainController : Controller() {
     val selectedNodeP = SimpleObjectProperty<Node?>(null)
     var selectedNode by selectedNodeP
-    val processorControllerP = SimpleObjectProperty<xyz.nietongxue.mindkit.application.Controller>()
-    var processorController: xyz.nietongxue.mindkit.application.Controller by processorControllerP
+    val processorControllerP = SimpleObjectProperty<xyz.nietongxue.mindkit.application.AppController>()
+    var processorAppController: xyz.nietongxue.mindkit.application.AppController by processorControllerP
     val functionP = SimpleObjectProperty<Function>()
     var function by functionP
 
@@ -19,14 +18,14 @@ class MainController : Controller() {
 
     init {
         selectedNodeP.onChange {
-            selectedNode?.also { processorController?.process(it) }
+            selectedNode?.also { processorAppController?.process(it) }
         }
         processorControllerP.onChange {
-            selectedNode?.also { processorController?.process(it) }
+            selectedNode?.also { processorAppController?.process(it) }
         }
         functionP.onChange {
-            //TODO 这里有点奇怪，依赖于外部 controller.function = function
-            selectedNode?.also { processorController?.process(it) }
+            //TODO 这里有点奇怪，依赖于外部 APP_CONTROLLER.function = function
+            selectedNode?.also { processorAppController?.process(it) }
         }
         
 
