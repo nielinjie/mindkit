@@ -3,10 +3,12 @@ package xyz.nietongxue.mindkit.view
 import javafx.beans.property.SimpleObjectProperty
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
+import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import javafx.util.StringConverter
 import tornadofx.View
 import tornadofx.combobox
+import tornadofx.vboxConstraints
 import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.properties.StatisticsApp
 import xyz.nietongxue.mindkit.model.Function
@@ -28,6 +30,9 @@ class FunctionsView : View() {
 
     init {
         with(root) {
+            vboxConstraints {
+                this.vGrow = Priority.ALWAYS
+            }
             combobox(selectedProcessorP, functionToApp.toList().map { it.first }) {
                 isEditable = false
                 this.onAction = EventHandler<ActionEvent> {
@@ -56,7 +61,12 @@ class FunctionsView : View() {
                 }
 
             }
+            with(appView){
 
+                    vboxConstraints {
+                        this.vGrow = Priority.ALWAYS
+                    }
+            }
             this.add(appView)
         }
 

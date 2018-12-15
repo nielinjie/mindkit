@@ -2,6 +2,7 @@ package xyz.nietongxue.mindkit.application.htmlTable
 
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.Parent
+import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.AppDescriptor
@@ -52,16 +53,33 @@ class TableController : Controller {
     override var function: Function? = null
 
     override val view: View = object : View() {
-        override val root: Parent = VBox()
+        override val root: VBox = VBox()
 
         init {
             with(root) {
+                vboxConstraints {
+                    this.vGrow = Priority.ALWAYS
+                }
                 splitpane {
+                    vboxConstraints {
+                        this.vGrow = Priority.ALWAYS
+                    }
+
                     scrollpane {
+                        isFitToHeight = true
+                        isFitToWidth = true
+                        vboxConstraints {
+                            this.vGrow = Priority.ALWAYS
+                        }
                         text(resultTextP)
                     }
                     vbox {
                         scrollpane {
+                            isFitToHeight = true
+                            isFitToWidth = true
+                            vboxConstraints {
+                                this.vGrow = Priority.ALWAYS
+                            }
                             webview {
                                 dynamicContent(resultTextP) {
                                     engine.loadContent(it)

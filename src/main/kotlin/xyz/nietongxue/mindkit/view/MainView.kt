@@ -15,7 +15,7 @@ class MainView : View() {
     val functionsView: FunctionsView by inject()
 
     init {
-        JMetro(JMetro.Style.LIGHT).applyTheme(root)
+//        JMetro(JMetro.Style.LIGHT).applyTheme(root)
         with(root) {
             this += sourceView.root
             //中间处理比如templates
