@@ -45,7 +45,6 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source {
             //TODO 实现根据文件内容选择不同的source
              it.isFile && it.extension == "xmind"
         }.map {
-//            println(it.path)
             XMindSource(it.path)
         }.toList().flatMap {
             it.mount(tree, mountPoint)
