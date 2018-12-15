@@ -28,7 +28,13 @@ class ProcessView : View(), Controller {
 
     init {
         with(root) {
+            vboxConstraints {
+                this.vGrow = Priority.ALWAYS
+            }
             vbox {
+                vboxConstraints {
+                    this.vGrow = Priority.ALWAYS
+                }
                 scrollpane {
                     isFitToHeight = true
                     isFitToWidth = true
