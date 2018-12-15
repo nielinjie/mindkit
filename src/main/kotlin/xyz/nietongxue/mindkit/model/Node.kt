@@ -5,7 +5,12 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.JsonValue
 import com.beust.klaxon.lookup
 
-data class Node(val id: String, val title: String, val labels: List<String>, val note: String?, val extensions:JsonArray<JsonValue>?, val children: ArrayList<Node>) {
+data class Node(val id: String,
+                val title: String,
+                val labels: List<String>,
+                val note: String?,
+                val extensions:JsonArray<JsonValue>?,
+                val children: ArrayList<Node>) {
     //TODO 支持marker
     //TODO marker可能需要抽象，非xmind的source对应为啥？
     //TODO marker是提示应用app的东西之一

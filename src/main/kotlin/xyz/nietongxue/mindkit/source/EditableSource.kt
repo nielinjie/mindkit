@@ -1,5 +1,6 @@
-package xyz.nietongxue.mindkit.model
+package xyz.nietongxue.mindkit.source
 
+import xyz.nietongxue.mindkit.model.Node
 
 
 interface EditableSource : Source {
@@ -8,7 +9,7 @@ interface EditableSource : Source {
     fun add(parent: Node, node: Node)
 }
 
-object MemoryTextSource:EditableSource{
+object MemoryTextSource: EditableSource {
     //TODO 设计：一个输入框，输入文本，整理为树形，再通过app输出，包括纯文本输出、xmind输出。
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

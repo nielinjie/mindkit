@@ -1,5 +1,9 @@
 package xyz.nietongxue.mindkit.model
 
+import xyz.nietongxue.mindkit.source.FolderSource
+import xyz.nietongxue.mindkit.source.Source
+import xyz.nietongxue.mindkit.source.XMindSource
+
 
 interface Favorite {
     //NOTE favorite是对tree的一个快照，包括有哪些source和某些需要重现的状态，比如选中某个特定的node。
