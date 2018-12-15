@@ -10,7 +10,6 @@ import tornadofx.View
 import tornadofx.combobox
 import tornadofx.vboxConstraints
 import xyz.nietongxue.mindkit.application.AppDescriptor
-import xyz.nietongxue.mindkit.application.properties.StatisticsApp
 import xyz.nietongxue.mindkit.model.Function
 
 class FunctionsView : View() {
