@@ -10,6 +10,8 @@ import xyz.nietongxue.mindkit.model.XNode
 
 //TODO 不同的source跟不同的app有没有什么关系。
 class XMindSource(val path: String) : Source {
+    override val description: String = "来自于XMind文件 - $path"
+
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         val xMindFile = XMindFile(path)
 
@@ -24,7 +26,7 @@ class XMindSource(val path: String) : Source {
 //        }
         val content = xMindFile.content() ?: return emptyList()
         val json = Parser().parse(content) as JsonArray<JsonObject>
-        val mm = MindMap.fromJson(json)
+        val mm = MindMap.fromJson(json,this)
         return listOf(Mounting(tree, listOf(mm.sheets[0].root)))
     }
 }

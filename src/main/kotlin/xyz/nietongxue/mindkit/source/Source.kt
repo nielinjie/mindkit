@@ -15,6 +15,7 @@ import java.io.File
 
 data class Mounting(val where: Node, val what: List<Node>)
 interface Source {
+    val description:String
     fun mount(tree: Node, mountPoint: Node = tree): List<Mounting>
 //    companion object {
 //        fun append(root:node):List<node>{
@@ -31,6 +32,7 @@ interface Source {
 @flat 如果是true，表示不需要保留文件层次结构的node。
  */
 class FolderSource(val path: String, val flat: Boolean = true) : Source {
+    override val description: String = "来自于文件夹 - $path"
 
     init {
 
