@@ -41,23 +41,16 @@ object PropertiesApp : AppDescriptor {
         val nodeP = SimpleObjectProperty<Node>()
         var node: Node by nodeP
         override fun process(node: Node) {
-            //FIXME
-
-            runAsync {
-                node
-            } ui {
-                this.node = it
-            }
+            this.node = node
+            view.rebuild()
         }
 
         override var function: Function? = null
-        override val view: View = object : View() {
-            override val root: Parent = VBox()
-
-            init {
+        override val view = object : View() {
+            fun rebuild() {
+                (root as VBox).clear()
                 with(root) {
                     form {
-
                         Properties.pros(nodeP).forEach {
                             this@form.add(it)
                         }
@@ -65,6 +58,12 @@ object PropertiesApp : AppDescriptor {
 
                     //TODO Action 机制，提示在此节点，或者此节点"附近"可以做点啥。
                 }
+            }
+
+            override val root: Parent = VBox()
+
+            init {
+
             }
 
         }
