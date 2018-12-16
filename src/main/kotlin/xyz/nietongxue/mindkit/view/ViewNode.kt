@@ -1,11 +1,11 @@
 package xyz.nietongxue.mindkit.view
 
 import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonValue
 import com.beust.klaxon.internal.firstNotNullResult
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
     var collapse: Boolean = false
@@ -17,9 +17,11 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
                 fromNode(it, n, deep + 1)
             }), deep + 1)
         }
-        val emptyRoot= fromNode(Node("_root","/", emptyList(),null, JsonArray(), ArrayList()))
+        //TODO empty node
+        val emptyRoot= fromNode(XNode("_root","/", emptyList(),null, JsonArray(), ArrayList()))
     }
     fun findNode(node:Node):ViewNode?{
+        //TODO 按值寻找
         return if(this.node == node)
             this
         else
@@ -41,14 +43,5 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         this.children.clear()
         return this
     }
-    fun pretty() {
-        print("++".repeat(deep))
-        print(node.title)
-        print("-")
-        print(node.note)
-        println()
-        children.forEach {
-            it.pretty()
-        }
-    }
+
 }

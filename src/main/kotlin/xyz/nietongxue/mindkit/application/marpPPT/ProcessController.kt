@@ -6,8 +6,9 @@ import javafx.beans.property.SimpleStringProperty
 import tornadofx.Controller
 import tornadofx.getValue
 import tornadofx.setValue
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.model.Function
+import xyz.nietongxue.mindkit.model.Node
 
 class ProcessController : Controller() {
     val resultStringProperty = SimpleStringProperty()

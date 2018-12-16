@@ -3,8 +3,9 @@ package xyz.nietongxue.mindkit.application
 import org.reflections.Reflections
 import tornadofx.View
 import xyz.nietongxue.mindkit.properties.PropertiesApp
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.model.Function
+import xyz.nietongxue.mindkit.model.Node
 
 
 interface AppDescriptor {
@@ -32,7 +33,7 @@ interface AppDescriptor {
 }
 interface AppController{
     //TODO 到后台去运行，不能单用runAsync，因为他引起的ui的变化不在ui thread，需要在ui block。现在能做的是在实现的时候处理。
-    fun process(node:Node)
+    fun process(node: Node)
     var function: Function?
     val view: View
 }

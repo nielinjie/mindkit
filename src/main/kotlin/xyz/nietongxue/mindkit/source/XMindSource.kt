@@ -6,6 +6,7 @@ import com.beust.klaxon.Parser
 import xyz.nietongxue.mindkit.io.XMindFile
 import xyz.nietongxue.mindkit.model.MindMap
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 
 //TODO 不同的source跟不同的app有没有什么关系。
 class XMindSource(val path: String) : Source {

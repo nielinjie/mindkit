@@ -6,6 +6,7 @@ import tornadofx.field
 import tornadofx.label
 import tornadofx.stringBinding
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 
 object XMindProperties : Properties {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {

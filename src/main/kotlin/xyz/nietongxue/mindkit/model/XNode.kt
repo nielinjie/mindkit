@@ -5,37 +5,47 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.JsonValue
 import com.beust.klaxon.lookup
 
-data class Node(val id: String,
-                val title: String,
-                val labels: List<String>,
-                val note: String?,
-                val extensions:JsonArray<JsonValue>?,
-                val children: ArrayList<Node>) {
+
+
+interface Node{
+    val id: String
+    val title: String
+    val children: ArrayList<Node>
+
+}
+
+data class XNode(override val id: String,
+                 override val title: String,
+                 val labels: List<String>,
+                 val note: String?,
+                 val extensions:JsonArray<JsonValue>?,
+                 //TODO 如何通过类型系统限制xnode的children都是xnode？
+                 override val children: ArrayList<Node>) :Node{
     //TODO 支持marker
     //TODO marker可能需要抽象，非xmind的source对应为啥？
     //TODO marker是提示应用app的东西之一
 
     companion object {
-        fun fromJson(json: JsonObject): Node {
+        fun fromJson(json: JsonObject): XNode {
             val children: JsonArray<JsonObject> = (json["children"] as JsonObject?)?.array("attached") ?: JsonArray()
-            return Node(
+            return XNode(
                     json["id"] as String,
                     json["title"] as String,
                     (json["labels"] as? JsonArray<*>)?.map { it.toString() } ?: emptyList(),
                     json.lookup<String?>("notes.plain.content")[0],
                     json["extensions"] as? JsonArray<JsonValue>,
                     ArrayList(children.map {
-                        Node.fromJson(it)
+                        XNode.fromJson(it)
                     }.toList())
             )
         }
     }
 }
 
-data class Sheet(val root: Node) {
+data class Sheet(val root: XNode) {
     companion object {
         fun fromJson(json: JsonObject): Sheet {
-            return Sheet(Node.fromJson(json["rootTopic"] as JsonObject))
+            return Sheet(XNode.fromJson(json["rootTopic"] as JsonObject))
         }
     }
 }

@@ -8,8 +8,10 @@ import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.util.Clipboard
 import xyz.nietongxue.mindkit.util.toHtml
+import java.lang.IllegalStateException
 
 object HtmlTable : AppDescriptor {
     // xmind  里面的table，生成html（或者markdown？）table，比如可以copy到conf
@@ -19,8 +21,12 @@ object HtmlTable : AppDescriptor {
     override val description: String = "生成HTML Table，用于Copy到Conf"
     override val providedFunctions: List<Function> = listOf(object : Function {
         override fun process(node: Node): String {
-            val table = Table.fromNode(node)
-            return table.toHTML()
+            if(node is XNode) {
+                val table = Table.fromNode(node)
+                return table.toHTML()
+            }else{
+                throw IllegalStateException("html table 只支持xmind")
+            }
         }
 
         override val brief: String = "Html Table"

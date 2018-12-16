@@ -1,6 +1,7 @@
 package xyz.nietongxue.mindkit.source
 
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 import java.io.File
 
 //TODO 多文件
@@ -16,7 +17,7 @@ data class Mounting(val where: Node, val what: List<Node>)
 interface Source {
     fun mount(tree: Node, mountPoint: Node = tree): List<Mounting>
 //    companion object {
-//        fun append(root:Node):List<Node>{
+//        fun append(root:node):List<node>{
 //            //TODO 扫描classpath
 //            //TODO 没有弄清楚怎么个逐步挂上去，现在只支持挂到root上。
 
@@ -39,7 +40,7 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source {
         //TODO 只实现了flat是true
         assert(flat)
         return File(path).walk().filter {
-            //TODO 实现根据文件内容选择不同的source
+            //TODO 实现根据文件内容选择不同的sourceß
              it.isFile && it.extension == "xmind"
         }.map {
             XMindSource(it.path)

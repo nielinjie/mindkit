@@ -6,11 +6,11 @@ import com.beust.klaxon.Klaxon
 import com.beust.klaxon.PathMatcher
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.util.toHtml
 import java.util.regex.Pattern
 
-class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, List<Node>>>>) {
+class Table(val columns: List<String>, val rows: List<Pair<XNode, Map<String, List<XNode>>>>) {
     companion object {
         fun <K, V> List<Pair<K, V>>.toMapList(): Map<K, List<V>> {
             return this.groupBy {
@@ -22,11 +22,11 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
             }.toMap()
         }
 
-        fun fromNode(root: Node): Table {
-            fun orders(json:JsonArray<JsonValue>):List<String> {
+        fun fromNode(root: XNode): Table {
+            fun orders(json: JsonArray<JsonValue>): List<String> {
                 var re = emptyList<String>()
                 val pathMatcher = object : PathMatcher {
-                    override fun pathMatches(path: String) :Boolean{
+                    override fun pathMatches(path: String): Boolean {
                         return Pattern.matches(".*content.*content.*content.*", path)
                     }
 
@@ -41,15 +41,16 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
                         .parseJsonArray(json.toJsonString().reader())
                 return re
             }
-            val columnOrder:List<String>? = root.extensions?.let { orders(it) }
-            val rowNodes: List<Node> = root.children
 
-            val columnNames: List<String> =columnOrder?: rowNodes.flatMap {
-                it.children.mapNotNull { it.labels.firstOrNull() }
+            val columnOrder: List<String>? = root.extensions?.let { orders(it) }
+            val rowXNodes: List<XNode> = root.children.filterIsInstance<XNode>()
+
+            val columnNames: List<String> = columnOrder ?: rowXNodes.flatMap {
+                it.children.filterIsInstance<XNode>().mapNotNull { it.labels.firstOrNull() }
             }.distinct()
-            return Table(columnNames, rowNodes.map {
+            return Table(columnNames, rowXNodes.map {
                 it to
-                        (it.children.filter { it.labels.isNotEmpty() }.map {
+                        (it.children.filterIsInstance<XNode>().filter { it.labels.isNotEmpty() }.map {
                             it.labels.first() to it
                         }).toMapList()
             })
@@ -58,35 +59,36 @@ class Table(val columns: List<String>, val rows: List<Pair<Node, Map<String, Lis
     }
 
 
-    fun toHTML():String{
-        return buildString{
+    fun toHTML(): String {
+        return buildString {
             appendHTML().table {
                 thead {
-                    tr{
-                        th{}
+                    tr {
+                        th {}
                         this@Table.columns.forEach {
-                            th{
+                            th {
                                 text(it)
                             }
                         }
                     }
                 }
                 tbody {
-                    this@Table.rows.forEach { row->
-                        tr{
-                            td{
+                    this@Table.rows.forEach { row ->
+                        tr {
+                            td {
                                 //unsafe { + row.first.toHtml() }
                                 //TODO 这里可能需要一种不带children的toHTML，而不是直接title
-                               + row.first.title
+                                +row.first.title
                             }
                             this@Table.columns.forEach {
-                                td{
-                                    row.second[it]?.forEach{ node->
+                                td {
+                                    row.second[it]?.forEach { node ->
                                         p {
                                             unsafe {
                                                 +node.toHtml()
                                             }
-                                        }                                    }
+                                        }
+                                    }
                                 }
                             }
                         }

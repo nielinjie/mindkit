@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.util
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 
 fun Node.toHtml(): String {
     return buildString {

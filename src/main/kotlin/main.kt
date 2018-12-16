@@ -15,7 +15,6 @@ fun main(args: Array<String>){
     println(json.toJsonString(true))
     val mm = MindMap.fromJson(json)
     val view = ViewNode.fromNode(mm.sheets[0].root)
-    view.pretty()
 
 
     val template = JtwigTemplate.classpathTemplate("/marpSlide.twig")

@@ -1,8 +1,9 @@
 package xyz.nietongxue.mindkit.properties
 
 import javafx.beans.property.SimpleObjectProperty
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 import tornadofx.*
+import xyz.nietongxue.mindkit.model.Node
 
 
 data class Position(val deep: Int, val childrenCount: Int, val descendantsCount: Int) {

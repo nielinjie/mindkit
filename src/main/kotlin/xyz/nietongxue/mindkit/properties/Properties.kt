@@ -8,6 +8,7 @@ import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.XNode
 
 interface Properties{
     fun fieldSet(nodeP:SimpleObjectProperty<Node>):List<Fieldset>
@@ -21,7 +22,7 @@ interface Properties{
 
 object PropertiesApp : AppDescriptor {
     override val name: String = "Properties"
-    override val description: String = "Properties of Node"
+    override val description: String = "Properties of node"
     override val providedFunctions: List<Function> = listOf(
             object : Function {
                 override fun process(node: Node): String {
@@ -30,7 +31,7 @@ object PropertiesApp : AppDescriptor {
                 }
 
                 override val brief: String = "Properties"
-                override val description: String = "Properties of Node"
+                override val description: String = "Properties of node"
             }
     )
     override val appController: AppController = object : AppController {
@@ -38,6 +39,8 @@ object PropertiesApp : AppDescriptor {
         val nodeP = SimpleObjectProperty<Node>()
         var node: Node by nodeP
         override fun process(node: Node) {
+            //FIXME
+
             runAsync {
                 node
             } ui {
