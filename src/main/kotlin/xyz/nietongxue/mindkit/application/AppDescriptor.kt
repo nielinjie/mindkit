@@ -1,11 +1,9 @@
 package xyz.nietongxue.mindkit.application
 
-import org.reflections.Reflections
 import tornadofx.View
-import xyz.nietongxue.mindkit.properties.PropertiesApp
-import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.properties.PropertiesApp
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 

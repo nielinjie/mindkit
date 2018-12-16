@@ -4,7 +4,6 @@ import javafx.scene.control.SplitPane
 import javafx.scene.layout.Priority
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.AppController
-import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
 

@@ -1,11 +1,9 @@
 package xyz.nietongxue.mindkit.view
 
-import com.beust.klaxon.JsonArray
 import com.beust.klaxon.internal.firstNotNullResult
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.source.Mounting
 import xyz.nietongxue.mindkit.source.Source
 

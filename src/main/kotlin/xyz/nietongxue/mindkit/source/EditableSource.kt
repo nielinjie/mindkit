@@ -1,7 +1,6 @@
 package xyz.nietongxue.mindkit.source
 
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.XNode
 
 
 interface EditableSource : Source {

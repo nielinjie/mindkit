@@ -1,14 +1,3 @@
-import com.beust.klaxon.JsonArray
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Parser
-import xyz.nietongxue.mindkit.io.XMindFile
-import xyz.nietongxue.mindkit.model.MindMap
-import xyz.nietongxue.mindkit.view.ViewNode
-import org.jtwig.JtwigModel
-import org.jtwig.JtwigTemplate
-
-
-
 fun main(args: Array<String>){
 //    val xMindFile= XMindFile("./ppt.xmind")
 //    val json = Parser().parse(xMindFile.content()!!) as JsonArray<JsonObject>

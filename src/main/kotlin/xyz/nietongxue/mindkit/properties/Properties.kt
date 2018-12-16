@@ -4,11 +4,10 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.Parent
 import javafx.scene.layout.VBox
 import tornadofx.*
-import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.application.AppController
+import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 interface Properties {

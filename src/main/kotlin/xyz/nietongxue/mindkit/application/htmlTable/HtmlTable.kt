@@ -46,12 +46,12 @@ object HtmlTable : AppDescriptor {
 
 class TableAppController : AppController {
     val resultTextP = SimpleStringProperty()
-    var resultText by resultTextP
+    var resultText: String by resultTextP
     override fun process(node: Node) {
         runAsync {
             this@TableAppController.function?.process(node)
         } ui {
-            resultText = it
+            resultText = it ?: ""
         }
     }
 

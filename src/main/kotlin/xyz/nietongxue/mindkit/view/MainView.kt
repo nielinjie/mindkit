@@ -1,7 +1,6 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.scene.control.SplitPane
-import jfxtras.styles.jmetro8.JMetro
 import tornadofx.App
 import tornadofx.View
 import tornadofx.launch
@@ -24,11 +23,11 @@ class MainView : View() {
     }
 
     override fun onUndock() {
-        config.set("width",this.currentWindow?.width?.toString())
-        config.set("height",this.currentWindow?.height?.toString())
+        config["width"] = this.currentWindow?.width?.toString()
+        config["height"] = this.currentWindow?.height?.toString()
 
-        config.set("left",this.currentWindow?.x?.toString())
-        config.set("top",this.currentWindow?.y?.toString())
+        config["left"] = this.currentWindow?.x?.toString()
+        config["top"] = this.currentWindow?.y?.toString()
         config.save()
         super.onUndock()
     }

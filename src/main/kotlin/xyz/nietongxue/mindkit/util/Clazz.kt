@@ -1,7 +1,6 @@
 package xyz.nietongxue.mindkit.util
 
 import org.reflections.Reflections
-import xyz.nietongxue.mindkit.application.AppDescriptor
 import kotlin.reflect.KClass
 
 

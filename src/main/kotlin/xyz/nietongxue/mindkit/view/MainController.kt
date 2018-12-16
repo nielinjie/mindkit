@@ -1,10 +1,12 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.*
+import tornadofx.Controller
+import tornadofx.getValue
+import tornadofx.onChange
+import tornadofx.setValue
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.XNode
 
 class MainController : Controller() {
     val selectedNodeP = SimpleObjectProperty<Node?>(null)
