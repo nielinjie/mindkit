@@ -13,7 +13,6 @@ data class Position(val deep: Int, val childrenCount: Int, val descendantsCount:
 
     companion object {
         //TODO deep没有实现，
-        //TODO 是否要一个始终的repository是个问题。所以root也没有定义好。deep也没有定义好。
         fun fromNode(node: Node, deep: Int = 0): Position {
             var re = Position(deep, 0, 0)
             node.children.forEach {

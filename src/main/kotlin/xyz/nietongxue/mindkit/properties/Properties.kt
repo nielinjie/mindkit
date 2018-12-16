@@ -63,8 +63,7 @@ object PropertiesApp : AppDescriptor {
                         }
                     }
 
-                    //TODO 真正要做的是某些功能，比如收藏，直接影响Repository的结构。
-                    //TODO 一个list，提供了repository的一些节点，比如root、收藏、可能的app节点、某些类型的局部根（比如一个表，一篇文章，一个xx类型的文件）
+                    //TODO Action 机制，提示在此节点，或者此节点"附近"可以做点啥。
                 }
             }
 
