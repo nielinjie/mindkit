@@ -42,7 +42,7 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source {
         //TODO 只实现了flat是true
         assert(flat)
         return File(path).walk().filter {
-            //TODO 实现根据文件内容选择不同的sourceß
+            //TODO 实现根据文件内容选择不同的source
              it.isFile && it.extension == "xmind"
         }.map {
             XMindSource(it.path)

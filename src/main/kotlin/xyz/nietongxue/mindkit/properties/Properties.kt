@@ -9,17 +9,16 @@ import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.XNode
+import xyz.nietongxue.mindkit.util.scanForInstance
 
-interface Properties{
-    fun fieldSet(nodeP:SimpleObjectProperty<Node>):List<Fieldset>
+interface Properties {
+    fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset>
+
     companion object {
-        fun pros(nodeP:SimpleObjectProperty<Node>):List<Fieldset> =
-                //TODO 扫描得到所有的properties描述
-                listOf(XMindProperties
-                        ,PositionProperties,SourceProperties)
-                        .flatMap {
-            it.fieldSet(nodeP)
-        }
+        fun pros(nodeP: SimpleObjectProperty<Node>): List<Fieldset> =
+                scanForInstance(Properties::class).flatMap {
+                    it.fieldSet(nodeP)
+                }
     }
 }
 
