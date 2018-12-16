@@ -46,3 +46,20 @@ object PositionProperties : Properties {
 }
 
 
+object SourceProperties : Properties {
+    override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
+        val re =
+                Fieldset("来源信息")
+        with(re) {
+            field("来源") {
+                //TODO wrap 没有起作用
+                label(nodeP.stringBinding { it?.source?.description ?: "（不明）"}){
+                    isWrapText = true
+                }
+            }
+        }
+        return listOf(re)
+
+    }
+}
+

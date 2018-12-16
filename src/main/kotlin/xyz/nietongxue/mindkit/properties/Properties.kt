@@ -14,7 +14,10 @@ interface Properties{
     fun fieldSet(nodeP:SimpleObjectProperty<Node>):List<Fieldset>
     companion object {
         fun pros(nodeP:SimpleObjectProperty<Node>):List<Fieldset> =
-                listOf(XMindProperties,PositionProperties).flatMap {
+                //TODO 扫描得到所有的properties描述
+                listOf(XMindProperties
+                        ,PositionProperties,SourceProperties)
+                        .flatMap {
             it.fieldSet(nodeP)
         }
     }
