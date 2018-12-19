@@ -64,6 +64,7 @@ class TableAppController : AppController {
             with(root) {
                 vboxConstraints {
                     this.vGrow = Priority.ALWAYS
+
                 }
                 splitpane {
                     vboxConstraints {
