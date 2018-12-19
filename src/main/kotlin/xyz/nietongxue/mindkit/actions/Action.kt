@@ -8,17 +8,33 @@ import xyz.nietongxue.mindkit.util.scanForInstance
 
 
 interface ActionDescriptor {
-    fun actions(node: Node):List<Action>
+    fun actions(node: Node): List<Action>
+
     companion object {
-        fun actions(node:Node):List<Action>{
+        fun actions(node: Node): List<Action> {
             return scanForInstance(ActionDescriptor::class).flatMap { it.actions(node) }
         }
     }
 }
 
-interface Action{
-    val brief:String
-    val description:String
+interface Action {
+    val brief: String
+    val description: String
     //TODO 定义运行些啥
     fun action()
+}
+
+object GeneralActions : ActionDescriptor {
+    override fun actions(node: Node): List<Action> {
+        return listOf(object : Action {
+            override val brief: String = "收"
+            override val description: String
+                get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
+            override fun action() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+    }
+
 }
