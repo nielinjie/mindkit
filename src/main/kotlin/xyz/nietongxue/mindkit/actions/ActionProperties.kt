@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.properties.Properties
+import xyz.nietongxue.mindkit.util.Global
 import xyz.nietongxue.mindkit.util.Priority
 
 
@@ -16,7 +17,17 @@ object ActionProperties : Properties {
                 field(it.description) {
                     hyperlink(it.brief) {
                         action {
-                            it.action()
+                            //setup action view
+                            it.view(nodeP.value)?.also { p ->
+                                //TODO 复用tab
+                                Global.tabPane?.tab("结果").apply {
+                                    this?.apply{
+                                        add(p)
+                                    }
+                                }
+                            }
+                            //
+                            it.action(nodeP.value)
                         }
                     }
                 }

@@ -1,5 +1,8 @@
 package xyz.nietongxue.mindkit.actions
 
+import javafx.scene.Parent
+import javafx.scene.layout.VBox
+import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.scanForInstance
 
@@ -24,15 +27,19 @@ interface Action {
     val brief: String
     val description: String
     //TODO 定义运行些啥
-    fun action()
+    fun action(node:Node)
+    fun view(node:Node): Parent?
 }
 
 object GeneralActions : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
         return listOf(object : Action {
+            override fun view(node: Node): Parent? = VBox().apply{
+                label(node.title)
+            }
             override val brief: String = "收藏"
             override val description: String = "收藏节点的来源"
-            override fun action() {
+            override fun action(node:Node) {
                 println("shocang")
             }
         })
