@@ -12,7 +12,10 @@ interface ActionDescriptor {
 
     companion object {
         fun actions(node: Node): List<Action> {
-            return scanForInstance(ActionDescriptor::class).flatMap { it.actions(node) }
+            return scanForInstance(ActionDescriptor::class)
+                    .flatMap {
+                        it.actions(node)
+                    }
         }
     }
 }
@@ -27,12 +30,10 @@ interface Action {
 object GeneralActions : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
         return listOf(object : Action {
-            override val brief: String = "收"
-            override val description: String
-                get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-
+            override val brief: String = "收藏"
+            override val description: String = "收藏节点的来源"
             override fun action() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                println("shocang")
             }
         })
     }
