@@ -5,19 +5,23 @@ import tornadofx.App
 import tornadofx.View
 import tornadofx.launch
 import tornadofx.plusAssign
+import xyz.nietongxue.mindkit.util.Global
 
 
 class MainView : View() {
     override val root = SplitPane()
     val sourceView: SourceView by inject()
     val functionsView: FunctionsView by inject()
+    val actionView: ActionView by inject()
 
     init {
 //        JMetro(JMetro.Style.LIGHT).applyTheme(root)
+        Global.resultPane = actionView.resultPanel
         with(root) {
             this += sourceView.root
             //中间处理比如templates
             this += functionsView.root
+            this += actionView.root
         }
 
     }

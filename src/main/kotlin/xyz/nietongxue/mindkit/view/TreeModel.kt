@@ -9,6 +9,7 @@ class TreeModel {
 
     fun mount(sources: List<Source>) {
         sources.forEach {
+            //TODO mount的调用需要放到runAsync里面去。
             it.mount(root.node).forEach {
                 runAsync {
                     val mounting = it

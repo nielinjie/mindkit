@@ -1,30 +1,19 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.beans.property.SimpleObjectProperty
-import javafx.event.ActionEvent
-import javafx.event.EventHandler
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
-import javafx.util.StringConverter
 import tornadofx.View
-import tornadofx.combobox
 import tornadofx.vboxConstraints
-import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.model.Function
+import xyz.nietongxue.mindkit.properties.PropertiesApp
 
 class FunctionsView : View() {
     override val root = VBox()
-    //    val processors: Processors = Processors()
     val mainController: MainController by inject()
 
     val appView = VBox()
-    val functionToApp: Map<Function, AppDescriptor> =
-            AppDescriptor.all.flatMap { appD: AppDescriptor ->
-                appD.providedFunctions.map {
-                    it to appD
-                }
-            }.toMap()
-    val selectedProcessorP = SimpleObjectProperty<Function>(functionToApp.toList()[0].first)
+    val selectedProcessorP = SimpleObjectProperty<Function>(PropertiesApp.providedFunctions.first())
 
 
     init {
@@ -32,52 +21,27 @@ class FunctionsView : View() {
             vboxConstraints {
                 this.vGrow = Priority.ALWAYS
             }
-            combobox(selectedProcessorP, functionToApp.toList().map { it.first }) {
-                isEditable = false
-                this.onAction = EventHandler<ActionEvent> {
-                    with(this.value) {
-                        val app = setupView(this)
-                        app.appController.function = this
-                        mainController.processorAppController = app.appController
-                        mainController.function = this
-                    }
-                }
-                this.converter = object : StringConverter<Function>() {
-                    override fun toString(`object`: Function?): String {
-                        return `object`?.brief!!
-                    }
 
-                    override fun fromString(string: String?): Function {
-                        throw IllegalStateException("do not run to here")
-                    }
 
-                }
-                with(this.value) {
-                    val app = setupView(this)
-                    app.appController.function = this
-                    mainController.processorAppController = app.appController
-                    mainController.function = this
-                }
-
+            selectedProcessorP.value.apply {
+                appView.children.clear()
+                val app = PropertiesApp
+                appView.add(app.appController.view)
+                app.appController.function = this
+                mainController.processorAppController = app.appController
             }
-            with(appView){
+//
+//            }
+            with(appView) {
 
-                    vboxConstraints {
-                        this.vGrow = Priority.ALWAYS
-                    }
+                vboxConstraints {
+                    this.vGrow = Priority.ALWAYS
+                }
             }
             this.add(appView)
         }
 
 
-
     }
 
-    private fun setupView(function: Function): AppDescriptor {
-        appView.children.clear()
-        val app = this.functionToApp[function]!!
-        appView.add(app.appController.view)
-        //TODO 这个不是setupView的职责
-        return app
-    }
 }

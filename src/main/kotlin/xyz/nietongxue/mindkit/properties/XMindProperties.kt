@@ -9,20 +9,16 @@ import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.XNode
 
 object XMindProperties : Properties {
-    override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
-        return if(nodeP.value is XNode){
-            val re = Fieldset("XMind信息")
-            with(re){
-                field ("Title"){
-                    label(nodeP.stringBinding{it?.title})
-                }
+    override fun fieldSet(nodeP: SimpleObjectProperty<Node>) =
+            if (nodeP.value is XNode) {
+                listOf(Fieldset("XMind信息")
+                        .apply {
+                            field("Title") {
+                                label(nodeP.stringBinding { it?.title })
+                            }
+                        }
+                )
+            } else {
+                emptyList()
             }
-            listOf(
-                    re
-            )
-        }
-        else{
-            emptyList()
-        }
-    }
 }

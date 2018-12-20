@@ -10,6 +10,7 @@ import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.XNode
 import xyz.nietongxue.mindkit.util.Clipboard
+import xyz.nietongxue.mindkit.util.defaultPadding
 import xyz.nietongxue.mindkit.util.toHtml
 import java.lang.IllegalStateException
 
@@ -62,8 +63,10 @@ class TableAppController : AppController {
 
         init {
             with(root) {
+                defaultPadding()
                 vboxConstraints {
                     this.vGrow = Priority.ALWAYS
+
                 }
                 splitpane {
                     vboxConstraints {

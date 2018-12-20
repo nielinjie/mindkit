@@ -26,6 +26,10 @@ data class XNode(override val id: String,
     //TODO marker可能需要抽象，非xmind的source对应为啥？
     //TODO marker是提示应用app的东西之一
 
+    //TODO 图
+    //TODO 独立节点
+    //TODO 多sheet
+
     companion object {
         fun fromJson(json: JsonObject,source: Source): XNode {
             val children: JsonArray<JsonObject> = (json["children"] as JsonObject?)?.array("attached") ?: JsonArray()
