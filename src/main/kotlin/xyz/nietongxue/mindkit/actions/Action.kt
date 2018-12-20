@@ -4,6 +4,7 @@ import javafx.scene.Parent
 import javafx.scene.layout.VBox
 import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 //TODO 可以替代function？
@@ -31,6 +32,7 @@ interface Action {
     fun view(node:Node): Parent?
 }
 
+@Priority(-1)
 object GeneralActions : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
         return listOf(object : Action {

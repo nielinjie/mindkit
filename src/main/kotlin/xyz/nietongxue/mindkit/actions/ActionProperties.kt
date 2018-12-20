@@ -18,12 +18,10 @@ object ActionProperties : Properties {
                     hyperlink(it.brief) {
                         action {
                             //setup action view
-                            it.view(nodeP.value)?.also { p ->
-                                //TODO 复用tab
-                                Global.tabPane?.tab("结果").apply {
-                                    this?.apply{
-                                        add(p)
-                                    }
+                            it.view(nodeP.value)?.also { view ->
+                                //TODO 复用tab ?
+                                Global.tabPane?.tab("结果")?.apply {
+                                    add(view)
                                 }
                             }
                             //
