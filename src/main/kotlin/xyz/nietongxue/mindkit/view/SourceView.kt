@@ -38,8 +38,6 @@ class SourceView : View() {
     init {
 
 
-
-
         with(popoverContent) {
             defaultPadding()
             combobox(favoriteP, Favorites.all) {
@@ -70,15 +68,13 @@ class SourceView : View() {
             }
         }
 
-        val popover = PopOver(popoverContent).apply{
+        val popover = PopOver(popoverContent).apply {
             this.arrowLocation = PopOver.ArrowLocation.TOP_LEFT
         }
         with(root) {
             defaultPadding()
-            HyperlinkLabel().apply {
-                text = ("[收藏]")
-                onAction = EventHandler<ActionEvent> { popover.show(this@apply) }
-                this@with.add(this)
+            hyperlink("收藏") {
+                action { popover.show(this) }
             }
 
             scrollpane {
