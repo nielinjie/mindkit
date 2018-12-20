@@ -19,7 +19,6 @@ object ActionProperties : Properties {
                         action {
                             //setup action view
                             it.view(nodeP.value)?.also { view ->
-                                //TODO 复用tab ?
                                 Global.resultPane?.apply {
                                     children.clear()
                                     add(view)

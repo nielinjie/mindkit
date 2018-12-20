@@ -37,11 +37,12 @@ object GeneralActions : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
         return listOf(object : Action {
             override fun view(node: Node): Parent? = VBox().apply{
-                label(node.title)
+                label(node.title +" - 节点的来源已被加入收藏。")
             }
             override val brief: String = "收藏"
             override val description: String = "收藏节点的来源"
             override fun action(node:Node) {
+                //TODO 实现收藏
                 println("shocang")
             }
         })
