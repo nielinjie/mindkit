@@ -8,6 +8,7 @@ import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.application.AppDescriptor
 import xyz.nietongxue.mindkit.model.Function
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 interface Properties {
@@ -20,7 +21,7 @@ interface Properties {
                 }
     }
 }
-
+@Priority(10000)
 object PropertiesApp : AppDescriptor {
     override val name: String = "Properties"
     override val description: String = "Properties of node"

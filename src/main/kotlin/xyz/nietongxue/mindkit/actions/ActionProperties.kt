@@ -4,28 +4,32 @@ import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.properties.Properties
+import xyz.nietongxue.mindkit.util.Global
+import xyz.nietongxue.mindkit.util.Priority
 
 
-
-object ActionProperties : Properties{
+@Priority(value = -100)
+object ActionProperties : Properties {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
-        val actions:List<Action> = emptyList()//
-
-        val re =
-                Fieldset("Action信息")
-        with(re) {
+        val actions: List<Action> = ActionDescriptor.actions(nodeP.value)
+        return listOf(Fieldset("Action信息").apply {
             actions.forEach {
                 field(it.description) {
-                    button(it.brief){
-                        action{
-                            it.action()
+                    hyperlink(it.brief) {
+                        action {
+                            //setup action view
+                            it.view(nodeP.value)?.also { view ->
+                                Global.resultPane?.apply {
+                                    children.clear()
+                                    add(view)
+                                }
+                            }
+                            //
+                            it.action(nodeP.value)
                         }
                     }
                 }
             }
-
-        }
-        return listOf(re)
+        })
     }
-
 }

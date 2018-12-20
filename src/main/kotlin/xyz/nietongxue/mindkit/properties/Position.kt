@@ -6,6 +6,7 @@ import tornadofx.field
 import tornadofx.label
 import tornadofx.stringBinding
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.util.Priority
 
 
 data class Position(val deep: Int, val childrenCount: Int, val descendantsCount: Int) {
@@ -25,7 +26,7 @@ data class Position(val deep: Int, val childrenCount: Int, val descendantsCount:
 
     }
 }
-
+@Priority(-10)
 object PositionProperties : Properties {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
         val re =
@@ -46,7 +47,7 @@ object PositionProperties : Properties {
     }
 }
 
-
+@Priority(-5)
 object SourceProperties : Properties {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
         val re =

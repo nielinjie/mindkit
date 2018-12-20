@@ -1,17 +1,17 @@
 <!-- $theme: gaia -->
 
 
-{{XNode.title}}
+{{node.title}}
 ====
 
 ---
-# {{XNode.title}}
-{%for c1 in XNode.children%}
+# {{node.title}}
+{%for c1 in node.children%}
 - {{c1.title}}
 {%endfor%}
 ---
 
-{%for c1 in XNode.children%}
+{%for c1 in node.children%}
 # {{c1.title}}
 
 ---
