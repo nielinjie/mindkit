@@ -20,7 +20,8 @@ object ActionProperties : Properties {
                             //setup action view
                             it.view(nodeP.value)?.also { view ->
                                 //TODO 复用tab ?
-                                Global.tabPane?.tab("结果")?.apply {
+                                Global.resultPane?.apply {
+                                    children.clear()
                                     add(view)
                                 }
                             }

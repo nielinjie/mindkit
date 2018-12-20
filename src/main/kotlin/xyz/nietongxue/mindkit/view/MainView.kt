@@ -16,7 +16,7 @@ class MainView : View() {
 
     init {
 //        JMetro(JMetro.Style.LIGHT).applyTheme(root)
-        Global.tabPane = actionView.tabP
+        Global.resultPane = actionView.resultPanel
         with(root) {
             this += sourceView.root
             //中间处理比如templates

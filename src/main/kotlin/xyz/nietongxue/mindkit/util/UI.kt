@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.util
 import javafx.scene.control.TabPane
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
+import javafx.scene.layout.Pane
 
 object Clipboard {
 
@@ -22,5 +23,5 @@ object Clipboard {
 
 object Global {
     //TODO 这个实现丑陋吧？
-    var tabPane:TabPane? = null
+    var resultPane: Pane? = null
 }
