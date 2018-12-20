@@ -19,7 +19,7 @@ interface AppDescriptor {
 
             //nonApp好像在filterNotNull的时候被滤掉了。
             //应该是因为object：AppDescriptor这种形式不会产生kotlin object，而是产生一个class
-            return@lazy scanForInstance(AppDescriptor::class).sortedByDescending { it == PropertiesApp }
+            return@lazy scanForInstance(AppDescriptor::class)
         }
 
 
