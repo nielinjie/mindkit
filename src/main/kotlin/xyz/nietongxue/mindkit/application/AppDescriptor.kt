@@ -1,7 +1,7 @@
 package xyz.nietongxue.mindkit.application
 
 import tornadofx.View
-import xyz.nietongxue.mindkit.application.xmind.Node
+import xyz.nietongxue.mindkit.model.Node
 
 
 //整理app概念。除了properties，其他都是action，不是app。

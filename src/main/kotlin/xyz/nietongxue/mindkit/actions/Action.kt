@@ -1,7 +1,7 @@
 package xyz.nietongxue.mindkit.actions
 
 import javafx.scene.Parent
-import xyz.nietongxue.mindkit.application.xmind.Node
+import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 

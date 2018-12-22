@@ -3,7 +3,7 @@ package xyz.nietongxue.mindkit.application.marpPPT
 import javafx.scene.layout.VBox
 import tornadofx.View
 import tornadofx.plusAssign
-import xyz.nietongxue.mindkit.application.xmind.Node
+import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.defaultPadding
 
 class ProcessView : View() {

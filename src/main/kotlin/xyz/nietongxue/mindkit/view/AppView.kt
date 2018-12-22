@@ -6,7 +6,7 @@ import tornadofx.View
 import tornadofx.vboxConstraints
 import xyz.nietongxue.mindkit.properties.PropertiesApp
 
-class FunctionsView : View() {
+class AppView : View() {
     override val root = VBox()
     val mainController: MainController by inject()
 

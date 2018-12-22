@@ -4,16 +4,10 @@ import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.JsonValue
 import com.beust.klaxon.lookup
+import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.Source
 
 
-interface Node{
-    val id: String
-    val title: String
-    val children: ArrayList<Node>
-    //TODO 想下是否要耦合node和source
-    val source: Source
-}
 
 data class XNode(override val id: String,
                  override val title: String,

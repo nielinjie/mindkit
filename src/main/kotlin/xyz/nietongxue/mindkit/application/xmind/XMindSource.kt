@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.application.xmind
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
+import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.Mounting
 import xyz.nietongxue.mindkit.source.Source
 

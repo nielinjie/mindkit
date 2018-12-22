@@ -1,8 +1,8 @@
 package xyz.nietongxue.mindkit.model
 
+import xyz.nietongxue.mindkit.application.xmind.XMindFavorite
 import xyz.nietongxue.mindkit.source.FolderSource
 import xyz.nietongxue.mindkit.source.Source
-import xyz.nietongxue.mindkit.application.xmind.XMindSource
 
 
 interface Favorite {
@@ -13,13 +13,6 @@ interface Favorite {
     val name: String
 }
 
-data class XMindFavorite(val path: String) : Favorite {
-    override fun sources(): List<Source> {
-        return listOf(XMindSource(path))
-    }
-
-    override val name = "XMind - $path"
-}
 data class FolderFavorite(val path: String) : Favorite {
     override fun sources(): List<Source> {
         return listOf(FolderSource(path))

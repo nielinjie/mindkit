@@ -2,7 +2,7 @@ package xyz.nietongxue.mindkit.actions
 
 import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
-import xyz.nietongxue.mindkit.application.xmind.Node
+import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.properties.Properties
 import xyz.nietongxue.mindkit.util.Global
 import xyz.nietongxue.mindkit.util.Priority
