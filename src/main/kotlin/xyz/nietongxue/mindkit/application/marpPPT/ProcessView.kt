@@ -1,10 +1,8 @@
 package xyz.nietongxue.mindkit.application.marpPPT
 
-import javafx.scene.control.SplitPane
-import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
-import tornadofx.*
-import xyz.nietongxue.mindkit.application.Function
+import tornadofx.View
+import tornadofx.plusAssign
 import xyz.nietongxue.mindkit.application.xmind.Node
 import xyz.nietongxue.mindkit.util.defaultPadding
 
@@ -16,11 +14,7 @@ class ProcessView : View() {
         controller.process(node)
     }
 
-    var function: Function?
-        get() = controller.function
-        set(value) {
-            controller.function = value
-        }
+
 
 
     override val root = VBox()
