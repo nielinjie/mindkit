@@ -56,7 +56,6 @@ object PropertiesApp : AppDescriptor {
                         }
                     }
 
-                    //TODO Action 机制，提示在此节点，或者此节点"附近"可以做点啥。
                 }
             }
 

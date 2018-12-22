@@ -7,8 +7,7 @@ import xyz.nietongxue.mindkit.io.XMindFile
 import xyz.nietongxue.mindkit.model.MindMap
 import xyz.nietongxue.mindkit.model.Node
 
-//TODO 不同的source跟不同的app有没有什么关系。
-//TODO 应该没有，app可能会统一到action机制。
+
 class XMindSource(val path: String) : Source {
     override val description: String = "来自于XMind文件 - $path"
 

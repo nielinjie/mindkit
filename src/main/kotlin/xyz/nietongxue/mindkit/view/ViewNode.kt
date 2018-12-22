@@ -18,7 +18,6 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             }), deep + 1)
         }
 
-        //TODO empty node
         val emptyRoot = ViewNode.fromNode(object : Node {
             override val id: String = "_root"
             override val title: String = "/"
@@ -31,8 +30,9 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     }
 
     fun findNode(node: Node): ViewNode? {
-        //TODO 按值寻找
-        return if (this.node == node)
+        //按值寻找
+        return if (this.node.id
+                == node.id)
             this
         else
             this.children.firstNotNullResult { it.findNode(node) }
