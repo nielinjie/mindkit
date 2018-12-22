@@ -1,8 +1,8 @@
 package xyz.nietongxue.mindkit.application.marpPPT
 
 import tornadofx.find
-import xyz.nietongxue.mindkit.model.Function
-import xyz.nietongxue.mindkit.model.TemplateFunction
+import xyz.nietongxue.mindkit.application.Function
+import xyz.nietongxue.mindkit.application.TemplateFunction
 
 object MarpPPT {
      val providedFunctions: List<Function> by lazy{

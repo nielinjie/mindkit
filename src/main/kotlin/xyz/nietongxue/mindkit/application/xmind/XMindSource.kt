@@ -1,11 +1,10 @@
-package xyz.nietongxue.mindkit.source
+package xyz.nietongxue.mindkit.application.xmind
 
 import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
-import xyz.nietongxue.mindkit.io.XMindFile
-import xyz.nietongxue.mindkit.model.MindMap
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.source.Mounting
+import xyz.nietongxue.mindkit.source.Source
 
 
 class XMindSource(val path: String) : Source {

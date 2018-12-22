@@ -1,6 +1,7 @@
 package xyz.nietongxue.mindkit.source
 
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.application.xmind.Node
+import xyz.nietongxue.mindkit.application.xmind.XMindSource
 import java.io.File
 
 //TODO 一个目录作为home（repository）

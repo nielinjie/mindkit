@@ -3,7 +3,7 @@ package xyz.nietongxue.mindkit.actions
 import javafx.scene.Parent
 import javafx.scene.layout.VBox
 import tornadofx.label
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.application.xmind.Node
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.defaultPadding
 

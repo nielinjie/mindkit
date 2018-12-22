@@ -3,8 +3,8 @@ package xyz.nietongxue.mindkit.application.marpPPT
 import javafx.scene.control.SplitPane
 import javafx.scene.layout.Priority
 import tornadofx.*
-import xyz.nietongxue.mindkit.model.Function
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.application.Function
+import xyz.nietongxue.mindkit.application.xmind.Node
 
 class ProcessView : View() {
     val view: View

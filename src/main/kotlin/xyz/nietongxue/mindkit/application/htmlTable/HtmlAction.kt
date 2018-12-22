@@ -3,8 +3,8 @@ package xyz.nietongxue.mindkit.application.htmlTable
 import javafx.scene.Parent
 import xyz.nietongxue.mindkit.actions.Action
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
-import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.model.XNode
+import xyz.nietongxue.mindkit.application.xmind.Node
+import xyz.nietongxue.mindkit.application.xmind.XNode
 import xyz.nietongxue.mindkit.util.toHtml
 
 

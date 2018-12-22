@@ -4,7 +4,7 @@ import javafx.scene.Parent
 import xyz.nietongxue.mindkit.actions.Action
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.application.marpPPT.MarpPPT.providedFunctions
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.application.xmind.Node
 
 object MarpPPTAction : ActionDescriptor {
     override fun actions(node: Node): List<Action> {

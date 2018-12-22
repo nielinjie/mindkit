@@ -5,7 +5,7 @@ import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.View
 import tornadofx.vboxConstraints
-import xyz.nietongxue.mindkit.model.Function
+import xyz.nietongxue.mindkit.application.Function
 import xyz.nietongxue.mindkit.properties.PropertiesApp
 
 class FunctionsView : View() {

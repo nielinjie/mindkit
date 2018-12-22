@@ -6,8 +6,7 @@ import tornadofx.getValue
 import tornadofx.onChange
 import tornadofx.setValue
 import xyz.nietongxue.mindkit.application.AppController
-import xyz.nietongxue.mindkit.model.Function
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.application.xmind.Node
 
 class MainController : Controller() {
     val selectedNodeP = SimpleObjectProperty<Node?>(null)

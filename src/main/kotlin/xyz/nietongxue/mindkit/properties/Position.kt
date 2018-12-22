@@ -5,7 +5,7 @@ import tornadofx.Fieldset
 import tornadofx.field
 import tornadofx.label
 import tornadofx.stringBinding
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.application.xmind.Node
 import xyz.nietongxue.mindkit.util.Priority
 
 

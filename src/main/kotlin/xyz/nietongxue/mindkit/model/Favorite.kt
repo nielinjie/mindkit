@@ -2,7 +2,7 @@ package xyz.nietongxue.mindkit.model
 
 import xyz.nietongxue.mindkit.source.FolderSource
 import xyz.nietongxue.mindkit.source.Source
-import xyz.nietongxue.mindkit.source.XMindSource
+import xyz.nietongxue.mindkit.application.xmind.XMindSource
 
 
 interface Favorite {

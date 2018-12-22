@@ -6,7 +6,7 @@ import com.beust.klaxon.Klaxon
 import com.beust.klaxon.PathMatcher
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import xyz.nietongxue.mindkit.model.XNode
+import xyz.nietongxue.mindkit.application.xmind.XNode
 import xyz.nietongxue.mindkit.util.toHtml
 import java.util.regex.Pattern
 

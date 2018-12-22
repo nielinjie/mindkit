@@ -1,4 +1,4 @@
-package xyz.nietongxue.mindkit.io
+package xyz.nietongxue.mindkit.application.xmind
 
 import java.io.InputStream
 import java.util.zip.ZipFile

@@ -5,7 +5,7 @@ import kotlinx.html.span
 import kotlinx.html.stream.appendHTML
 import kotlinx.html.ul
 import kotlinx.html.unsafe
-import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.application.xmind.Node
 
 fun Node.toHtml(): String {
     return buildString {
