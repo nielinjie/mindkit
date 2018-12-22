@@ -4,8 +4,6 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
-import xyz.nietongxue.mindkit.application.Function
-import xyz.nietongxue.mindkit.application.xmind.Node
 import xyz.nietongxue.mindkit.util.Clipboard
 import xyz.nietongxue.mindkit.util.defaultPadding
 
@@ -21,15 +19,8 @@ object HtmlTable  {
 class TableAppController  {
     val resultTextP = SimpleStringProperty()
     var resultText: String by resultTextP
-    fun process(node: Node) {
-        runAsync {
-            this@TableAppController.function?.process(node)
-        } ui {
-            resultText = it ?: ""
-        }
-    }
 
-    var function: Function? = null
+
 
     val view: View = object : View() {
         override val root: VBox = VBox()

@@ -3,7 +3,7 @@ package xyz.nietongxue.mindkit.application.marpPPT
 import javafx.scene.Parent
 import xyz.nietongxue.mindkit.actions.Action
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
-import xyz.nietongxue.mindkit.application.marpPPT.MarpPPT.providedFunctions
+import xyz.nietongxue.mindkit.application.TemplateFunction
 import xyz.nietongxue.mindkit.application.xmind.Node
 
 object MarpPPTAction : ActionDescriptor {
@@ -15,7 +15,7 @@ object MarpPPTAction : ActionDescriptor {
                     override val description: String = "生成Marp兼容的Markdown，以便生成PPT"
 
                     override fun action(node: Node) {
-                        con.controller.function = providedFunctions.first()
+                        con.controller.function =  object : TemplateFunction(MarpPPTAction::class.java.getResource("/marpSlide.twig").readText()){}
                         con.process(node)
                     }
 

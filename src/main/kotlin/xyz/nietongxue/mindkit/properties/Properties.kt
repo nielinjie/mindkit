@@ -5,7 +5,6 @@ import javafx.scene.Parent
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.AppController
-import xyz.nietongxue.mindkit.application.Function
 import xyz.nietongxue.mindkit.application.xmind.Node
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.scanForInstance
@@ -22,19 +21,6 @@ interface Properties {
 }
 @Priority(10000)
 object PropertiesApp  {
-     val providedFunctions: List<Function> = listOf(
-            object : Function {
-                override fun process(node: Node): String {
-                    //TODO 可以什么都不干？那么这个函数是不是应该从相关interface里面去除？
-                    return ""
-                }
-
-                override val brief: String = "Properties"
-                override val description: String = "Properties of node"
-            }
-    )
-    val name: String = "Properties"
-    val description: String = "Properties of node"
 
     val appController = object :AppController {
 
@@ -45,12 +31,12 @@ object PropertiesApp  {
             view.rebuild()
         }
 
-       override var function: Function? = null
        override  val view = object : View() {
             fun rebuild() {
                 (root as VBox).clear()
                 with(root) {
                     form {
+                        //TODO 性能优化，这里会失去响应一段事件，可能是class scan比较慢
                         Properties.pros(nodeP).forEach {
                             this@form.add(it)
                         }
@@ -60,11 +46,6 @@ object PropertiesApp  {
             }
 
             override val root: Parent = VBox()
-
-            init {
-
-            }
-
         }
 
     }

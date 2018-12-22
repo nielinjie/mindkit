@@ -6,9 +6,7 @@ import kotlin.reflect.full.findAnnotation
 
 
 fun <T : Any> scanForInstance(clazz: KClass<T>, prefix: String = "xyz.nietongxue.mindkit"): List<T> {
-    val reflections = Reflections(prefix)
-    val descriptors = reflections.getSubTypesOf(clazz.java)
-    return descriptors.map {
+    return Reflections(prefix).getSubTypesOf(clazz.java).map {
         it.kotlin.objectInstance ?: it.newInstance()
     }.toList().filterNotNull().sortedByDescending {
         it::class.findAnnotation<Priority>()?.let {

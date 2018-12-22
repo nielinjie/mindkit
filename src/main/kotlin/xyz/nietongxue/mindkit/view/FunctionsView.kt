@@ -1,11 +1,9 @@
 package xyz.nietongxue.mindkit.view
 
-import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.View
 import tornadofx.vboxConstraints
-import xyz.nietongxue.mindkit.application.Function
 import xyz.nietongxue.mindkit.properties.PropertiesApp
 
 class FunctionsView : View() {
@@ -14,7 +12,6 @@ class FunctionsView : View() {
 
     val appView = VBox()
     //TODO 目前写死了properties。
-    val selectedProcessorP = SimpleObjectProperty<Function>(PropertiesApp.providedFunctions.first())
 
 
     init {
@@ -24,15 +21,10 @@ class FunctionsView : View() {
             }
 
 
-            selectedProcessorP.value.apply {
-                appView.children.clear()
-                val app = PropertiesApp
-                appView.add(app.appController.view)
-                app.appController.function = this
-                mainController.processorAppController = app.appController
-            }
-//
-//            }
+            appView.children.clear()
+            val app = PropertiesApp
+            appView.add(app.appController.view)
+            mainController.processorAppController = app.appController
             with(appView) {
 
                 vboxConstraints {

@@ -11,6 +11,5 @@ import xyz.nietongxue.mindkit.application.xmind.Node
 interface AppController{
 
     fun process(node: Node)
-    var function: Function?
     val view:View
 }

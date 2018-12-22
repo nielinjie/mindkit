@@ -2,9 +2,11 @@ package xyz.nietongxue.mindkit.application.marpPPT
 
 import javafx.scene.control.SplitPane
 import javafx.scene.layout.Priority
+import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.application.Function
 import xyz.nietongxue.mindkit.application.xmind.Node
+import xyz.nietongxue.mindkit.util.defaultPadding
 
 class ProcessView : View() {
     val view: View
@@ -21,31 +23,13 @@ class ProcessView : View() {
         }
 
 
-    override val root = SplitPane()
+    override val root = VBox()
     val controller: ProcessController by inject()
     val resultView: ResultView by inject()
 
     init {
         with(root) {
-            vboxConstraints {
-                this.vGrow = Priority.ALWAYS
-            }
-            vbox {
-                vboxConstraints {
-                    this.vGrow = Priority.ALWAYS
-                }
-                scrollpane {
-                    isFitToHeight = true
-                    isFitToWidth = true
-                    vboxConstraints {
-                        this.vGrow = Priority.ALWAYS
-                    }
-                    text(controller.processorP.stringBinding {
-                        it?.description
-                    })
-                }
-
-            }
+            defaultPadding()
             this += resultView
         }
     }

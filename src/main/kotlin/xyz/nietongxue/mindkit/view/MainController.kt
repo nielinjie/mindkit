@@ -19,10 +19,6 @@ class MainController : Controller() {
         selectedNodeP.onChange {
             selectedNode?.also { processorAppController?.process(it) }
         }
-        processorControllerP.onChange {
-            selectedNode?.also { processorAppController?.process(it) }
-        }
-
     }
 
 
