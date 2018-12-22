@@ -1,4 +1,4 @@
-package xyz.nietongxue.mindkit.application
+package xyz.nietongxue.mindkit.util
 
 import org.jtwig.JtwigModel
 import org.jtwig.JtwigTemplate
