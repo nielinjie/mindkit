@@ -14,10 +14,10 @@ fun main(args: Array<String>){
     println(json.toJsonString(true))
     val mm = MindMap.fromJson(json,object: Source{
         override val description: String
-            get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+            get() = throw NotImplementedError("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
         override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
     })
     val view = ViewNode.fromNode(mm.sheets[0].root)
