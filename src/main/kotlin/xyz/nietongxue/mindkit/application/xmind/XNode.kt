@@ -6,6 +6,7 @@ import com.beust.klaxon.JsonValue
 import com.beust.klaxon.lookup
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.Source
+import java.io.InputStream
 
 
 data class XNode(override val id: String,
@@ -73,5 +74,16 @@ data class MindMap(val sheets: List<Sheet>) {
     }
 }
 
-data class Marker(val id: String)
+data class Marker(val id: String) {
+    fun inputStream(): InputStream {
+        //TODO 手动找到重要的marker，有"业务"意义的，其他的都找不到就用xx代替
+        return Marker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
+                + this.id.replace("-", "_")
+                + "@24@2x.png")
+                ?: Marker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
+                        + "symbol_wrong"
+                        + "@24@2x.png")
+    }
+}
+
 data class Image(val src: String, val type: String)

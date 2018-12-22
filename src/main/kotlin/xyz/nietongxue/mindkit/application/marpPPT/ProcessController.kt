@@ -12,7 +12,7 @@ class ProcessController : Controller() {
     var resultString: String by resultStringProperty
 
 
-    private var function: TemplateFunction = TemplateFunction(MarpPPTAction::class.java.getResource("/marpSlide.twig").readText())
+    private var function: TemplateFunction = TemplateFunction(MarpPPTAction::class.java.getResource("/xyz/nietongxue/mindkit/application/marpPPT/marpSlide.twig").readText())
 
     fun process(node: Node) {
         resultString = "running..."
