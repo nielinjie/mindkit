@@ -13,6 +13,7 @@ class FunctionsView : View() {
     val mainController: MainController by inject()
 
     val appView = VBox()
+    //TODO 目前写死了properties。
     val selectedProcessorP = SimpleObjectProperty<Function>(PropertiesApp.providedFunctions.first())
 
 
