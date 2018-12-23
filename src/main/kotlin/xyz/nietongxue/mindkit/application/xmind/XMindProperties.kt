@@ -24,7 +24,7 @@ object XMindProperties : Properties {
                         }
                         (node as? XNode)?.image?.also {
                             field("图像") {
-                                //TODO 是否有其他类型的image
+                                //TODO 是否有其他类型的image？
                                 (node.source as? XMindSource)?.xMindFile?.resource(it.src)?.also {
                                     imageview(javafx.scene.image.Image(it, 100.0, 100.0, true, true)) {
                                     }

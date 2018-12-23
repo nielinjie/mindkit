@@ -73,7 +73,7 @@ data class MindMap(val sheets: List<Sheet>) {
         }
     }
 }
-
+//TODO marker是一个比较重要的概念，可能用id是无法满足的，可能有分组，比如task类。
 data class Marker(val id: String) {
     fun inputStream(): InputStream {
         //TODO 手动找到重要的marker，有"业务"意义的，其他的都找不到就用xx代替
