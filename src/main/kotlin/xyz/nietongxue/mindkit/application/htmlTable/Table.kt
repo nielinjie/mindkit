@@ -82,13 +82,24 @@ class Table(val columns: List<String>, val rows: List<Pair<XNode, Map<String, Li
                             }
                             this@Table.columns.forEach {
                                 td {
-                                    row.second[it]?.forEach { node ->
-                                        p {
-                                            unsafe {
-                                                +node.toHtml()
+                                    if (row.second[it]?.size ?: 0 > 1)
+                                        ul {
+                                            row.second[it]?.forEach { node ->
+                                                li {
+                                                    unsafe {
+                                                        +node.toHtml()
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
+                                    else
+                                        row.second[it]?.forEach { node ->
+                                            p {
+                                                unsafe {
+                                                    +node.toHtml()
+                                                }
+                                            }
+                                        }
                                 }
                             }
                         }
