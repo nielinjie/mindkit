@@ -10,9 +10,9 @@ import xyz.nietongxue.mindkit.source.Source
 
 class XMindSource(val path: String) : Source {
     override val description: String = "来自于XMind文件 - $path"
+    val xMindFile = XMindFile(path)
 
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
-        val xMindFile = XMindFile(path)
 
 //        val watcher = FileWatcher(File(".")) { file: File, eventType: String ->
 //            println(file.path)
