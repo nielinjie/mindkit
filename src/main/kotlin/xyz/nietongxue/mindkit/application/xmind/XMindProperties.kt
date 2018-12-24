@@ -18,7 +18,7 @@ object XMindProperties : Properties {
                         field("Markers") {
                             node.markers.forEach {
                                 //TODO marker 图片最右边好像倍切掉一线
-                                imageview(Image(it.inputStream(),16.0,16.0,true,true)){
+                                imageview(Image(it.inputStream(),12.0,12.0,false,false)){
                                 }
                             }
                         }
