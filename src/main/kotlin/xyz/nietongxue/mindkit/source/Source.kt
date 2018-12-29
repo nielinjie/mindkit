@@ -17,7 +17,10 @@ interface Source {
     fun mount(tree: Node, mountPoint: Node = tree): List<Mounting>
     //NOTE 设计：由source负责去寻找其他source，比如一个文件夹source，他去寻找下面的文件对应的source。也就是composite机制在此不定义，由具体的source去定义。
 }
-
+object InternalSource: Source {
+    override val description: String = "内置"
+    override fun mount(tree: Node, mountPoint: Node): List<Mounting> = emptyList()
+}
 /**
 @flat 如果是true，表示不需要保留文件层次结构的node。
  */

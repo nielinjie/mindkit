@@ -4,6 +4,7 @@ import com.beust.klaxon.internal.firstNotNullResult
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.source.InternalSource
 import xyz.nietongxue.mindkit.source.Mounting
 import xyz.nietongxue.mindkit.source.Source
 
@@ -22,10 +23,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             override val id: String = "_root"
             override val title: String = "/"
             override val children: ArrayList<Node> = ArrayList()
-            override val source: Source = object : Source {
-                override val description: String = "内置"
-                override fun mount(tree: Node, mountPoint: Node): List<Mounting> = emptyList()
-            }
+            override val source: Source = InternalSource
         })
     }
 

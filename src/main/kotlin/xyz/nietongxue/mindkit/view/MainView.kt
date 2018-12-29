@@ -1,11 +1,11 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.scene.control.SplitPane
-import tornadofx.App
-import tornadofx.View
-import tornadofx.launch
-import tornadofx.plusAssign
+import tornadofx.*
+import xyz.nietongxue.mindkit.actions.ActionDescriptor
+import xyz.nietongxue.mindkit.properties.Properties
 import xyz.nietongxue.mindkit.util.Global
+import xyz.nietongxue.mindkit.util.scanForInstance
 
 
 class MainView : View() {
@@ -37,8 +37,8 @@ class MainView : View() {
     }
 
     override fun onDock() {
-        config.double("width")?.also{this.currentWindow?.width = it }
-        config.double("height")?.also{this.currentWindow?.height = it }
+        config.double("width")?.also { this.currentWindow?.width = it }
+        config.double("height")?.also { this.currentWindow?.height = it }
 
         config.double("left")?.also { this.currentWindow?.x = it }
         config.double("top")?.also { this.currentWindow?.y = it }
@@ -50,6 +50,12 @@ class MainView : View() {
 class MyApp : App() {
     override val primaryView = MainView::class
 
+    init {
+        runAsync {
+            scanForInstance(Properties::class)
+            scanForInstance(ActionDescriptor::class)
+        }
+    }
 }
 
 fun main(args: Array<String>) {

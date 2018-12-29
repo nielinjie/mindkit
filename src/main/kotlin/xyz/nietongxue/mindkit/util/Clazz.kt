@@ -4,6 +4,8 @@ import org.reflections.Reflections
 import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
+
+//TODO 线程安全
 val cache :MutableMap<Any,Any> = mutableMapOf()
 
 fun <T : Any> scanForInstance(clazz: KClass<T>, prefix: String = "xyz.nietongxue.mindkit"): List<T> {

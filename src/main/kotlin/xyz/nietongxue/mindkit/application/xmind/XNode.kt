@@ -5,8 +5,12 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.JsonValue
 import com.beust.klaxon.lookup
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.source.InternalSource
+import xyz.nietongxue.mindkit.source.Mounting
 import xyz.nietongxue.mindkit.source.Source
 import java.io.InputStream
+import java.lang.Exception
+import java.util.*
 
 
 data class XNode(override val id: String,
@@ -39,21 +43,25 @@ data class XNode(override val id: String,
             val children: JsonArray<JsonObject> = (json["children"] as JsonObject?)?.array("attached") ?: JsonArray()
             val children2: JsonArray<JsonObject> = (json["children"] as JsonObject?)?.array("detached") ?: JsonArray()
 
-            return XNode(
-                    json["id"] as String,
-                    json["title"] as String,
-                    (json["labels"] as? JsonArray<*>)?.map { it.toString() } ?: emptyList(),
-                    json.lookup<String?>("notes.plain.content")[0],
-                    json.lookup<String?>("markers.markerId").filterNotNull().map { Marker(it) },
-                    (json["image"]  as? JsonObject)?.let {
-                        Image(it["src"] as String, it["type"] as String)
-                    },
-                    json["extensions"] as? JsonArray<JsonValue>,
-                    ArrayList((children.toList().plus(children2)).map {
-                        fromJson(it, source)
-                    }.toList())
-                    , source
-            )
+            return try {
+                XNode(
+                        json["id"] as String,
+                        json["title"] as? String ?:"",
+                        (json["labels"] as? JsonArray<*>)?.map { it.toString() } ?: emptyList(),
+                        json.lookup<String?>("notes.plain.content")[0],
+                        json.lookup<String?>("markers.markerId").filterNotNull().map { Marker(it) },
+                        (json["image"]  as? JsonObject)?.let {
+                            Image(it["src"] as String, it["type"] as? String)
+                        },
+                        json["extensions"] as? JsonArray<JsonValue>,
+                        ArrayList((children.toList().plus(children2)).map {
+                            fromJson(it, source)
+                        }.toList())
+                        , source
+                )
+            } catch (e: Exception) {
+                XNode(UUID.randomUUID().toString(), "error", emptyList(), null, emptyList(), null, null, arrayListOf(), InternalSource)
+            }
         }
     }
 }
@@ -73,6 +81,7 @@ data class MindMap(val sheets: List<Sheet>) {
         }
     }
 }
+
 //TODO marker是一个比较重要的概念，可能用id是无法满足的，可能有分组，比如task类。
 data class Marker(val id: String) {
     fun inputStream(): InputStream {
@@ -86,4 +95,4 @@ data class Marker(val id: String) {
     }
 }
 
-data class Image(val src: String, val type: String)
+data class Image(val src: String, val type: String?)
