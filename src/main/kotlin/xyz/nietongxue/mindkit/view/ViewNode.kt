@@ -2,15 +2,43 @@ package xyz.nietongxue.mindkit.view
 
 import com.beust.klaxon.internal.firstNotNullResult
 import javafx.collections.FXCollections
+import javafx.collections.FXCollections.observableArrayList
 import javafx.collections.ObservableList
+import tornadofx.onChange
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.InternalSource
-import xyz.nietongxue.mindkit.source.Mounting
 import xyz.nietongxue.mindkit.source.Source
 
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
     var collapse: Boolean = false
     var focus: Boolean = false
+
+    private fun filteredChildren(): List<ViewNode> {
+        return if (filter === null) {
+            this.children
+        }else {
+            children.filter {
+                filter!!. let { it1 -> it1(it) } || it.filteredChildren().isNotEmpty()
+            }
+        }
+    }
+
+    var filter: ((ViewNode) -> Boolean)? = null
+        set(value) {
+            field = value
+            children.forEach {
+                it.filter = value
+            }
+            this.filteredChildren.setAll(filteredChildren())
+        }
+
+    val filteredChildren: ObservableList<ViewNode> = observableArrayList(children)
+
+    init {
+        children.onChange {
+            this.filteredChildren.setAll(filteredChildren())
+        }
+    }
 
     companion object {
         fun fromNode(n: Node, parent: Node? = null, deep: Int = 0): ViewNode {

@@ -2,28 +2,17 @@ package xyz.nietongxue.mindkit.view
 
 import javafx.beans.property.SimpleObjectProperty
 import javafx.event.ActionEvent
-import javafx.event.Event
 import javafx.event.EventHandler
-import javafx.scene.control.Button
-import javafx.scene.control.Label
+import javafx.scene.control.TextField
 import javafx.scene.control.TreeItem
-import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
-import javafx.util.Callback
 import javafx.util.StringConverter
-import org.controlsfx.control.HyperlinkLabel
 import org.controlsfx.control.PopOver
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Favorite
 import xyz.nietongxue.mindkit.model.Favorites
 import xyz.nietongxue.mindkit.util.defaultPadding
-import java.lang.IllegalStateException
-import java.util.Random
-import org.controlsfx.control.cell.ColorGridCell
-import org.controlsfx.control.GridView
-import org.controlsfx.control.GridCell
 
 
 class SourceView : View() {
@@ -34,6 +23,8 @@ class SourceView : View() {
 
     val popoverContent = VBox()
 
+
+    val filterField = TextField()
 
     init {
 
@@ -59,10 +50,6 @@ class SourceView : View() {
                     treeModel.mount(this.value.sources())
                 }
 
-
-
-
-
                 treeModel.root.removeChildren()
                 treeModel.mount(this.value.sources())
             }
@@ -76,13 +63,24 @@ class SourceView : View() {
             hyperlink("收藏") {
                 action { popover.show(this) }
             }
-
+            this.add(filterField)
+            filterField.textProperty().onChange { filterS  ->
+                if(filterS?.let{it.length>1 } == true) {
+                    treeModel.root.filter = {
+                        it.node.title.contains(filterS ?: "")
+                    }
+                }else{
+                    treeModel.root.filter = null
+                }
+            }
             scrollpane {
                 isFitToHeight = true
                 isFitToWidth = true
                 vboxConstraints {
                     this.vGrow = Priority.ALWAYS
                 }
+
+
                 treeview<ViewNode> {
                     root = TreeItem(treeModel.root)
                     root.isExpanded = true
@@ -91,14 +89,15 @@ class SourceView : View() {
                         controller.selectedNode = it.node
                     }
                     populate {
-                        it.value.children
+                        it.value.filteredChildren
                     }
                 }
 
             }
         }
-
     }
+
+
 
 
 }
