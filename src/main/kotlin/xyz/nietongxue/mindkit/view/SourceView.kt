@@ -7,6 +7,9 @@ import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.util.defaultPadding
+import javafx.util.Duration.seconds
+import javafx.animation.PauseTransition
+import javafx.util.Duration
 
 
 class SourceView : View() {
@@ -26,7 +29,22 @@ class SourceView : View() {
     }
 
     init {
-
+        val wait = PauseTransition(Duration.seconds(1.0))
+        wait.setOnFinished { e ->
+            val filterS =  filterField.textProperty().value
+            if (filterS?.let { it.length > 1 } == true) {
+                treeModel.root.filter = {
+                    it.node.title.contains(filterS ?: "")
+                }
+            } else {
+                treeModel.root.filter = null
+            }
+            //
+            iterTree(treeView.root) {
+                if(it.value.searchResult== ViewNode.SearchResult.CS || it.value.searchResult == ViewNode.SearchResult.CHILD)
+                    it.isExpanded = true
+            }
+        }
 
         with(root) {
             defaultPadding()
@@ -35,19 +53,7 @@ class SourceView : View() {
             }
             this.add(filterField)
             filterField.textProperty().onChange { filterS ->
-                if (filterS?.let { it.length > 1 } == true) {
-                    treeModel.root.filter = {
-                        it.node.title.contains(filterS ?: "")
-                    }
-                } else {
-                    treeModel.root.filter = null
-                }
-                //
-                iterTree(treeView.root) {
-                    if(it.value.searchResult== ViewNode.SearchResult.CS || it.value.searchResult == ViewNode.SearchResult.CHILD)
-                        it.isExpanded = true
-                }
-
+                wait.playFromStart()
             }
             scrollpane {
                 isFitToHeight = true
