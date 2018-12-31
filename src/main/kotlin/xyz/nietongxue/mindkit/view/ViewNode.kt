@@ -8,19 +8,49 @@ import tornadofx.onChange
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.InternalSource
 import xyz.nietongxue.mindkit.source.Source
+import java.lang.IllegalStateException
 
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
     var collapse: Boolean = false
     var focus: Boolean = false
 
+
+    enum class SearchResult { CS, SELF, CHILD, NONE
+
+    }
+
+    var searchResult: SearchResult = SearchResult.NONE
+
     private fun filteredChildren(): List<ViewNode> {
         return if (filter === null) {
             this.children
-        }else {
+        } else {
             children.filter {
-                filter!!. let { it1 -> it1(it) } || it.filteredChildren().isNotEmpty()
+                filter!!.let { it1 -> it1(it) } || it.filteredChildren().isNotEmpty()
             }
         }
+    }
+
+    private fun setSearchResult() {
+//        this.children.forEach {
+//            it.setSearchResult()
+//        }
+
+        val self: Boolean = (filter?.let { it -> it(this) } == true)
+        val child: Boolean = (children.any {
+            it.searchResult != SearchResult.NONE
+        })
+        this.searchResult = when (self to child) {
+            (true to true) -> SearchResult.CS
+            (true to false) -> SearchResult.SELF
+            (false to true) -> SearchResult.CHILD
+            (false to false) -> SearchResult.NONE
+            else -> {
+                throw IllegalStateException()
+            }
+        }
+
+
     }
 
     var filter: ((ViewNode) -> Boolean)? = null
@@ -30,6 +60,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
                 it.filter = value
             }
             this.filteredChildren.setAll(filteredChildren())
+            setSearchResult()
         }
 
     val filteredChildren: ObservableList<ViewNode> = observableArrayList(children)
@@ -37,6 +68,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     init {
         children.onChange {
             this.filteredChildren.setAll(filteredChildren())
+            setSearchResult()
         }
     }
 
