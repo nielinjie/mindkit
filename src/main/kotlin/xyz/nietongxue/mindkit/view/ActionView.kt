@@ -1,10 +1,11 @@
 package xyz.nietongxue.mindkit.view
 
-import javafx.scene.Parent
-import javafx.scene.control.TabPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
-import tornadofx.*
+import tornadofx.View
+import tornadofx.label
+import tornadofx.singleAssign
+import tornadofx.vbox
 import xyz.nietongxue.mindkit.util.defaultPadding
 
 class ActionView: View(){

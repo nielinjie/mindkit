@@ -32,10 +32,10 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     }
 
     private fun setSearchResult() {
-//        this.children.forEach {
-//            it.setSearchResult()
-//        }
-
+        if(filter == null) {
+            this.searchResult =  SearchResult.NONE
+            return
+        }
         val self: Boolean = (filter?.let { it -> it(this) } == true)
         val child: Boolean = (children.any {
             it.searchResult != SearchResult.NONE

@@ -1,8 +1,6 @@
 package xyz.nietongxue.mindkit.view
 
 import tornadofx.Component
-import tornadofx.runAsync
-import tornadofx.ui
 import xyz.nietongxue.mindkit.source.Source
 
 class TreeModel : Component(){

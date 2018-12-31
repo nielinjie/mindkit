@@ -7,7 +7,6 @@ import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.util.defaultPadding
-import javafx.util.Duration.seconds
 import javafx.animation.PauseTransition
 import javafx.util.Duration
 
@@ -29,8 +28,8 @@ class SourceView : View() {
     }
 
     init {
-        val wait = PauseTransition(Duration.seconds(1.0))
-        wait.setOnFinished { e ->
+        val searchActionDebounce = PauseTransition(Duration.seconds(1.0))
+        searchActionDebounce.setOnFinished { e ->
             val filterS =  filterField.textProperty().value
             if (filterS?.let { it.length > 1 } == true) {
                 treeModel.root.filter = {
@@ -41,7 +40,8 @@ class SourceView : View() {
             }
             //
             iterTree(treeView.root) {
-                if(it.value.searchResult== ViewNode.SearchResult.CS || it.value.searchResult == ViewNode.SearchResult.CHILD)
+                if(it.value.searchResult== ViewNode.SearchResult.CS
+                        || it.value.searchResult == ViewNode.SearchResult.CHILD)
                     it.isExpanded = true
             }
         }
@@ -53,7 +53,7 @@ class SourceView : View() {
             }
             this.add(filterField)
             filterField.textProperty().onChange { filterS ->
-                wait.playFromStart()
+                searchActionDebounce.playFromStart()
             }
             scrollpane {
                 isFitToHeight = true
@@ -63,7 +63,7 @@ class SourceView : View() {
                 }
 
 
-                treeView = treeview<ViewNode> {
+                treeView = treeview {
                     root = TreeItem(treeModel.root)
                     root.isExpanded = true
                     cellFormat {

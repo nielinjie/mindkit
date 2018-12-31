@@ -13,9 +13,7 @@ fun <T : Any> scanForInstance(clazz: KClass<T>, prefix: String = "xyz.nietongxue
         Reflections(prefix).getSubTypesOf(clazz.java).map {
             it.kotlin.objectInstance ?: it.newInstance()
         }.toList().filterNotNull().sortedByDescending {
-            it::class.findAnnotation<Priority>()?.let {
-                it.value
-            } ?: 0
+            it::class.findAnnotation<Priority>()?.value ?: 0
         }
     } as List<T>
 }
