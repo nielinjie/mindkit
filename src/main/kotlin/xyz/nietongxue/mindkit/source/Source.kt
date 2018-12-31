@@ -25,7 +25,7 @@ object InternalSource: Source {
 @flat 如果是true，表示不需要保留文件层次结构的node。
  */
 class FolderSource(val path: String, val flat: Boolean = true) : Source {
-    override val description: String = "来自于文件夹 - $path"
+    override val description: String = "文件夹 - $path"
 
     init {
 
