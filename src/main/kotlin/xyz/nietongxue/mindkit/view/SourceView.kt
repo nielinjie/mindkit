@@ -13,6 +13,7 @@ class SourceView : View() {
     val treeModel = TreeModel()
 
     val favoriteView: FavoriteView = find()
+    val folderView: FolderView = find()
 
     init {
         favoriteView.favoriteSelected = { favorite ->
@@ -21,8 +22,17 @@ class SourceView : View() {
         }
         with(root) {
             defaultPadding()
-            hyperlink("收藏") {
-                action { favoriteView.popOver.show(this) }
+            hbox {
+                defaultPadding()
+                hyperlink("收藏") {
+                    action { favoriteView.popOver.show(this) }
+                }
+                hyperlink("打开") {
+                    action {
+                        val folder = folderView.openChooser()
+                        folder?.let { favoriteView.addFolder(it) }
+                    }
+                }
             }
 
             scrollpane {

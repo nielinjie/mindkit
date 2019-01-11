@@ -11,6 +11,7 @@ import tornadofx.combobox
 import xyz.nietongxue.mindkit.model.Favorite
 import xyz.nietongxue.mindkit.model.Favorites
 import xyz.nietongxue.mindkit.util.defaultPadding
+import java.io.File
 
 class FavoriteView : Component() {
     val popoverContent = VBox()
@@ -22,7 +23,6 @@ class FavoriteView : Component() {
         }
     var popOver: PopOver
 
-    //TODO 找到之前保存的当前favorite
     init {
         val currentFavoriteName = config["currentFavoriteName"] as? String
         favoriteP.value = Favorites.all.find {
@@ -55,6 +55,10 @@ class FavoriteView : Component() {
             this.arrowLocation = PopOver.ArrowLocation.TOP_LEFT
         }
 
+    }
+    //TODO 找个该在的地方
+    fun addFolder(folder: File){
+        println(folder.absolutePath)
     }
 
     fun onClose() {
