@@ -27,6 +27,10 @@ class MainView : View() {
     }
 
     override fun onUndock() {
+
+        val fv:FavoriteView = sourceView.favoriteView
+        fv.onClose()
+
         config["width"] = this.currentWindow?.width?.toString()
         config["height"] = this.currentWindow?.height?.toString()
 

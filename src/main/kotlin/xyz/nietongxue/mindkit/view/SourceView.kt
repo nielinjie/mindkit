@@ -30,51 +30,18 @@ class SourceView : View() {
     override val root = VBox()
     val controller: MainController by inject()
     val treeModel = TreeModel()
-    val favoriteP = SimpleObjectProperty<Favorite>(Favorites.all[0])
 
-    val popoverContent = VBox()
-
+    val favoriteView: FavoriteView = find()
 
     init {
-
-
-        with(popoverContent) {
-            defaultPadding()
-            combobox(favoriteP, Favorites.all) {
-                isEditable = false
-                this.converter = object : StringConverter<Favorite>() {
-                    override fun toString(`object`: Favorite?): String {
-                        return `object`?.name!!
-                    }
-
-                    override fun fromString(string: String?): Favorite {
-                        throw IllegalStateException("Can not edit")
-                    }
-
-                }
-                this.onAction = EventHandler<ActionEvent> {
-                    //NOTE 代替是favorite的行为，而不是source的，所以source是append
-                    treeModel.root.removeChildren()
-
-                    treeModel.mount(this.value.sources())
-                }
-
-
-
-
-
-                treeModel.root.removeChildren()
-                treeModel.mount(this.value.sources())
-            }
-        }
-
-        val popover = PopOver(popoverContent).apply {
-            this.arrowLocation = PopOver.ArrowLocation.TOP_LEFT
+        favoriteView.onActionF = { favorite ->
+            treeModel.root.removeChildren()
+            treeModel.mount(favorite.sources())
         }
         with(root) {
             defaultPadding()
             hyperlink("收藏") {
-                action { popover.show(this) }
+                action { favoriteView.popOver.show(this) }
             }
 
             scrollpane {
