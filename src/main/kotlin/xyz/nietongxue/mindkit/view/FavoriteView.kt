@@ -15,7 +15,7 @@ import xyz.nietongxue.mindkit.util.defaultPadding
 class FavoriteView : Component() {
     val popoverContent = VBox()
     val favoriteP = SimpleObjectProperty<Favorite>(Favorites.all[0])
-    var onActionF: ((Favorite) -> Unit)? = null
+    var favoriteSelected: ((Favorite) -> Unit)? = null
         set(value) {
             field = value
             value?.also { it(favoriteP.value) }
@@ -46,7 +46,7 @@ class FavoriteView : Component() {
                 this.onAction = EventHandler<ActionEvent> {
                     //NOTE 代替是favorite的行为，而不是source的，所以source是append
                     favoriteP.value = this.value
-                    onActionF?.also { it(this.value) }
+                    favoriteSelected?.also { it(this.value) }
                 }
             }
         }
