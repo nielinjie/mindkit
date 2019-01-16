@@ -15,7 +15,7 @@ data class XNode(override val id: String,
                  override val title: String,
                  val labels: List<String>,
                  val note: String?,
-                 val markers: List<Marker>,
+                 val markers: List<XmindMarker>,
                  val image: Image?,
                  val extensions: JsonArray<JsonValue>?,
         //TODO 如何通过类型系统限制xnode的children都是xnode？
@@ -47,7 +47,7 @@ data class XNode(override val id: String,
                         json["title"] as? String ?:"",
                         (json["labels"] as? JsonArray<*>)?.map { it.toString() } ?: emptyList(),
                         json.lookup<String?>("notes.plain.content")[0],
-                        json.lookup<String?>("markers.markerId").filterNotNull().map { Marker(it) },
+                        json.lookup<String?>("markers.markerId").filterNotNull().map { XmindMarker(it) },
                         (json["image"]  as? JsonObject)?.let {
                             Image(it["src"] as String, it["type"] as? String)
                         },
@@ -81,13 +81,13 @@ data class MindMap(val sheets: List<Sheet>) {
 }
 
 //TODO marker是一个比较重要的概念，可能用id是无法满足的，可能有分组，比如task类。
-data class Marker(val id: String) {
+data class XmindMarker(val id: String) {
     fun inputStream(): InputStream {
         //TODO 手动找到重要的marker，有"业务"意义的，其他的都找不到就用xx代替
-        return Marker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
+        return XmindMarker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
                 + this.id.replace("-", "_")
                 + "@24@2x.png")
-                ?: Marker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
+                ?: XmindMarker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
                         + "symbol_wrong"
                         + "@24@2x.png")
     }

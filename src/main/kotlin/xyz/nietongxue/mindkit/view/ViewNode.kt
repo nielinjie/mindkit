@@ -15,7 +15,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     var focus: Boolean = false
 
 
-    enum class SearchResult { CS, SELF, CHILD, NONE
+    enum class SearchResult { CHILD_AND_SELF, SELF, CHILD, NONE
 
     }
 
@@ -41,7 +41,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             it.searchResult != SearchResult.NONE
         })
         this.searchResult = when (self to child) {
-            (true to true) -> SearchResult.CS
+            (true to true) -> SearchResult.CHILD_AND_SELF
             (true to false) -> SearchResult.SELF
             (false to true) -> SearchResult.CHILD
             (false to false) -> SearchResult.NONE

@@ -9,6 +9,7 @@ import tornadofx.*
 import xyz.nietongxue.mindkit.util.defaultPadding
 import javafx.animation.PauseTransition
 import javafx.util.Duration
+import xyz.nietongxue.mindkit.view.ViewNode.*
 
 
 class SourceView : View() {
@@ -37,6 +38,7 @@ class SourceView : View() {
         searchActionDebounce.setOnFinished { e ->
             val filterS = filterField.textProperty().value
             if (filterS?.let { it.length > 1 } == true) {
+                //TODO 加入特殊search语法，比如marker。
                 treeModel.root.filter = {
                     it.node.title.contains(filterS ?: "")
                 }
@@ -45,8 +47,8 @@ class SourceView : View() {
             }
             //
             iterTree(treeView.root) {
-                if (it.value.searchResult == xyz.nietongxue.mindkit.view.ViewNode.SearchResult.CS
-                        || it.value.searchResult == xyz.nietongxue.mindkit.view.ViewNode.SearchResult.CHILD)
+                if (it.value.searchResult == SearchResult.CHILD_AND_SELF
+                        || it.value.searchResult == SearchResult.CHILD)
                     it.isExpanded = true
             }
         }
@@ -89,10 +91,10 @@ class SourceView : View() {
                     cellFormat {
                         text = it.node.title
                         opacity = when (it.searchResult) {
-                            ViewNode.SearchResult.SELF -> 1.0
-                            ViewNode.SearchResult.CHILD -> 0.5
-                            ViewNode.SearchResult.NONE -> 1.0
-                            ViewNode.SearchResult.CS -> 1.0
+                            SearchResult.SELF -> 1.0
+                            SearchResult.CHILD -> 0.5
+                            SearchResult.NONE -> 1.0
+                            SearchResult.CHILD_AND_SELF -> 1.0
                         }
 
                     }
