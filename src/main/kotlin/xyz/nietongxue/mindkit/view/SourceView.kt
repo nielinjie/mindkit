@@ -16,7 +16,7 @@ class SourceView : View() {
     val folderView: FolderView = find()
 
     init {
-        favoriteView.favoriteSelected = { favorite ->
+        favoriteView.onFavoriteSelectedP.value =  { favorite ->
             treeModel.root.removeChildren()
             treeModel.mount(favorite.sources())
         }
