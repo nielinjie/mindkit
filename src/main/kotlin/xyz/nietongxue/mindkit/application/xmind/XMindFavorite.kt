@@ -8,5 +8,5 @@ data class XMindFavorite(val path: String) : Favorite {
         return listOf(XMindSource(path))
     }
 
-    override val name = "XMind - $path"
+    override fun name() = "XMind - $path"
 }

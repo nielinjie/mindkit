@@ -20,17 +20,22 @@ class SourceView : View() {
 
     val filterField = TextField()
     var treeView by singleAssign<TreeView<ViewNode>>()
-    fun  <T> iterTree(item:TreeItem<ViewNode>,p:(TreeItem<ViewNode>)-> T){
-        item.children.forEach{
-           iterTree(it,p)
+    fun <T> iterTree(item: TreeItem<ViewNode>, p: (TreeItem<ViewNode>) -> T) {
+        item.children.forEach {
+            iterTree(it, p)
         }
         p(item)
     }
 
+
+    val folderView: FolderView = find()
+
     init {
+
+
         val searchActionDebounce = PauseTransition(Duration.seconds(1.0))
         searchActionDebounce.setOnFinished { e ->
-            val filterS =  filterField.textProperty().value
+            val filterS = filterField.textProperty().value
             if (filterS?.let { it.length > 1 } == true) {
                 treeModel.root.filter = {
                     it.node.title.contains(filterS ?: "")
@@ -40,16 +45,31 @@ class SourceView : View() {
             }
             //
             iterTree(treeView.root) {
-                if(it.value.searchResult== ViewNode.SearchResult.CS
-                        || it.value.searchResult == ViewNode.SearchResult.CHILD)
+                if (it.value.searchResult == xyz.nietongxue.mindkit.view.ViewNode.SearchResult.CS
+                        || it.value.searchResult == xyz.nietongxue.mindkit.view.ViewNode.SearchResult.CHILD)
                     it.isExpanded = true
             }
         }
 
+
+        favoriteView.onFavoriteSelectedP.value = { favorite ->
+            treeModel.root.removeChildren()
+            treeModel.mount(favorite.sources())
+        }
+
         with(root) {
             defaultPadding()
-            hyperlink("收藏") {
-                action { favoriteView.popover.show(this) }
+            hbox {
+                defaultPadding()
+                hyperlink("收藏") {
+                    action { favoriteView.popOver.show(this) }
+                }
+                hyperlink("打开") {
+                    action {
+                        val folder = folderView.openChooser()
+                        folder?.let { favoriteView.addFolder(it) }
+                    }
+                }
             }
             this.add(filterField)
             filterField.textProperty().onChange { filterS ->
@@ -87,8 +107,9 @@ class SourceView : View() {
             }
         }
     }
-
-
 }
+
+
+
 
 
