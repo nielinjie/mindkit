@@ -90,10 +90,8 @@ class SourceView : View() {
                     cellFormat {
                         text = it.node.title
                         opacity = when (it.searchResult) {
-                            SearchResult.SELF -> 1.0
                             SearchResult.CHILD -> 0.5
-                            SearchResult.NONE -> 1.0
-                            SearchResult.CHILD_AND_SELF -> 1.0
+                            else -> 1.0
                         }
 
                     }
