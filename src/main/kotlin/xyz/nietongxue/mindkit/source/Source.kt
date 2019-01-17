@@ -11,7 +11,7 @@ import java.io.File
    filter跟processor如何配合？apply一个app将应用多个filter 和多个 function？
  */
 
-data class Mounting(val where: Node, val what: List<Node>)
+data class Mounting(val where: Node, val what: ()->List<Node>)
 interface Source {
     val description:String
     fun mount(tree: Node, mountPoint: Node = tree): List<Mounting>
@@ -33,16 +33,21 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source {
 
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         //TODO 只实现了flat是true
-        assert(flat)
-        return File(path).walk().filter {
+        if (flat)
+            return File(path).walk().filter {
             //TODO 实现根据文件内容选择不同的source
-             it.isFile && it.extension == "xmind"
+            it.isFile && it.extension == "xmind"
         }.map {
             XMindSource(it.path)
         }.toList().flatMap {
             it.mount(tree, mountPoint)
         }
+        else{
+
+        }
     }
+}
+class FileNode : Node{
 
 }
 

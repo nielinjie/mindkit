@@ -16,7 +16,7 @@ class TreeModel {
                     val viewNode = root.findNode(mounting.where)
                     viewNode to mounting
                 } ui {
-                    it.first?.addChildren(it.second.what)
+                    it.first?.addChildren(it.second.what())
                 }
             }
         }
