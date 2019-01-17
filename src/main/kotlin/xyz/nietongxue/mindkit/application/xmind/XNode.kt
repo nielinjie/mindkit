@@ -100,7 +100,8 @@ data class XmindMarker(val id: String) {
 //TODO 增加更多的marker。注意id不等于icon的文件名
                 )
         return listOfNotNull(nameMap[id]?.split(" ")?.let {names:List<String> ->
-            names.map{Markers.byName(it) }}).flatten()
+            names.mapNotNull {Markers.byName(it) }
+        }).flatten()
     }
 }
 
