@@ -9,6 +9,7 @@ import tornadofx.*
 import xyz.nietongxue.mindkit.util.defaultPadding
 import javafx.animation.PauseTransition
 import javafx.util.Duration
+import xyz.nietongxue.mindkit.model.Filters
 import xyz.nietongxue.mindkit.view.ViewNode.*
 
 
@@ -39,9 +40,7 @@ class SourceView : View() {
             val filterS = filterField.textProperty().value
             if (filterS?.let { it.length > 1 } == true) {
                 //TODO 加入特殊search语法，比如marker。
-                treeModel.root.filter = {
-                    it.node.title.contains(filterS ?: "")
-                }
+                treeModel.root.filter = Filters.fromString(filterS.split(" "))
             } else {
                 treeModel.root.filter = null
             }

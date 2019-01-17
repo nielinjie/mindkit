@@ -15,15 +15,15 @@ object XMindProperties : Properties {
                         field("标题") {
                             label(node.title)
                         }
-                        if(node.markers.isNotEmpty()) {
-                            field("Markers") {
-                                node.markers.forEach {
-                                    //TODO marker 图片最右边好像倍切掉一线
-                                    imageview(Image(it.inputStream(), 12.0, 12.0, false, false)) {
-                                    }
-                                }
-                            }
-                        }
+                        //TODO markers在xmind以外来做。
+//                        if(node.markers.isNotEmpty()) {
+//                            field("Markers") {
+//                                node.markers.forEach {
+//                                    imageview(Image(it.inputStream(), 12.0, 12.0, false, false)) {
+//                                    }
+//                                }
+//                            }
+//                        }
                         node.image?.also {
                             field("图像") {
                                 //TODO 是否有其他类型的image？
