@@ -5,6 +5,7 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.JsonValue
 import com.beust.klaxon.lookup
 import xyz.nietongxue.mindkit.model.Marker
+import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.InternalSource
 import xyz.nietongxue.mindkit.source.Source
@@ -88,7 +89,11 @@ data class XmindMarker(val id: String) {
 //                        + "@24@2x.png")
 //    }
     fun toGeneral():List<Marker>{
-        TODO()
+        println(id)
+        val nameMap :Map<String,String> = mapOf(
+                "priority_1" to "p1"
+        )
+        return listOfNotNull(nameMap[id]?.let{Markers.byName(it)})
     }
 }
 
