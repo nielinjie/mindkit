@@ -4,12 +4,9 @@ import xyz.nietongxue.mindkit.application.xmind.XMindSource
 import xyz.nietongxue.mindkit.model.Node
 import java.io.File
 
-//TODO 一个目录作为home（repository）
 
 
-/*TODO filter？或者合并在类型里面 filter貌似应该是app级别的，有些app关注这些节点，有些app关注哪些节点？
-   filter跟processor如何配合？apply一个app将应用多个filter 和多个 function？
- */
+
 
 data class Mounting(val where: Node, val what: List<Node>)
 interface Source {
@@ -45,4 +42,5 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source {
     }
 
 }
+
 

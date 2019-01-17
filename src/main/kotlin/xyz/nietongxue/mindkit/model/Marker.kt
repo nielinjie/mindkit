@@ -4,10 +4,10 @@ data class Marker(val name: String, val alias: List<String>, val markerFamily: S
 
 
 data class MarkerFamily(val name: String, val alias: List<String>)
-
-object Markers{
-    val tasks = MarkerFamily("tasks", listOf("todo"))
-    val taskMarkers :List<Marker> = listOf(
-            Marker("1")
-    )
-}
+//
+//object Markers{
+//    val tasks = MarkerFamily("tasks", listOf("todo"))
+//    val taskMarkers :List<Marker> = listOf(
+//            Marker("1")
+//    )
+//}

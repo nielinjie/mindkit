@@ -15,7 +15,7 @@ data class Position(val deep: Int, val childrenCount: Int, val descendantsCount:
     }
 
     companion object {
-        //TODO deep没有实现，
+        //TODO deep没有实现，不过好像也没有什么用。
         fun fromNode(node: Node, deep: Int = 0): Position {
             var re = Position(deep, 0, 0)
             node.children.forEach {

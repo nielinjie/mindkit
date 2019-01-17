@@ -5,6 +5,8 @@ import javafx.collections.FXCollections
 import javafx.collections.FXCollections.observableArrayList
 import javafx.collections.ObservableList
 import tornadofx.onChange
+import xyz.nietongxue.mindkit.model.Filter
+import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.InternalSource
 import xyz.nietongxue.mindkit.source.Source
@@ -26,7 +28,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             this.children
         } else {
             children.filter {
-                filter!!.let { it1 -> it1(it) } || it.filteredChildren().isNotEmpty()
+                filter!!.let { it1 -> it1(it.node) } || it.filteredChildren().isNotEmpty()
             }
         }
     }
@@ -36,7 +38,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             this.searchResult =  SearchResult.NONE
             return
         }
-        val self: Boolean = (filter?.let { it -> it(this) } == true)
+        val self: Boolean = (filter?.let { it -> it(this.node) } == true)
         val child: Boolean = (children.any {
             it.searchResult != SearchResult.NONE
         })
@@ -53,7 +55,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
 
     }
 
-    var filter: ((ViewNode) -> Boolean)? = null
+    var filter: Filter? = null
         set(value) {
             field = value
             children.forEach {
@@ -80,6 +82,8 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         }
 
         val emptyRoot = ViewNode.fromNode(object : Node {
+            override val markers: List<Marker>
+                = emptyList()
             override val id: String = "_root"
             override val title: String = "/"
             override val children: ArrayList<Node> = ArrayList()
