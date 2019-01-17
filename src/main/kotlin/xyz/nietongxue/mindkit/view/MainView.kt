@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.view
 import javafx.scene.control.SplitPane
 import tornadofx.*
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
+import xyz.nietongxue.mindkit.model.FilterDescriptor
 import xyz.nietongxue.mindkit.properties.Properties
 import xyz.nietongxue.mindkit.util.Global
 import xyz.nietongxue.mindkit.util.scanForInstance
@@ -58,6 +59,7 @@ class MyApp : App() {
         runAsync {
             scanForInstance(Properties::class)
             scanForInstance(ActionDescriptor::class)
+            scanForInstance(FilterDescriptor::class)
         }
     }
 }
