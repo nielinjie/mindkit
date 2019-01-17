@@ -18,7 +18,7 @@ object XMindProperties : Properties {
                         //TODO markers在xmind以外来做。
                         if(node.markers.isNotEmpty()) {
                             field("Markers") {
-                                label(node.markers.map { it.name }.joinToString(","))
+                                label(node.markers.joinToString(", ") { it.name })
                             }
                         }
                         node.image?.also {

@@ -13,9 +13,9 @@ data class MarkerFamily(val name: String, val alias: List<String>, val markers: 
 
 object Markers {
     //TODO 需要具体应用各自定义marker 么？
-    val priorityN: List<Marker> = (0..5).toList().map { "p$it" }.map { Marker(it, emptyList()) }
-    val percentN: List<Marker> = (0..100 step 10).toList().map { "${it}p" }.map { Marker(it, emptyList()) }
-    val words:List<Marker> = listOf("attention","wait","question", "task").map { Marker(it, emptyList()) }
+    private val priorityN: List<Marker> = (0..5).toList().map { "p$it" }.map { Marker(it, emptyList()) }
+    private val percentN: List<Marker> = (0..100 step 10).toList().map { "${it}p" }.map { Marker(it, emptyList()) }
+    private val words: List<Marker> = listOf("attention", "wait", "question", "task").map { Marker(it, emptyList()) }
 
     val markers: List<Marker> =
             priorityN + percentN + words
@@ -27,28 +27,39 @@ object Markers {
 
     fun byName(name: String, byAlias: Boolean = true): Marker? {
         return markers.filter { it.name == name || (byAlias && it.alias.contains(name)) }.let {
-            if (it.size > 1) throw IllegalStateException("Duplicated")
+            if (it.size > 1) throw IllegalStateException("Duplicated marker name")
+            else it.firstOrNull()
+        }
+    }
+
+    fun fByName(name: String, byAlias: Boolean = true): MarkerFamily? {
+        return markerFamilies.filter { it.name == name || (byAlias && it.alias.contains(name)) }.let {
+            if (it.size > 1) throw IllegalStateException("Duplicated marker name")
             else it.firstOrNull()
         }
     }
 }
 
 @Priority(100)
-class MarkerFilter:FilterDescriptor{
+class MarkerFilter : FilterDescriptor {
     override fun fromString(string: List<String>): List<Filter> {
         //TODO marker要不要完整匹配？目前觉得应该
         //marker直接匹配
-        val markers:List<Filter> = (string.map { Markers.byName(it) }).filterNotNull().map{
-            m:Marker ->
-                { node:Node ->
-                    node.markers.any{
-                        //TODO 考虑alias
-                        it.name == m.name
-                    }
+        val markers: List<Marker> = string.mapNotNull {
+            //已经考虑了alias了。
+            Markers.byName(it)
+        } + string.mapNotNull {
+            Markers.fByName(it)
+        }.flatMap { it.markers }
+
+        return markers.distinctBy { it.name }.map { m: Marker ->
+            { node: Node ->
+                node.markers.any {
+                    it.name == m.name
                 }
+            }
         }
-        //markerFamily匹配
-        return markers
+
     }
 
 }

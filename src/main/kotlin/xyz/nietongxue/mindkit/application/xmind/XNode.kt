@@ -9,7 +9,6 @@ import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.InternalSource
 import xyz.nietongxue.mindkit.source.Source
-import java.io.InputStream
 import java.util.*
 
 
@@ -81,7 +80,6 @@ data class MindMap(val sheets: List<Sheet>) {
 
 data class XmindMarker(val id: String) {
     fun toGeneral(): List<Marker> {
-        println(id)
         val nameMap: Map<String, String> = mapOf(
                 "c_symbol_hourglass" to "wait",
                 "priority-0" to "p0",
