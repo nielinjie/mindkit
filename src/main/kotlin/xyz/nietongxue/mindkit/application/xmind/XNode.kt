@@ -43,7 +43,7 @@ data class XNode(override val id: String,
             return try {
                 XNode(
                         json["id"] as String,
-                        json["title"] as? String ?:"",
+                        json["title"] as? String ?: "",
                         (json["labels"] as? JsonArray<*>)?.map { it.toString() } ?: emptyList(),
                         json.lookup<String?>("notes.plain.content")[0],
                         json.lookup<String?>("markers.markerId").filterNotNull().map { XmindMarker(it).toGeneral() }.flatten().distinct(),
@@ -80,20 +80,27 @@ data class MindMap(val sheets: List<Sheet>) {
 }
 
 data class XmindMarker(val id: String) {
-//    fun inputStream(): InputStream {
-//        return XmindMarker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
-//                + this.id.replace("-", "_")
-//                + "@24@2x.png")
-//                ?: XmindMarker::class.java.getResourceAsStream("/xyz/nietongxue/mindkit/application/xmind/markers/"
-//                        + "symbol_wrong"
-//                        + "@24@2x.png")
-//    }
-    fun toGeneral():List<Marker>{
+    fun toGeneral(): List<Marker> {
         println(id)
-        val nameMap :Map<String,String> = mapOf(
-                "priority_1" to "p1"
-        )
-        return listOfNotNull(nameMap[id]?.let{Markers.byName(it)})
+        val nameMap: Map<String, String> = mapOf(
+                "c_symbol_hourglass" to "wait",
+                "priority-0" to "p0",
+                "priority-1" to "p1",
+                "priority-2" to "p2",
+                "priority-3" to "p3",
+                "priority-4" to "p4",
+                "priority-5" to "p5",
+                "symbol-attention" to "attention",
+                "symbol-question" to "question",
+                "task-3oct" to "task 30p",
+                "task-7oct" to "task 70p",
+                "task-done" to "task 100p",
+                "task-half" to "task 50p",
+                "task-start" to "task 0p"
+//TODO 增加更多的marker。注意id不等于icon的文件名
+                )
+        return listOfNotNull(nameMap[id]?.split(" ")?.let {names:List<String> ->
+            names.map{Markers.byName(it) }}).flatten()
     }
 }
 

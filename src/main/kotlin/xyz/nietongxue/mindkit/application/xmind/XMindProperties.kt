@@ -16,14 +16,11 @@ object XMindProperties : Properties {
                             label(node.title)
                         }
                         //TODO markers在xmind以外来做。
-//                        if(node.markers.isNotEmpty()) {
-//                            field("Markers") {
-//                                node.markers.forEach {
-//                                    imageview(Image(it.inputStream(), 12.0, 12.0, false, false)) {
-//                                    }
-//                                }
-//                            }
-//                        }
+                        if(node.markers.isNotEmpty()) {
+                            field("Markers") {
+                                label(node.markers.map { it.name }.joinToString(","))
+                            }
+                        }
                         node.image?.also {
                             field("图像") {
                                 //TODO 是否有其他类型的image？

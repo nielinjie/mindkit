@@ -11,9 +11,18 @@ data class Marker(val name: String, val alias: List<String>)
 data class MarkerFamily(val name: String, val alias: List<String>, val markers: List<String>)
 
 object Markers {
-    //TODO 需要具体应用过去定义marker 么？
-    val pN: List<String> = (1..5).toList().map { "p$it" }
-    val markers: List<Marker> = pN.map { Marker("p$it", emptyList()) }
+    //TODO 需要具体应用各自定义marker 么？
+    val pN: List<String> = (0..5).toList().map { "p$it" }
+    val perN: List<String> = (0..100 step 10).toList().map { "${it}p" }
+    val markers: List<Marker> =
+            pN.map { Marker(it, emptyList()) } +
+                    perN.map { Marker(it, emptyList()) } + listOf(
+                    Marker("attention", emptyList()),
+                    Marker("wait", emptyList()),
+                    Marker("question", emptyList()),
+                    Marker("task", emptyList())
+            )
+
     val markerFamilies: List<MarkerFamily> = listOf(
             MarkerFamily("todo", listOf("task"), pN)
     )
@@ -25,10 +34,3 @@ object Markers {
         }
     }
 }
-//
-//object Markers{
-//    val tasks = MarkerFamily("tasks", listOf("todo"))
-//    val taskMarkers :List<Marker> = listOf(
-//            Marker("1")
-//    )
-//}
