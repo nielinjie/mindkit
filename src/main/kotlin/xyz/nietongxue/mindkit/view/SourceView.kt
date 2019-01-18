@@ -40,7 +40,7 @@ class SourceView : View() {
             val filterS = filterField.textProperty().value
             if (filterS?.let { it.length > 1 } == true) {
                 //TODO 加入特殊search语法，比如marker。
-                treeModel.root.filter = Filters.fromString(filterS.split(" "))
+                treeModel.root.filter = Filters.filter(filterS)
             } else {
                 treeModel.root.filter = null
             }

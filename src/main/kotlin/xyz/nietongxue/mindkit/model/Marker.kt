@@ -32,7 +32,7 @@ object Markers {
         }
     }
 
-    fun fByName(name: String, byAlias: Boolean = true): MarkerFamily? {
+    fun familyByName(name: String, byAlias: Boolean = true): MarkerFamily? {
         return markerFamilies.filter { it.name == name || (byAlias && it.alias.contains(name)) }.let {
             if (it.size > 1) throw IllegalStateException("Duplicated marker name")
             else it.firstOrNull()
@@ -42,14 +42,14 @@ object Markers {
 
 @Priority(100)
 class MarkerFilter : FilterDescriptor {
-    override fun fromString(string: List<String>): List<Filter> {
+    override fun filter(tokens:Tokens): List<Filter> {
         //TODO marker要不要完整匹配？目前觉得应该
         //marker直接匹配
-        val markers: List<Marker> = string.mapNotNull {
+        val markers: List<Marker> = tokens.all.mapNotNull {
             //已经考虑了alias了。
-            Markers.byName(it)
-        } + string.mapNotNull {
-            Markers.fByName(it)
+            Markers.byName(it.name)
+        } + tokens.all.mapNotNull {
+            Markers.familyByName(it.name)
         }.flatMap { it.markers }
 
         return markers.distinctBy { it.name }.map { m: Marker ->
