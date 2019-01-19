@@ -29,17 +29,18 @@ data class Position(val deep: Int, val childrenCount: Int, val descendantsCount:
 @Priority(-10)
 object PositionProperties : Properties {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
+        val position = Position.fromNode(nodeP.value)
         val re =
                 Fieldset("位置信息")
         with(re) {
             field("Deep") {
-                label(nodeP.stringBinding { it?.let { Position.fromNode(it) }?.deep.toString() })
+                label(position.deep.toString())
             }
             field("Children") {
-                label(nodeP.stringBinding { it?.let { Position.fromNode(it) }?.childrenCount.toString() })
+                label(position.childrenCount.toString())
             }
             field("Descendant") {
-                label(nodeP.stringBinding { it?.let { Position.fromNode(it) }?.descendantsCount.toString() })
+                label(position.descendantsCount.toString())
             }
         }
         return listOf(re)
@@ -47,21 +48,4 @@ object PositionProperties : Properties {
     }
 }
 
-@Priority(-5)
-object SourceProperties : Properties {
-    override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
-        val re =
-                Fieldset("来源信息")
-        with(re) {
-            field(nodeP.value?.source?.description ?: "（不明）") {
-                //TODO wrap 没有起作用
-//                label(nodeP.stringBinding { it?.source?.description ?: "（不明）"}){
-//                    isWrapText = true
-//                }
-            }
-        }
-        return listOf(re)
-
-    }
-}
 
