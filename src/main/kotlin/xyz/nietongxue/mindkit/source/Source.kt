@@ -21,13 +21,13 @@ object InternalSource: Source {
 /**
 @flat 如果是true，表示不需要保留文件层次结构的node。
  */
-class FolderSource(val path: String, val flat: Boolean = true) : Source {
+class FolderSource(val path: String, val flat: Boolean = true) : Source ,Openable{
     override val description: String = "文件夹 - $path"
 
     init {
 
     }
-
+    override val file =  File(path)
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         //TODO 只实现了flat是true
         assert(flat)
@@ -41,6 +41,9 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source {
         }
     }
 
+}
+interface Openable{
+    val file:File
 }
 
 

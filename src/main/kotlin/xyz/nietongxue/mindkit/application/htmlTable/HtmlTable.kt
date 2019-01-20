@@ -7,7 +7,7 @@ import tornadofx.*
 import xyz.nietongxue.mindkit.util.Clipboard
 import xyz.nietongxue.mindkit.util.defaultPadding
 
-object HtmlTable  {
+object HtmlTable {
     // xmind  里面的table，生成html（或者markdown？）table，比如可以copy到conf
     // - 生成html可以（至少可以以safari打开，然后copy到conf editor）
     // 后续看看是否可以展示在fx里，然后copy到clipboard。
@@ -16,10 +16,9 @@ object HtmlTable  {
     val appController = TableAppController()
 }
 
-class TableAppController  {
+class TableAppController {
     val resultTextP = SimpleStringProperty()
     var resultText: String by resultTextP
-
 
 
     val view: View = object : View() {
@@ -27,46 +26,32 @@ class TableAppController  {
 
         init {
             with(root) {
-                defaultPadding()
+
+                    defaultPadding()
                 vboxConstraints {
                     this.vGrow = Priority.ALWAYS
-
                 }
-                splitpane {
-                    vboxConstraints {
-                        this.vGrow = Priority.ALWAYS
-                    }
-
                     scrollpane {
                         isFitToHeight = true
                         isFitToWidth = true
                         vboxConstraints {
                             this.vGrow = Priority.ALWAYS
                         }
-                        text(resultTextP)
-                    }
-                    vbox {
-                        scrollpane {
-                            isFitToHeight = true
-                            isFitToWidth = true
-                            vboxConstraints {
-                                this.vGrow = Priority.ALWAYS
-                            }
-                            webview {
-                                dynamicContent(resultTextP) {
-                                    engine.loadContent(it)
-                                }
+                        webview {
+                            dynamicContent(resultTextP) {
+                                engine.loadContent(it)
                             }
                         }
-                        button("copy") {
-                            action {
-                                Clipboard.setHTML(resultText)
-                            }
+                    }
+                    hyperlink("拷贝") {
+                        action {
+                            Clipboard.setHTML(resultText)
                         }
                     }
                 }
+
             }
-        }
+
 
     }
 }

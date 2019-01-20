@@ -16,6 +16,7 @@ object ActionProperties : Properties {
             actions.forEach {
                 field(it.description) {
                     hyperlink(it.brief) {
+                        minWidth = 40.0
                         action {
                             //setup action view
                             it.view(nodeP.value)?.also { view ->
