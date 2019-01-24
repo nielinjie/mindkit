@@ -28,6 +28,8 @@ class XMindSource(path: String) : Source, Openable {
         val content = xMindFile.content() ?: return emptyList()
         val json = Parser().parse(content) as JsonArray<JsonObject>
         val mm = MindMap.fromJson(json,this)
-        return listOf(Mounting(tree, listOf(mm.sheets[0].root)))
+        return listOf(Mounting(mountPoint) {
+            listOf(mm.sheets[0].root)}
+        )
     }
 }

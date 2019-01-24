@@ -10,13 +10,9 @@ class TreeModel : Component(){
         sources.forEach {
             //TODO mount的调用需要放到runAsync里面去。
             it.mount(root.node).forEach {
-                runAsync {
-                    val mounting = it
-                    val viewNode = root.findNode(mounting.where)
-                    viewNode to mounting
-                } ui {
-                    it.first?.addChildren(it.second.what)
-                }
+                val mounting = it
+                val viewNode = root.findNode(mounting.where)
+                viewNode?.addChildren(mounting.what())
             }
         }
     }
