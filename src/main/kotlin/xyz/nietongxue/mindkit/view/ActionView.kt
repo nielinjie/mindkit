@@ -13,7 +13,6 @@ class ActionView: View(){
     init {
         with(root) {
             defaultPadding()
-            label("运行结果")
             resultPanel = vbox{
                 growV()
             }

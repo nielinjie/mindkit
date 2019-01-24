@@ -38,6 +38,7 @@ class TableAppController {
                         dynamicContent(resultTextP) {
                             engine.loadContent(it)
                         }
+                        engine.userStyleSheetLocation = (TableAppController::class.java.getResource("/defaultStyle.css").toString());
                     }
                 }
                 hyperlink("拷贝") {
