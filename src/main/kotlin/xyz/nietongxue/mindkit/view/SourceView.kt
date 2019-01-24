@@ -8,6 +8,9 @@ import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.util.defaultPadding
 import javafx.animation.PauseTransition
+import javafx.event.EventHandler
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.util.Duration
 import xyz.nietongxue.mindkit.model.Filters
 import xyz.nietongxue.mindkit.util.growV
@@ -99,6 +102,11 @@ class SourceView : View() {
                     }
                     populate {
                         it.value.filteredChildren
+                    }
+                    onKeyReleased = EventHandler<KeyEvent> { event ->
+                        if(event?.isMetaDown?.and( event.code == KeyCode.RIGHT) == true){
+                            this@treeview.selectionModel.selectedItem.expandAll()
+                        }
                     }
                 }
 
