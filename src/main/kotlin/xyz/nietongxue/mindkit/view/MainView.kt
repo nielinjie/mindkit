@@ -5,7 +5,7 @@ import tornadofx.*
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.model.FilterDescriptor
 import xyz.nietongxue.mindkit.properties.Properties
-import xyz.nietongxue.mindkit.util.Global
+import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 
@@ -17,7 +17,7 @@ class MainView : View() {
 
     init {
 //        JMetro(JMetro.Style.LIGHT).applyTheme(root)
-        Global.resultPane = actionView.resultPanel
+        UIGlobal.resultPane = actionView.resultPanel
         with(root) {
             this += sourceView.root
             //中间处理比如templates

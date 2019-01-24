@@ -1,6 +1,7 @@
 package xyz.nietongxue.mindkit.actions
 
 import javafx.scene.Parent
+import xyz.nietongxue.mindkit.application.htmlTable.HtmlAction
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.scanForInstance
 
@@ -15,6 +16,9 @@ interface ActionDescriptor {
                     .flatMap {
                         it.actions(node)
                     }
+        }
+        fun default():ActionDescriptor{
+            return HtmlAction
         }
     }
 }

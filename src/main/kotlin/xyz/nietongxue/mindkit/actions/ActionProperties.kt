@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.properties.Properties
-import xyz.nietongxue.mindkit.util.Global
+import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.Priority
 
 
@@ -20,7 +20,7 @@ object ActionProperties : Properties {
                         action {
                             //setup action view
                             it.view(nodeP.value)?.also { view ->
-                                Global.resultPane?.apply {
+                                UIGlobal.resultPane?.apply {
                                     children.clear()
                                     add(view)
                                 }

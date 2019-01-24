@@ -4,8 +4,10 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.Parent
 import javafx.scene.layout.VBox
 import tornadofx.*
+import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.scanForInstance
 
@@ -19,19 +21,32 @@ interface Properties {
                 }
     }
 }
-@Priority(10000)
-object PropertiesApp  {
 
-    val appController = object :AppController {
+@Priority(10000)
+object PropertiesApp {
+
+    val appController = object : AppController {
 
         val nodeP = SimpleObjectProperty<Node>()
         var node: Node by nodeP
-      override  fun process(node: Node) {
+        override fun process(node: Node) {
             this.node = node
             view.rebuild()
+            //default action
+            //TODO default action 本质上应该是一种app。
+            //setup action view
+            val action = ActionDescriptor.default().actions(node).first()
+            action.view(node)?.also { view ->
+                UIGlobal.resultPane?.apply {
+                    children.clear()
+                    add(view)
+                }
+            }
+            //
+            action.action(node)
         }
 
-       override  val view = object : View() {
+        override val view = object : View() {
             fun rebuild() {
                 (root as VBox).clear()
                 with(root) {
