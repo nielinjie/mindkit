@@ -10,6 +10,7 @@ import xyz.nietongxue.mindkit.util.defaultPadding
 import javafx.animation.PauseTransition
 import javafx.util.Duration
 import xyz.nietongxue.mindkit.model.Filters
+import xyz.nietongxue.mindkit.util.growV
 import xyz.nietongxue.mindkit.view.ViewNode.*
 
 
@@ -79,9 +80,7 @@ class SourceView : View() {
             scrollpane {
                 isFitToHeight = true
                 isFitToWidth = true
-                vboxConstraints {
-                    this.vGrow = Priority.ALWAYS
-                }
+                growV()
 
 
                 treeView = treeview {

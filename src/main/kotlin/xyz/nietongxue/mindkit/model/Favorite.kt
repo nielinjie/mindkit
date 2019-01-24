@@ -54,7 +54,8 @@ object Favorites : Component() {
     }
 
     fun add(favorite: Favorite) {
-        all.add(favorite)
+        if (!all.contains(favorite))
+            all.add(favorite)
     }
 
     fun save() {

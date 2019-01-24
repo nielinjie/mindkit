@@ -3,25 +3,52 @@ package xyz.nietongxue.mindkit.actions
 import javafx.scene.Parent
 import javafx.scene.layout.VBox
 import tornadofx.label
+import xyz.nietongxue.mindkit.application.xmind.XMindFavorite
+import xyz.nietongxue.mindkit.application.xmind.XMindSource
+import xyz.nietongxue.mindkit.model.Favorites
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.source.Openable
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.defaultPadding
+import java.awt.Desktop
 
 @Priority(-1)
 object GeneralActions : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
-        return listOf(object : Action {
-            override fun view(node: Node): Parent? = VBox().apply{
-                defaultPadding()
-                label(node.title +" - 节点的来源已被加入收藏。")
-            }
-            override val brief: String = "收藏"
-            override val description: String = "收藏节点的来源"
-            override fun action(node: Node) {
-                //TODO 实现收藏
-                println("shocang")
-            }
-        })
+        val fa: Action? =
+                (node.source as? Openable)?.let {
+                    (object : Action {
+                        override fun view(node: Node): Parent? = VBox().apply {
+                            defaultPadding()
+                            label(node.title + " - 节点的来源已被加入收藏。")
+                        }
+
+                        override val brief: String = "收藏"
+                        override val description: String = "收藏节点的来源"
+                        override fun action(node: Node) {
+                            Favorites.add(XMindFavorite(it.file.absolutePath))
+                        }
+                    })
+                }
+        val oa: Action? =
+                //TODO XMind 解耦，可能收藏FileSource。FileSource从具体的文件类型中抽象出来。
+                (node.source as? XMindSource)?.let {
+                    (object : Action {
+                        override fun view(node: Node): Parent? = VBox().apply {
+                            defaultPadding()
+                            label(node.title + " - 节点的来源文件已打开。")
+                        }
+
+                        override val brief: String = "打开"
+                        override val description: String = "打开节点的来源文件"
+                        override fun action(node: Node) {
+                            Desktop.getDesktop().open(it.file)
+
+                        }
+                    })
+                }
+
+        return listOfNotNull(fa, oa)
     }
 
 }

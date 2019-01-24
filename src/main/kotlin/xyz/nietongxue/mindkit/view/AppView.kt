@@ -5,6 +5,7 @@ import javafx.scene.layout.VBox
 import tornadofx.View
 import tornadofx.vboxConstraints
 import xyz.nietongxue.mindkit.properties.PropertiesApp
+import xyz.nietongxue.mindkit.util.growV
 
 class AppView : View() {
     override val root = VBox()
@@ -16,20 +17,13 @@ class AppView : View() {
 
     init {
         with(root) {
-            vboxConstraints {
-                this.vGrow = Priority.ALWAYS
-            }
-
-
+            growV()
             appView.children.clear()
             val app = PropertiesApp
             appView.add(app.appController.view)
             mainController.processorAppController = app.appController
             with(appView) {
-
-                vboxConstraints {
-                    this.vGrow = Priority.ALWAYS
-                }
+                growV()
             }
             this.add(appView)
         }

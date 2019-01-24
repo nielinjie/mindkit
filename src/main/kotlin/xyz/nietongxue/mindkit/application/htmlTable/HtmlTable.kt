@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.util.Clipboard
 import xyz.nietongxue.mindkit.util.defaultPadding
+import xyz.nietongxue.mindkit.util.growV
 
 object HtmlTable {
     // xmind  里面的table，生成html（或者markdown？）table，比如可以copy到conf
@@ -27,30 +28,26 @@ class TableAppController {
         init {
             with(root) {
 
-                    defaultPadding()
-                vboxConstraints {
-                    this.vGrow = Priority.ALWAYS
-                }
-                    scrollpane {
-                        isFitToHeight = true
-                        isFitToWidth = true
-                        vboxConstraints {
-                            this.vGrow = Priority.ALWAYS
-                        }
-                        webview {
-                            dynamicContent(resultTextP) {
-                                engine.loadContent(it)
-                            }
-                        }
-                    }
-                    hyperlink("拷贝") {
-                        action {
-                            Clipboard.setHTML(resultText)
+                defaultPadding()
+                growV()
+                scrollpane {
+                    isFitToHeight = true
+                    isFitToWidth = true
+                    growV()
+                    webview {
+                        dynamicContent(resultTextP) {
+                            engine.loadContent(it)
                         }
                     }
                 }
-
+                hyperlink("拷贝") {
+                    action {
+                        Clipboard.setHTML(resultText)
+                    }
+                }
             }
+
+        }
 
 
     }
