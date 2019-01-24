@@ -14,6 +14,8 @@ import javafx.scene.input.KeyEvent
 import javafx.util.Duration
 import xyz.nietongxue.mindkit.model.Filters
 import xyz.nietongxue.mindkit.util.growV
+import xyz.nietongxue.mindkit.util.metaF
+import xyz.nietongxue.mindkit.util.metaRight
 import xyz.nietongxue.mindkit.view.ViewNode.*
 
 
@@ -57,10 +59,7 @@ class SourceView : View() {
         }
 
 
-        favoriteView.onFavoriteSelectedP.value = { favorite ->
-            treeModel.root.removeChildren()
-            treeModel.mount(favorite.sources())
-        }
+
 
         with(root) {
             defaultPadding()
@@ -104,13 +103,38 @@ class SourceView : View() {
                         it.value.filteredChildren
                     }
                     onKeyReleased = EventHandler<KeyEvent> { event ->
-                        if(event?.isMetaDown?.and( event.code == KeyCode.RIGHT) == true){
+                        if(event.metaRight()){
                             this@treeview.selectionModel.selectedItem.expandAll()
+                        }
+                        if(event.metaF()){
+                            val viewNode = this@treeview.selectionModel.selectedItem.value
+                            treeModel.moveRoot(viewNode)
+                            with(this@treeview){
+                                root = TreeItem(treeModel.root)
+                                populate {
+                                    it.value.filteredChildren
+                                }
+                                selectFirst()
+                            }
+
                         }
                     }
                 }
 
             }
+        }
+        favoriteView.onFavoriteSelectedP.value = { favorite ->
+            treeModel.resetRoot()
+
+            with(treeView){
+                root = TreeItem(treeModel.root)
+
+                populate {
+                    it.value.filteredChildren
+                }
+            }
+            treeModel.mount(favorite.sources())
+
         }
     }
 }

@@ -3,6 +3,8 @@ package xyz.nietongxue.mindkit.util
 import javafx.scene.Node
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.Priority
@@ -45,6 +47,16 @@ fun Node.growH(){
         hgrow = Priority.ALWAYS
     }
 }
+
+
+fun KeyEvent?.metaRight(): Boolean {
+     return this?.isMetaDown?.and( this.code == KeyCode.RIGHT) == true
+}
+
+fun KeyEvent?.metaF(): Boolean {
+    return this?.isMetaDown?.and( this.code == KeyCode.F) == true
+}
+
 object UIGlobal {
     //TODO 这个实现丑陋吧？
     var resultPane: Pane? = null
