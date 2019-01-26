@@ -115,17 +115,18 @@ class SourceView : View() {
 
     private fun setupTreeViewKeymap() {
         treeView.onKeyReleased = EventHandler<KeyEvent> { event ->
-            if (event.metaRight()) {
+            if (event.metaAnd("Right")) {
+                //TODO 把展开状态存储在viewNode中。
                 treeView.selectionModel.selectedItem.expandAll()
             }
-            if (event.metaF()) {
+            if (event.metaAnd("F")) {
                 val viewNode = treeView.selectionModel.selectedItem.value
                 history.add(viewNode)
                 treeModel.moveRoot(viewNode)
                 setupTreeView()
                 treeView.selectFirst()
             }
-            if(event.metaJ()){
+            if(event.metaAnd("J")){
                 if(history.state().backEnabled){
                     history.back()
                     val viewNode =history.current()
@@ -134,7 +135,7 @@ class SourceView : View() {
                     treeView.selectFirst()
                 }
             }
-            if(event.metaK()){
+            if(event.metaAnd("K")){
                 if(history.state().forwardEnabled){
                     history.forward()
                     val viewNode =history.current()

@@ -14,13 +14,14 @@ import tornadofx.*
 
 object Clipboard {
 
-    fun setHTML(html:String){
+    fun setHTML(html: String) {
         val clipboard = Clipboard.getSystemClipboard()
         val content = ClipboardContent()
         content.putHtml(html)
         clipboard.setContent(content)
     }
-    fun setText(text:String){
+
+    fun setText(text: String) {
         val clipboard = Clipboard.getSystemClipboard()
         val content = ClipboardContent()
         content.putString(text)
@@ -32,38 +33,28 @@ fun VBox.defaultPadding() {
     padding = insets(10)
     spacing = 10.0
 }
-fun Node.growV(){
+
+fun Node.growV() {
     vboxConstraints {
         vgrow = Priority.ALWAYS
     }
 }
 
-fun HBox.defaultPadding(){
+fun HBox.defaultPadding() {
     padding = insets(10)
     spacing = 10.0
 }
-fun Node.growH(){
+
+fun Node.growH() {
     hboxConstraints {
         hgrow = Priority.ALWAYS
     }
 }
 
-
-fun KeyEvent?.metaRight(): Boolean {
-     return this?.isMetaDown?.and( this.code == KeyCode.RIGHT) == true
+fun KeyEvent?.metaAnd(name: String): Boolean {
+    return this?.isMetaDown?.and(this.code == KeyCode.getKeyCode(name)) == true
 }
 
-fun KeyEvent?.metaF(): Boolean {
-    return this?.isMetaDown?.and( this.code == KeyCode.F) == true
-}
-fun KeyEvent?.metaJ():Boolean{
-    return this?.isMetaDown?.and( this.code == KeyCode.J) == true
-
-}
-fun KeyEvent?.metaK():Boolean{
-    return this?.isMetaDown?.and( this.code == KeyCode.K) == true
-
-}
 
 object UIGlobal {
     //TODO 这个实现丑陋吧？
