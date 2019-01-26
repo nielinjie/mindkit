@@ -8,10 +8,8 @@ import xyz.nietongxue.mindkit.application.xmind.XMindSource
 import xyz.nietongxue.mindkit.model.Favorites
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.FileNode
-import xyz.nietongxue.mindkit.source.Openable
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.defaultPadding
-import java.awt.Desktop
 
 @Priority(-1)
 object GeneralActions : ActionDescriptor {
@@ -50,38 +48,9 @@ object GeneralActions : ActionDescriptor {
                         })
                     }else null
                 }
-        val oa: Action? =
-                (node.source as? Openable)?.let {
-                    (object : Action {
-                        override fun view(node: Node): Parent? = VBox().apply {
-                            defaultPadding()
-                            label(node.title + " - 节点的来源文件已打开。")
-                        }
 
-                        override val brief: String = "打开"
-                        override val description: String = "打开节点的来源文件 - "+ it.file.name
-                        override fun action(node: Node) {
-                            Desktop.getDesktop().open(it.file)
-                        }
-                    })
-                }
-        val ofa: Action? =
-                (node as? FileNode)?.let {
-                    (object : Action {
-                        override fun view(node: Node): Parent? = VBox().apply {
-                            defaultPadding()
-                            label(node.title + " - 节点文件已打开。")
-                        }
 
-                        override val brief: String = "打开"
-                        override val description: String = "打开节点文件 - " + it.file.name
-                        override fun action(node: Node) {
-                            Desktop.getDesktop().open(it.file)
-                        }
-                    })
-                }
-
-        return listOfNotNull(fa, fxa,oa,ofa)
+        return listOfNotNull(fa, fxa)
     }
 
 }

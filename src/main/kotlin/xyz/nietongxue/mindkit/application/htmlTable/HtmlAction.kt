@@ -8,9 +8,10 @@ import xyz.nietongxue.mindkit.actions.Action
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.application.xmind.XNode
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.toHtml
 
-
+@Priority(100)
 object HtmlAction : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
         return listOf(
@@ -44,7 +45,7 @@ object HtmlAction : ActionDescriptor {
 
 }
 
-
+@Priority(100)
 object HtmlTableAction : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
         return if (node is XNode)
