@@ -26,7 +26,7 @@ object GeneralActions : ActionDescriptor {
                         }
 
                         override val brief: String = "收藏"
-                        override val description: String = "收藏节点的来源"
+                        override val description: String = "收藏节点的来源 - "+ it.file.name
                         override fun action(node: Node) {
                             Favorites.add(XMindFavorite(it.file.absolutePath))
                         }
@@ -43,7 +43,7 @@ object GeneralActions : ActionDescriptor {
                             }
 
                             override val brief: String = "收藏"
-                            override val description: String = "收藏节点"
+                            override val description: String = "收藏节点 - "+ it.file.name
                             override fun action(node: Node) {
                                 Favorites.add(XMindFavorite(it.file.absolutePath))
                             }
@@ -59,7 +59,7 @@ object GeneralActions : ActionDescriptor {
                         }
 
                         override val brief: String = "打开"
-                        override val description: String = "打开节点的来源文件"
+                        override val description: String = "打开节点的来源文件 - "+ it.file.name
                         override fun action(node: Node) {
                             Desktop.getDesktop().open(it.file)
                         }
@@ -74,7 +74,7 @@ object GeneralActions : ActionDescriptor {
                         }
 
                         override val brief: String = "打开"
-                        override val description: String = "打开节点文件"
+                        override val description: String = "打开节点文件 - " + it.file.name
                         override fun action(node: Node) {
                             Desktop.getDesktop().open(it.file)
                         }
