@@ -1,8 +1,10 @@
 package xyz.nietongxue.mindkit.application.xmind
 
 import javafx.beans.property.SimpleObjectProperty
-import javafx.scene.image.Image
-import tornadofx.*
+import tornadofx.Fieldset
+import tornadofx.field
+import tornadofx.imageview
+import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.properties.Properties
 

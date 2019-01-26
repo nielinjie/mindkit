@@ -1,9 +1,11 @@
 package xyz.nietongxue.mindkit.application.htmlTable
 
 import javafx.scene.Parent
-import kotlinx.html.*
+import kotlinx.html.body
+import kotlinx.html.classes
+import kotlinx.html.html
 import kotlinx.html.stream.appendHTML
-import tornadofx.cssclass
+import kotlinx.html.unsafe
 import xyz.nietongxue.mindkit.actions.Action
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.application.xmind.XNode
@@ -11,7 +13,7 @@ import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.toHtml
 
-@Priority(100)
+@Priority(1000000)
 object HtmlAction : ActionDescriptor {
     override fun actions(node: Node): List<Action> {
         return listOf(

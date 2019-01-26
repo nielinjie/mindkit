@@ -1,9 +1,10 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.scene.layout.Pane
-import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
-import tornadofx.*
+import tornadofx.View
+import tornadofx.singleAssign
+import tornadofx.vbox
 import xyz.nietongxue.mindkit.util.defaultPadding
 import xyz.nietongxue.mindkit.util.growV
 

@@ -1,17 +1,20 @@
 package xyz.nietongxue.mindkit.view
 
+import javafx.animation.PauseTransition
+import javafx.event.EventHandler
 import javafx.scene.control.TextField
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
-import javafx.scene.layout.VBox
-import tornadofx.*
-import javafx.animation.PauseTransition
-import javafx.event.EventHandler
 import javafx.scene.input.KeyEvent
+import javafx.scene.layout.VBox
 import javafx.util.Duration
+import tornadofx.*
 import xyz.nietongxue.mindkit.model.Filters
-import xyz.nietongxue.mindkit.util.*
-import xyz.nietongxue.mindkit.view.ViewNode.*
+import xyz.nietongxue.mindkit.util.History
+import xyz.nietongxue.mindkit.util.defaultPadding
+import xyz.nietongxue.mindkit.util.growV
+import xyz.nietongxue.mindkit.util.metaAnd
+import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
 
 
 class SourceView : View() {
@@ -84,7 +87,7 @@ class SourceView : View() {
 
     private fun setupSearchingTextEvent(): PauseTransition {
         val searchActionDebounce = PauseTransition(Duration.seconds(1.0))
-        searchActionDebounce.setOnFinished { e ->
+        searchActionDebounce.setOnFinished {
             val filterS = filterField.textProperty().value
             if (filterS?.let { it.length > 1 } == true) {
                 //TODO 加入特殊search语法，比如marker。

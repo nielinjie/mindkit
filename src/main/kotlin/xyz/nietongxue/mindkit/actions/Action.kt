@@ -1,24 +1,23 @@
 package xyz.nietongxue.mindkit.actions
 
 import javafx.scene.Parent
-import xyz.nietongxue.mindkit.application.htmlTable.HtmlAction
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.scanForInstance
-
 
 
 interface ActionDescriptor {
     fun actions(node: Node): List<Action>
 
     companion object {
+        private val scanForInstance = scanForInstance(ActionDescriptor::class)
         fun actions(node: Node): List<Action> {
-            return scanForInstance(ActionDescriptor::class)
-                    .flatMap {
-                        it.actions(node)
-                    }
+            return scanForInstance.flatMap {
+                it.actions(node)
+            }
         }
-        fun default():ActionDescriptor{
-            return HtmlAction
+
+        fun default(): ActionDescriptor {
+            return scanForInstance.first()
         }
     }
 }

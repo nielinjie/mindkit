@@ -10,7 +10,6 @@ import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.source.InternalSource
 import xyz.nietongxue.mindkit.source.Source
-import java.lang.IllegalStateException
 
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
     var collapse: Boolean = false

@@ -1,7 +1,10 @@
 package xyz.nietongxue.mindkit.util
 
-import kotlinx.html.*
+import kotlinx.html.li
+import kotlinx.html.span
 import kotlinx.html.stream.appendHTML
+import kotlinx.html.ul
+import kotlinx.html.unsafe
 import xyz.nietongxue.mindkit.model.Node
 
 fun Node.toHtml(): String {

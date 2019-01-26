@@ -2,7 +2,6 @@ package xyz.nietongxue.mindkit.model
 
 
 import xyz.nietongxue.mindkit.util.Priority
-import java.lang.IllegalStateException
 
 //NOTE marker就是tag，是有结构有业务意义的标记。 label是自由标记。
 

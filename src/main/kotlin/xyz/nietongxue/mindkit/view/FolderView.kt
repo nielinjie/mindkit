@@ -1,9 +1,8 @@
 package xyz.nietongxue.mindkit.view
 
+import javafx.stage.DirectoryChooser
 import tornadofx.Component
 import java.io.File
-import javafx.stage.DirectoryChooser
-
 
 
 class FolderView : Component() {

@@ -1,9 +1,7 @@
 package xyz.nietongxue.mindkit.view
 
-import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.View
-import tornadofx.vboxConstraints
 import xyz.nietongxue.mindkit.properties.PropertiesApp
 import xyz.nietongxue.mindkit.util.growV
 

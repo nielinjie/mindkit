@@ -1,6 +1,8 @@
 package xyz.nietongxue.mindkit.util
 
-import javafx.beans.property.*
+import javafx.beans.property.Property
+import javafx.beans.property.ReadOnlyObjectPropertyBase
+import javafx.beans.property.ReadOnlyProperty
 import tornadofx.onChange
 
 class PairProperty<A, B>(val one: Property<A>, val two: Property<B>) : ReadOnlyObjectPropertyBase<Pair<A, B>>(), ReadOnlyProperty<Pair<A, B>> {

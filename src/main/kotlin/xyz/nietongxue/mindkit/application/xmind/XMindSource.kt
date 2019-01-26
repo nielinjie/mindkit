@@ -4,9 +4,11 @@ import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.source.*
+import xyz.nietongxue.mindkit.source.FileSource
+import xyz.nietongxue.mindkit.source.FileSourceDescriptor
+import xyz.nietongxue.mindkit.source.Mounting
+import xyz.nietongxue.mindkit.source.Openable
 import java.io.File
-
 
 
 object XmindFileSource : FileSourceDescriptor {
@@ -34,10 +36,11 @@ class XMindSource(path: String) : FileSource, Openable {
 //            println(eventType)
 //        }
         val content = xMindFile.content() ?: return emptyList()
-        val json = Parser().parse(content) as JsonArray<JsonObject>
-        val mm = MindMap.fromJson(json,this)
+        val json = Parser.default().parse(content) as? JsonArray<JsonObject>
+        val mm = json?.let { MindMap.fromJson(it,this) }
         return listOf(Mounting(mountPoint) {
-            listOf(mm.sheets[0].root)}
+            listOfNotNull(mm?.sheets?.get(0)?.root)
+        }
         )
     }
 }

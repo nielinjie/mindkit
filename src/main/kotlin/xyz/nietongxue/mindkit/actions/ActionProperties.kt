@@ -4,8 +4,8 @@ import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.properties.Properties
-import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.Priority
+import xyz.nietongxue.mindkit.util.UIGlobal
 
 
 @Priority(value = -100)

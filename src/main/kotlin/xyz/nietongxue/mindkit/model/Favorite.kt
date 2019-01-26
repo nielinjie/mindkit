@@ -50,7 +50,7 @@ object Favorites : Component() {
         val jsonS: String = (config["favorites"] as? String) ?: "[]"
 
 
-        val favorites: List<Favorite> = (Parser.default().parse(jsonS.reader()) as JsonArray<JsonObject>).map {
+        val favorites: List<Favorite> = (Parser.default().parse(jsonS.reader()) as JsonArray<JsonObject>).mapNotNull {
             val t = it.string("_type")!!
             val ob = it.obj("favorite")!!
             when (t) {
@@ -59,7 +59,7 @@ object Favorites : Component() {
                 "xyz.nietongxue.mindkit.model.FileFavorite" -> Klaxon().parseFromJsonObject<FileFavorite>(ob)
                 else -> throw IllegalArgumentException("Unknown type: $t")
             }
-        }.filterNotNull()
+        }
         all.addAll(if (favorites.isEmpty()) default else favorites)
 
 

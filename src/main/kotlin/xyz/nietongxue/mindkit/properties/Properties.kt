@@ -7,8 +7,8 @@ import tornadofx.*
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.Priority
+import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 interface Properties {

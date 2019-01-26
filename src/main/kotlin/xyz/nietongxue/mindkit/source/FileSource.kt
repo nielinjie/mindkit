@@ -1,6 +1,5 @@
 package xyz.nietongxue.mindkit.source
 
-import xyz.nietongxue.mindkit.application.xmind.XMindSource
 import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.scanForInstance
