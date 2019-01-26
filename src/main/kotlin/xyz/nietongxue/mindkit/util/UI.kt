@@ -56,6 +56,14 @@ fun KeyEvent?.metaRight(): Boolean {
 fun KeyEvent?.metaF(): Boolean {
     return this?.isMetaDown?.and( this.code == KeyCode.F) == true
 }
+fun KeyEvent?.metaJ():Boolean{
+    return this?.isMetaDown?.and( this.code == KeyCode.J) == true
+
+}
+fun KeyEvent?.metaK():Boolean{
+    return this?.isMetaDown?.and( this.code == KeyCode.K) == true
+
+}
 
 object UIGlobal {
     //TODO 这个实现丑陋吧？

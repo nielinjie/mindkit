@@ -3,19 +3,14 @@ package xyz.nietongxue.mindkit.view
 import javafx.scene.control.TextField
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
-import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
-import xyz.nietongxue.mindkit.util.defaultPadding
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
-import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.util.Duration
 import xyz.nietongxue.mindkit.model.Filters
-import xyz.nietongxue.mindkit.util.growV
-import xyz.nietongxue.mindkit.util.metaF
-import xyz.nietongxue.mindkit.util.metaRight
+import xyz.nietongxue.mindkit.util.*
 import xyz.nietongxue.mindkit.view.ViewNode.*
 
 
@@ -34,13 +29,60 @@ class SourceView : View() {
         }
         p(item)
     }
-
+    val history = History<ViewNode>()
 
     val folderView: FolderView = find()
 
     init {
+        val searchActionDebounce = setupSearchingTextEvent()
+        with(root) {
+            defaultPadding()
+            hbox {
+                defaultPadding()
+                hyperlink("收藏") {
+                    action { favoriteView.popOver.show(this) }
+                }
+                hyperlink("打开") {
+                    action {
+                        val folder = folderView.openChooser()
+                        folder?.let { favoriteView.addFolder(it) }
+                    }
+                }
+            }
+            this.add(filterField)
+            filterField.textProperty().onChange {
+                searchActionDebounce.playFromStart()
+            }
+            scrollpane {
+                isFitToHeight = true
+                isFitToWidth = true
+                growV()
+                treeView = treeview {
+                    root = TreeItem(treeModel.root)
+                    root.isExpanded = true
+                    cellFormat {
+                        text = it.node.title
+                        opacity = when (it.searchResult) {
+                            SearchResult.CHILD -> 0.5
+                            else -> 1.0
+                        }
+                    }
+                    onUserSelect {
+                        controller.selectedNode = it.node
+                    }
+                    populate {
+                        it.value.filteredChildren
+                    }
 
+                }
 
+            }
+        }
+        setupFavoriteSelectedEvent()
+        setupTreeViewKeymap()
+    }
+
+    private fun setupSearchingTextEvent(): PauseTransition {
         val searchActionDebounce = PauseTransition(Duration.seconds(1.0))
         searchActionDebounce.setOnFinished { e ->
             val filterS = filterField.textProperty().value
@@ -57,84 +99,60 @@ class SourceView : View() {
                     it.isExpanded = true
             }
         }
+        return searchActionDebounce
+    }
 
-
-
-
-        with(root) {
-            defaultPadding()
-            hbox {
-                defaultPadding()
-                hyperlink("收藏") {
-                    action { favoriteView.popOver.show(this) }
-                }
-                hyperlink("打开") {
-                    action {
-                        val folder = folderView.openChooser()
-                        folder?.let { favoriteView.addFolder(it) }
-                    }
-                }
-            }
-            this.add(filterField)
-            filterField.textProperty().onChange { filterS ->
-                searchActionDebounce.playFromStart()
-            }
-            scrollpane {
-                isFitToHeight = true
-                isFitToWidth = true
-                growV()
-
-
-                treeView = treeview {
-                    root = TreeItem(treeModel.root)
-                    root.isExpanded = true
-                    cellFormat {
-                        text = it.node.title
-                        opacity = when (it.searchResult) {
-                            SearchResult.CHILD -> 0.5
-                            else -> 1.0
-                        }
-
-                    }
-                    onUserSelect {
-                        controller.selectedNode = it.node
-                    }
-                    populate {
-                        it.value.filteredChildren
-                    }
-                    onKeyReleased = EventHandler<KeyEvent> { event ->
-                        if(event.metaRight()){
-                            this@treeview.selectionModel.selectedItem.expandAll()
-                        }
-                        if(event.metaF()){
-                            val viewNode = this@treeview.selectionModel.selectedItem.value
-                            treeModel.moveRoot(viewNode)
-                            with(this@treeview){
-                                root = TreeItem(treeModel.root)
-                                populate {
-                                    it.value.filteredChildren
-                                }
-                                selectFirst()
-                            }
-
-                        }
-                    }
-                }
-
-            }
-        }
+    private fun setupFavoriteSelectedEvent() {
         favoriteView.onFavoriteSelectedP.value = { favorite ->
             treeModel.resetRoot()
-
-            with(treeView){
-                root = TreeItem(treeModel.root)
-
-                populate {
-                    it.value.filteredChildren
-                }
-            }
+            history.clear()
+            history.add(treeModel.root)
+            setupTreeView()
             treeModel.mount(favorite.sources())
 
+        }
+    }
+
+    private fun setupTreeViewKeymap() {
+        treeView.onKeyReleased = EventHandler<KeyEvent> { event ->
+            if (event.metaRight()) {
+                treeView.selectionModel.selectedItem.expandAll()
+            }
+            if (event.metaF()) {
+                val viewNode = treeView.selectionModel.selectedItem.value
+                history.add(viewNode)
+                treeModel.moveRoot(viewNode)
+                setupTreeView()
+                treeView.selectFirst()
+            }
+            if(event.metaJ()){
+                if(history.state().backEnabled){
+                    history.back()
+                    val viewNode =history.current()
+                    treeModel.moveRoot(viewNode)
+                    setupTreeView()
+                    treeView.selectFirst()
+                }
+            }
+            if(event.metaK()){
+                if(history.state().forwardEnabled){
+                    history.forward()
+                    val viewNode =history.current()
+                    treeModel.moveRoot(viewNode)
+                    setupTreeView()
+                    treeView.selectFirst()
+                }
+            }
+
+        }
+    }
+
+    private fun setupTreeView() {
+        with(treeView) {
+            root = TreeItem(treeModel.root)
+            populate {
+                it.value.filteredChildren
+            }
         }
     }
 }
