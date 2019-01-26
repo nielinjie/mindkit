@@ -3,6 +3,8 @@ package xyz.nietongxue.mindkit.util
 import javafx.scene.Node
 import javafx.scene.input.Clipboard
 import javafx.scene.input.ClipboardContent
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.Priority
@@ -12,13 +14,14 @@ import tornadofx.*
 
 object Clipboard {
 
-    fun setHTML(html:String){
+    fun setHTML(html: String) {
         val clipboard = Clipboard.getSystemClipboard()
         val content = ClipboardContent()
         content.putHtml(html)
         clipboard.setContent(content)
     }
-    fun setText(text:String){
+
+    fun setText(text: String) {
         val clipboard = Clipboard.getSystemClipboard()
         val content = ClipboardContent()
         content.putString(text)
@@ -30,21 +33,29 @@ fun VBox.defaultPadding() {
     padding = insets(10)
     spacing = 10.0
 }
-fun Node.growV(){
+
+fun Node.growV() {
     vboxConstraints {
         vgrow = Priority.ALWAYS
     }
 }
 
-fun HBox.defaultPadding(){
+fun HBox.defaultPadding() {
     padding = insets(10)
     spacing = 10.0
 }
-fun Node.growH(){
+
+fun Node.growH() {
     hboxConstraints {
         hgrow = Priority.ALWAYS
     }
 }
+
+fun KeyEvent?.metaAnd(name: String): Boolean {
+    return this?.isMetaDown?.and(this.code == KeyCode.getKeyCode(name)) == true
+}
+
+
 object UIGlobal {
     //TODO 这个实现丑陋吧？
     var resultPane: Pane? = null
