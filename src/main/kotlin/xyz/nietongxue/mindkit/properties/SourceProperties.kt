@@ -1,17 +1,11 @@
 package xyz.nietongxue.mindkit.properties
 
 import javafx.beans.property.SimpleObjectProperty
-import javafx.geometry.Pos
-import tornadofx.*
-import xyz.nietongxue.mindkit.application.xmind.XMindFavorite
-import xyz.nietongxue.mindkit.application.xmind.XMindSource
-import xyz.nietongxue.mindkit.model.Favorites
+import tornadofx.Fieldset
+import tornadofx.field
+import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.source.Openable
 import xyz.nietongxue.mindkit.util.Priority
-import xyz.nietongxue.mindkit.util.defaultPadding
-import java.awt.Desktop
-import java.io.File
 
 @Priority(-5)
 object SourceProperties : Properties {

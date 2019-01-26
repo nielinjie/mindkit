@@ -1,12 +1,15 @@
 package xyz.nietongxue.mindkit.model
 
-import com.beust.klaxon.*
-import org.reflections.serializers.JsonSerializer
+import com.beust.klaxon.JsonArray
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Klaxon
+import com.beust.klaxon.Parser
 import tornadofx.Component
-import xyz.nietongxue.mindkit.application.xmind.XMindFavorite
+import xyz.nietongxue.mindkit.source.FileSourceDescriptor
 import xyz.nietongxue.mindkit.source.FolderSource
 import xyz.nietongxue.mindkit.source.Source
-import kotlin.reflect.KClass
+import xyz.nietongxue.mindkit.util.scanForInstance
+import java.io.File
 
 
 interface Favorite {
@@ -24,13 +27,21 @@ data class FolderFavorite(val path: String) : Favorite {
 
     override fun name() = "Folder - $path"
 }
+data class FileFavorite(val path: String) : Favorite {
+    private val fileSourceDescriptors = scanForInstance(FileSourceDescriptor::class)
+    override fun sources(): List<Source> {
+        return fileSourceDescriptors.flatMap { it.fileToSource(File(path)) }
+    }
+
+    override fun name() = "File - $path"
+}
 
 object Favorites : Component() {
     val all: MutableList<Favorite> = mutableListOf()
     val default: List<Favorite> = listOf(
-            XMindFavorite("/Users/nielinjie/Desktop/ppt.xmind")
+            FileFavorite("/Users/nielinjie/Desktop/ppt.xmind")
             ,
-            XMindFavorite("/Users/nielinjie/Desktop/19年计划.xmind"),
+            FileFavorite("/Users/nielinjie/Desktop/19年计划.xmind"),
             FolderFavorite("/Users/nielinjie/Desktop"),
             FolderFavorite("/Users/nielinjie/Library/Mobile Documents/com~apple~CloudDocs/思考和写作")
     )
@@ -43,8 +54,9 @@ object Favorites : Component() {
             val t = it.string("_type")!!
             val ob = it.obj("favorite")!!
             when (t) {
+                //TODO 搞一个跟一般的模式，不要when，比如forName
                 "xyz.nietongxue.mindkit.model.FolderFavorite" -> Klaxon().parseFromJsonObject<FolderFavorite>(ob)
-                "xyz.nietongxue.mindkit.application.xmind.XMindFavorite" -> Klaxon().parseFromJsonObject<XMindFavorite>(ob)
+                "xyz.nietongxue.mindkit.model.FileFavorite" -> Klaxon().parseFromJsonObject<FileFavorite>(ob)
                 else -> throw IllegalArgumentException("Unknown type: $t")
             }
         }.filterNotNull()
