@@ -1,7 +1,10 @@
 package xyz.nietongxue.mindkit.actions
 
 import javafx.scene.Parent
+import javafx.scene.layout.VBox
+import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.util.defaultPadding
 import xyz.nietongxue.mindkit.util.scanForInstance
 
 
@@ -29,5 +32,11 @@ interface Action {
     val description: String
     fun action(node: Node)
     fun view(node: Node): Parent?
+    fun basicResultStringView(result:String):Parent =
+        VBox().apply {
+            defaultPadding()
+            label(result)
+
+    }
 }
 

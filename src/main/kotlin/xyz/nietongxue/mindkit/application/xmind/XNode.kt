@@ -17,11 +17,13 @@ data class XNode(override val id: String,
                  val labels: List<String>,
                  val note: String?,
                  override val markers: List<Marker>,
+                 //TODO 只是为了debug用的，找到所有的可能的marker。
+                 val originalMarkers:List<String>,
+
                  val image: Image?,
                  val extensions: JsonArray<JsonValue>?,
                  override val children: ArrayList<Node>,
                  override val source: Source) : Node {
-
 
 
     companion object {
@@ -44,6 +46,7 @@ data class XNode(override val id: String,
                         (json["labels"] as? JsonArray<*>)?.map { it.toString() } ?: emptyList(),
                         json.lookup<String?>("notes.plain.content")[0],
                         json.lookup<String?>("markers.markerId").filterNotNull().map { XmindMarker(it).toGeneral() }.flatten().distinct(),
+                        json.lookup<String?>("markers.markerId").filterNotNull(),
                         (json["image"]  as? JsonObject)?.let {
                             Image(it["src"] as String, it["type"] as? String)
                         },
@@ -54,7 +57,7 @@ data class XNode(override val id: String,
                         , source
                 )
             } catch (e: Exception) {
-                XNode(UUID.randomUUID().toString(), "error", emptyList(), null, emptyList(), null, null, arrayListOf(), InternalSource)
+                XNode(UUID.randomUUID().toString(), "error", emptyList(), null, emptyList(), emptyList(),null, null, arrayListOf(),InternalSource)
             }
         }
     }
@@ -89,12 +92,18 @@ data class XmindMarker(val id: String) {
                 "priority-5" to "p5",
                 "symbol-attention" to "attention",
                 "symbol-question" to "question",
-                "task-3oct" to "task 30p",
-                "task-7oct" to "task 70p",
+                "task-oct" to "task 12.5p",
+                "task-3oct" to "task 37.5p",
+                "task-5oct" to "task 62.5p",
+                "task-7oct" to "task 87.5p",
                 "task-done" to "task 100p",
                 "task-half" to "task 50p",
                 "task-start" to "task 0p"
+
 //TODO 增加更多的marker。注意id不等于icon的文件名
+                        //task-5oct 没有，oct是不是八分之的意思？
+        //写个程序，把所有的markerId全部列出来。
+        //来一个debug用的的action
                 )
         return listOfNotNull(nameMap[id]?.split(" ")?.let {names:List<String> ->
             names.mapNotNull {Markers.byName(it) }

@@ -48,8 +48,6 @@ object Favorites : Component() {
 
     init {
         val jsonS: String = (config["favorites"] as? String) ?: "[]"
-
-
         val favorites: List<Favorite> = (Parser.default().parse(jsonS.reader()) as JsonArray<JsonObject>).mapNotNull {
             val t = it.string("_type")!!
             val ob = it.obj("favorite")!!
@@ -61,8 +59,6 @@ object Favorites : Component() {
             }
         }
         all.addAll(if (favorites.isEmpty()) default else favorites)
-
-
     }
 
     fun add(favorite: Favorite) {

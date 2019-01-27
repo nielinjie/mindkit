@@ -18,11 +18,7 @@ object FileSourceActions : ActionDescriptor {
         val fa: Action? =
                 (node.source as? FileSource)?.let {
                     (object : Action {
-                        override fun view(node: Node): Parent? = VBox().apply {
-                            defaultPadding()
-                            label(node.title + " - 节点的来源已被加入收藏。")
-                        }
-
+                        override fun view(node: Node): Parent? = basicResultStringView(node.title + " - 节点的来源已被加入收藏。")
                         override val brief: String = "收藏"
                         override val description: String = "收藏节点的来源 - " + it.file.name
                         override fun action(node: Node) {
@@ -33,11 +29,7 @@ object FileSourceActions : ActionDescriptor {
         val fxa: Action? =
                 (node as? FileNode)?.let {
                     (object : Action {
-                        override fun view(node: Node): Parent? = VBox().apply {
-                            defaultPadding()
-                            label(node.title + " - 节点已被加入收藏。")
-                        }
-
+                        override fun view(node: Node): Parent? = basicResultStringView(node.title + " - 节点已被加入收藏。")
                         override val brief: String = "收藏"
                         override val description: String = "收藏节点 - " + it.file.name
                         override fun action(node: Node) {
@@ -51,11 +43,7 @@ object FileSourceActions : ActionDescriptor {
         val oa: Action? =
                 (node.source as? Openable)?.let {
                     (object : Action {
-                        override fun view(node: Node): Parent? = VBox().apply {
-                            defaultPadding()
-                            label(node.title + " - 节点的来源文件已打开。")
-                        }
-
+                        override fun view(node: Node): Parent? = basicResultStringView(node.title + " - 节点的来源文件已打开。")
                         override val brief: String = "打开"
                         override val description: String = "打开节点的来源文件 - " + it.file.name
                         override fun action(node: Node) {
@@ -66,11 +54,7 @@ object FileSourceActions : ActionDescriptor {
         val ofa: Action? =
                 (node as? FileNode)?.let {
                     (object : Action {
-                        override fun view(node: Node): Parent? = VBox().apply {
-                            defaultPadding()
-                            label(node.title + " - 节点文件已打开。")
-                        }
-
+                        override fun view(node: Node): Parent? = basicResultStringView(node.title + " - 节点文件已打开。")
                         override val brief: String = "打开"
                         override val description: String = "打开节点文件 - " + it.file.name
                         override fun action(node: Node) {
