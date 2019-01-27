@@ -10,7 +10,7 @@ class AppView : View() {
     val mainController: MainController by inject()
 
     val appView = VBox()
-    //TODO 目前写死了properties。
+    //NOTE 目前写死了properties。
 
 
     init {

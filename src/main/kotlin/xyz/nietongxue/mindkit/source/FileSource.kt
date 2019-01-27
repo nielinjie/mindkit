@@ -19,7 +19,7 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source, Openabl
 
     override val file = File(path)
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
-        //TODO 只实现了flat是true
+        //NOTE 只实现了flat是true，貌似没必要flat为false
         require(flat)
         return File(path).walk().map { file ->
             FileNode(file, this) to (fileSourceDescriptors.flatMap { it.fileToSource(file) })

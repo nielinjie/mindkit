@@ -48,6 +48,7 @@ class SourceView : View() {
                 hyperlink("打开") {
                     action {
                         val folder = folderView.openChooser()
+                        //TODO 有了fileSource以后，可以直接open一个file了。
                         folder?.let { favoriteView.addFolder(it) }
                     }
                 }
@@ -90,7 +91,6 @@ class SourceView : View() {
         searchActionDebounce.setOnFinished {
             val filterS = filterField.textProperty().value
             if (filterS?.let { it.length > 1 } == true) {
-                //TODO 加入特殊search语法，比如marker。
                 treeModel.root.filter = Filters.filter(filterS)
             } else {
                 treeModel.root.filter = null

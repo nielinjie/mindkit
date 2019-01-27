@@ -42,6 +42,8 @@ object FileSourceActions : ActionDescriptor {
                         override val description: String = "收藏节点 - " + it.file.name
                         override fun action(node: Node) {
                             //TODO favorite的下拉框没有刷新，没有体现出新收藏的节点
+                            //因为下拉框监听的是一个包在favorites.all外面的observer，不是favorites本身。
+                            //是否需要把favorites本身作为可监听的？这样会把model与ui/observer耦合。
                             Favorites.add(FileFavorite(it.file.absolutePath))
                         }
                     })

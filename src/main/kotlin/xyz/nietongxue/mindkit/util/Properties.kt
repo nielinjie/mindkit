@@ -20,11 +20,12 @@ class PairProperty<A, B>(val one: Property<A>, val two: Property<B>) : ReadOnlyO
     }
 
     override fun getName(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getBean(): Any {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
-fun <A,B> Property<A>.withAnother(two:Property<B>): PairProperty<A, B> =PairProperty(this,two)
+
+fun <A, B> Property<A>.withAnother(two: Property<B>): PairProperty<A, B> = PairProperty(this, two)

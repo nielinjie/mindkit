@@ -57,7 +57,6 @@ class FavoriteView : Component() {
                 }
                 this.onAction = EventHandler<ActionEvent> {
                     //NOTE 代替是favorite的行为，而不是source的，所以source是append
-
                     favoriteP.value = this.value
                 }
             }

@@ -13,6 +13,7 @@ object MemoryTextSource: EditableSource {
     override val description: String = "来自于内存"
 
     //TODO 设计：一个输入框，输入文本，整理为树形，再通过app输出，包括纯文本输出、xmind输出。
+    // 打开的地方有打开folder、文件、剪贴板等等，都是一些source
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

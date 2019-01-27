@@ -9,6 +9,5 @@ interface Node{
     val children: MutableList<Node>
     val markers:List<Marker>
 
-    //TODO 想下是否要耦合node和source
     val source: Source
 }

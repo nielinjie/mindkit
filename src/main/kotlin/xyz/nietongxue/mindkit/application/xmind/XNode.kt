@@ -19,12 +19,10 @@ data class XNode(override val id: String,
                  override val markers: List<Marker>,
                  val image: Image?,
                  val extensions: JsonArray<JsonValue>?,
-        //TODO 如何通过类型系统限制xnode的children都是xnode？
                  override val children: ArrayList<Node>,
                  override val source: Source) : Node {
 
 
-    //TODO 多sheet
 
     companion object {
         fun fromJson(json: JsonObject, source: Source): XNode {
@@ -73,8 +71,9 @@ data class Sheet(val root: XNode) {
 data class MindMap(val sheets: List<Sheet>) {
     companion object {
         fun fromJson(json: JsonArray<JsonObject>, source: Source): MindMap {
-            return MindMap(listOf(Sheet.fromJson(json.first(), source)))
+            return MindMap(json.map { Sheet.fromJson(it, source) })
         }
+
     }
 }
 

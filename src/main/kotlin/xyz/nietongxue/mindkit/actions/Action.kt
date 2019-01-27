@@ -22,7 +22,8 @@ interface ActionDescriptor {
     }
 }
 
-//NOTE  Action 机制，提示在此节点，或者此节点"附近"可以做点啥。
+//NOTE Action 机制，提示在此节点，或者此节点"附近"可以做点啥。
+//NOTE Action是对一个节点的显式操作，而不是选中节点即发生的操作，那个叫app
 interface Action {
     val brief: String
     val description: String

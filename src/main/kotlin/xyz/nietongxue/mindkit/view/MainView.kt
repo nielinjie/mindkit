@@ -5,6 +5,7 @@ import tornadofx.*
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.model.FilterDescriptor
 import xyz.nietongxue.mindkit.properties.PropertiesDescriptor
+import xyz.nietongxue.mindkit.source.FileSourceDescriptor
 import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.scanForInstance
 
@@ -60,6 +61,7 @@ class MyApp : App() {
             scanForInstance(PropertiesDescriptor::class)
             scanForInstance(ActionDescriptor::class)
             scanForInstance(FilterDescriptor::class)
+            scanForInstance(FileSourceDescriptor::class)
         }
     }
 }

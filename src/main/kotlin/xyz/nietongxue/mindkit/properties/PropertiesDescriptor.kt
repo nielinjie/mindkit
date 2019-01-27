@@ -33,7 +33,7 @@ object PropertiesApp {
             this.node = node
             view.rebuild()
             //default action
-            //TODO default action 本质上应该是一种app。
+            //NOTE default action 本质上应该是一种app。但目前工作地很好，不需要改。
             //setup action view
             val action = ActionDescriptor.default().actions(node).first()
             action.view(node)?.also { view ->
@@ -52,6 +52,7 @@ object PropertiesApp {
                 with(root) {
                     form {
                         //TODO 性能优化，这里会失去响应一段事件，可能是class scan比较慢
+                        //NOTE 貌似是构造fieldset比较慢，特别是actionProperties的fieldset，也可能是第一个fieldset。
                         PropertiesDescriptor.pros(nodeP).forEach {
                             this@form.add(it)
                         }
