@@ -1,6 +1,11 @@
 package xyz.nietongxue.mindkit.model
 
 
+import javafx.beans.property.SimpleObjectProperty
+import tornadofx.Fieldset
+import tornadofx.field
+import tornadofx.label
+import xyz.nietongxue.mindkit.properties.PropertiesDescriptor
 import xyz.nietongxue.mindkit.util.Priority
 
 //NOTE marker就是tag，是有结构有业务意义的标记。 label是自由标记。
@@ -41,9 +46,8 @@ object Markers {
 
 @Priority(100)
 class MarkerFilter : FilterDescriptor {
-    override fun filter(tokens:Tokens): List<Filter> {
-        //TODO marker要不要完整匹配？目前觉得应该
-        //marker直接匹配
+    override fun filter(tokens: Tokens): List<Filter> {
+        //NOTE marker直接完整匹配
         val markers: List<Marker> = tokens.all.mapNotNull {
             //已经考虑了alias了。
             Markers.byName(it.name)
@@ -59,6 +63,21 @@ class MarkerFilter : FilterDescriptor {
             }
         }
 
+    }
+
+}
+
+
+class MarkderPropertiesDescriptor : PropertiesDescriptor {
+    override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
+        val node = nodeP.value
+        return if (node.markers.isNotEmpty()) {
+            listOf(Fieldset("Marker").apply {
+                field {
+                    label(node.markers.joinToString(",") { it.name })
+                }
+            })
+        } else emptyList()
     }
 
 }

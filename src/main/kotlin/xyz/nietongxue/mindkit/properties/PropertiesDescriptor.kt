@@ -11,12 +11,12 @@ import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.scanForInstance
 
-interface Properties {
+interface PropertiesDescriptor {
     fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset>
 
     companion object {
         fun pros(nodeP: SimpleObjectProperty<Node>): List<Fieldset> =
-                scanForInstance(Properties::class).flatMap {
+                scanForInstance(PropertiesDescriptor::class).flatMap {
                     it.fieldSet(nodeP)
                 }
     }
@@ -52,7 +52,7 @@ object PropertiesApp {
                 with(root) {
                     form {
                         //TODO 性能优化，这里会失去响应一段事件，可能是class scan比较慢
-                        Properties.pros(nodeP).forEach {
+                        PropertiesDescriptor.pros(nodeP).forEach {
                             this@form.add(it)
                         }
                     }

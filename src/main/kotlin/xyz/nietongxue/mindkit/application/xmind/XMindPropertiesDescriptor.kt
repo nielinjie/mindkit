@@ -6,9 +6,9 @@ import tornadofx.field
 import tornadofx.imageview
 import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.properties.Properties
+import xyz.nietongxue.mindkit.properties.PropertiesDescriptor
 
-object XMindProperties : Properties {
+object XMindPropertiesDescriptor : PropertiesDescriptor {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
         val node = nodeP.value
         return if (node is XNode) {
@@ -17,12 +17,7 @@ object XMindProperties : Properties {
                         field("标题") {
                             label(node.title)
                         }
-                        //TODO markers在xmind以外来做。
-                        if(node.markers.isNotEmpty()) {
-                            field("Markers") {
-                                label(node.markers.joinToString(", ") { it.name })
-                            }
-                        }
+
                         node.image?.also {
                             field("图像") {
                                 //TODO 是否有其他类型的image？

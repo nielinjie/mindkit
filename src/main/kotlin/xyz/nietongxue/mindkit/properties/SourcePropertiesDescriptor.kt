@@ -8,7 +8,7 @@ import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.Priority
 
 @Priority(-5)
-object SourceProperties : Properties {
+object SourcePropertiesDescriptor : PropertiesDescriptor {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
         val re =
                 Fieldset("来源信息")

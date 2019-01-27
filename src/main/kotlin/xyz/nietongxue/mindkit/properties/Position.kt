@@ -26,7 +26,7 @@ data class Position(val deep: Int, val childrenCount: Int, val descendantsCount:
     }
 }
 @Priority(-10)
-object PositionProperties : Properties {
+object PositionPropertiesDescriptor : PropertiesDescriptor {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
         val position = Position.fromNode(nodeP.value)
         val re =
