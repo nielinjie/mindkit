@@ -1,4 +1,4 @@
-package xyz.nietongxue.mindkit.properties
+package xyz.nietongxue.mindkit.model.properties
 
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.Parent

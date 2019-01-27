@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty
 import tornadofx.Fieldset
 import tornadofx.field
 import tornadofx.label
-import xyz.nietongxue.mindkit.properties.PropertiesDescriptor
+import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
 import xyz.nietongxue.mindkit.util.Priority
 
 //NOTE marker就是tag，是有结构有业务意义的标记。 label是自由标记。

@@ -7,8 +7,8 @@ import com.beust.klaxon.lookup
 import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.source.InternalSource
-import xyz.nietongxue.mindkit.source.Source
+import xyz.nietongxue.mindkit.model.source.InternalSource
+import xyz.nietongxue.mindkit.model.source.Source
 import java.util.*
 
 

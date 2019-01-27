@@ -4,10 +4,10 @@ import com.beust.klaxon.JsonArray
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.source.FileSource
-import xyz.nietongxue.mindkit.source.FileSourceDescriptor
-import xyz.nietongxue.mindkit.source.Mounting
-import xyz.nietongxue.mindkit.source.Openable
+import xyz.nietongxue.mindkit.model.source.FileSource
+import xyz.nietongxue.mindkit.model.source.FileSourceDescriptor
+import xyz.nietongxue.mindkit.model.source.Mounting
+import xyz.nietongxue.mindkit.model.source.Openable
 import java.io.File
 
 

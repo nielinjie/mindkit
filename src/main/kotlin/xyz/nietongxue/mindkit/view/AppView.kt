@@ -2,7 +2,7 @@ package xyz.nietongxue.mindkit.view
 
 import javafx.scene.layout.VBox
 import tornadofx.View
-import xyz.nietongxue.mindkit.properties.PropertiesApp
+import xyz.nietongxue.mindkit.model.properties.PropertiesApp
 import xyz.nietongxue.mindkit.util.growV
 
 class AppView : View() {

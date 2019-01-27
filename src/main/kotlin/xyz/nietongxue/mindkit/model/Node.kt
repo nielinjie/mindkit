@@ -1,6 +1,6 @@
 package xyz.nietongxue.mindkit.model
 
-import xyz.nietongxue.mindkit.source.Source
+import xyz.nietongxue.mindkit.model.source.Source
 
 interface Node{
     val id: String

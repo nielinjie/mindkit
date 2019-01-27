@@ -8,8 +8,8 @@ import tornadofx.onChange
 import xyz.nietongxue.mindkit.model.Filter
 import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.source.InternalSource
-import xyz.nietongxue.mindkit.source.Source
+import xyz.nietongxue.mindkit.model.source.InternalSource
+import xyz.nietongxue.mindkit.model.source.Source
 
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
     var collapse: Boolean = false

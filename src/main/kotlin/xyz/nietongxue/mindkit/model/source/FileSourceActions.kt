@@ -1,4 +1,4 @@
-package xyz.nietongxue.mindkit.source
+package xyz.nietongxue.mindkit.model.source
 
 import javafx.scene.Parent
 import javafx.scene.layout.VBox

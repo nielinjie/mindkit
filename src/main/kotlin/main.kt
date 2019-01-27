@@ -4,8 +4,8 @@ import com.beust.klaxon.Parser
 import xyz.nietongxue.mindkit.application.xmind.MindMap
 import xyz.nietongxue.mindkit.application.xmind.XMindFile
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.source.Mounting
-import xyz.nietongxue.mindkit.source.Source
+import xyz.nietongxue.mindkit.model.source.Mounting
+import xyz.nietongxue.mindkit.model.source.Source
 import xyz.nietongxue.mindkit.view.ViewNode
 
 fun main(args: Array<String>){

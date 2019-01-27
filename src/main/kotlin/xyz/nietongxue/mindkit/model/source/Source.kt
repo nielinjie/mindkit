@@ -1,4 +1,4 @@
-package xyz.nietongxue.mindkit.source
+package xyz.nietongxue.mindkit.model.source
 
 import xyz.nietongxue.mindkit.model.Node
 

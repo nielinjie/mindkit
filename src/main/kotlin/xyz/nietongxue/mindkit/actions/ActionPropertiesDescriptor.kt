@@ -3,7 +3,7 @@ package xyz.nietongxue.mindkit.actions
 import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.properties.PropertiesDescriptor
+import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.UIGlobal
 

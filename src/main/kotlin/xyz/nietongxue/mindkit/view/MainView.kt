@@ -4,8 +4,8 @@ import javafx.scene.control.SplitPane
 import tornadofx.*
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.model.FilterDescriptor
-import xyz.nietongxue.mindkit.properties.PropertiesDescriptor
-import xyz.nietongxue.mindkit.source.FileSourceDescriptor
+import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
+import xyz.nietongxue.mindkit.model.source.FileSourceDescriptor
 import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.scanForInstance
 

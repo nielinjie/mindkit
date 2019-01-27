@@ -1,7 +1,7 @@
 package xyz.nietongxue.mindkit.view
 
 import tornadofx.Component
-import xyz.nietongxue.mindkit.source.Source
+import xyz.nietongxue.mindkit.model.source.Source
 
 class TreeModel : Component(){
     var root: ViewNode = ViewNode.emptyRoot()

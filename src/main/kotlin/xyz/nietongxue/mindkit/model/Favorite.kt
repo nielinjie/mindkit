@@ -5,9 +5,9 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.Parser
 import tornadofx.Component
-import xyz.nietongxue.mindkit.source.FileSourceDescriptor
-import xyz.nietongxue.mindkit.source.FolderSource
-import xyz.nietongxue.mindkit.source.Source
+import xyz.nietongxue.mindkit.model.source.FileSourceDescriptor
+import xyz.nietongxue.mindkit.model.source.FolderSource
+import xyz.nietongxue.mindkit.model.source.Source
 import xyz.nietongxue.mindkit.util.scanForInstance
 import java.io.File
 

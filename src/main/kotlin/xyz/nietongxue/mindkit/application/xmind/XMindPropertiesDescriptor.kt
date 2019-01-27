@@ -6,7 +6,7 @@ import tornadofx.field
 import tornadofx.imageview
 import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
-import xyz.nietongxue.mindkit.properties.PropertiesDescriptor
+import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
 
 object XMindPropertiesDescriptor : PropertiesDescriptor {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
