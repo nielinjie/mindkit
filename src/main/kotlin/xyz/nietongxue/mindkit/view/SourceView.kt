@@ -35,6 +35,7 @@ class SourceView : View() {
     val history = History<ViewNode>()
 
     val folderView: FolderView = find()
+    val fileView: FileView = find()
 
     init {
         val searchActionDebounce = setupSearchingTextEvent()
@@ -45,11 +46,16 @@ class SourceView : View() {
                 hyperlink("收藏") {
                     action { favoriteView.popOver.show(this) }
                 }
-                hyperlink("打开") {
+                hyperlink("打开目录") {
                     action {
                         val folder = folderView.openChooser()
-                        //TODO 有了fileSource以后，可以直接open一个file了。
                         folder?.let { favoriteView.addFolder(it) }
+                    }
+                }
+                hyperlink("打开文件") {
+                    action {
+                        val file = fileView.openChooser()
+                        file?.let { favoriteView.addFile(it) }
                     }
                 }
             }
@@ -168,7 +174,7 @@ class SourceView : View() {
     private fun saveTreeState(){
         iterTree(treeView.root){
             it.value.expanded = it.isExpanded
-            //TODO 把展开状态和焦点状态存储在viewNode中。
+            //TODO 把焦点状态存储在viewNode中。
 
 //            it.value.focus = treeView.selectedValue?.node?.id == it.value.node.id
         }

@@ -1,12 +1,12 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.stage.DirectoryChooser
+import javafx.stage.FileChooser
 import tornadofx.Component
 import java.io.File
 
 
 class FolderView : Component() {
-    //var folderSelected:((File)->Unit)?=null
 
     fun openChooser() : File?{
         val chooser = DirectoryChooser()
@@ -21,6 +21,25 @@ class FolderView : Component() {
         }
 
         return selectedDirectory
+    }
+
+}
+
+class FileView : Component() {
+
+    fun openChooser() : File?{
+        val chooser = FileChooser()
+        chooser.title = "选择一个文件"
+
+        val defaultDirectory = (config["selectedFileDirectory"] as? String ?: System.getProperty("user.home") ?: "/").let{File(it)}
+        chooser.initialDirectory = defaultDirectory
+        val selectedFile = chooser.showOpenDialog(primaryStage)
+        selectedFile?.also {
+            config["selectedFileDirectory"] = it.parentFile.absolutePath
+            config.save()
+        }
+
+        return selectedFile
     }
 
 }

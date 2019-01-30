@@ -52,8 +52,8 @@ object PropertiesApp {
                 (root as VBox).clear()
                 with(root) {
                     form {
-                        //TODO 性能优化，这里会失去响应一段事件，可能是class scan比较慢
                         //NOTE 貌似是构造fieldset比较慢，特别是actionProperties的fieldset，也可能是第一个fieldset。
+                        //NOTE 速度可以接受。
                         PropertiesDescriptor.pros(nodeP).forEach {
                             this@form.add(it)
                         }

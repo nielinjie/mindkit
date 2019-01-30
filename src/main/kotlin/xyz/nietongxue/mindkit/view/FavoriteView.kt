@@ -13,6 +13,7 @@ import org.controlsfx.control.PopOver
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Favorite
 import xyz.nietongxue.mindkit.model.Favorites
+import xyz.nietongxue.mindkit.model.FileFavorite
 import xyz.nietongxue.mindkit.model.FolderFavorite
 import xyz.nietongxue.mindkit.util.defaultPadding
 import xyz.nietongxue.mindkit.util.withAnother
@@ -72,7 +73,6 @@ class FavoriteView : Component() {
 
     }
 
-    //TODO 找个该在的地方
     fun addFolder(folder: File) {
         val folderFavorite = FolderFavorite(folder.absolutePath)
         val findFavorite = Favorites.all.find { it is FolderFavorite && it.path == folderFavorite.path }
@@ -80,6 +80,15 @@ class FavoriteView : Component() {
             Favorites.add(folderFavorite)
         }
         this.favoriteP.set(folderFavorite)
+    }
+
+    fun addFile(file:File){
+        val fileFavorite  = FileFavorite(file.absolutePath)
+        val findFavorite = Favorites.all.find { it is FolderFavorite && it.path == fileFavorite.path }
+        if (findFavorite == null) {
+            Favorites.add(fileFavorite)
+        }
+        this.favoriteP.set(fileFavorite)
     }
 
     fun onClose() {

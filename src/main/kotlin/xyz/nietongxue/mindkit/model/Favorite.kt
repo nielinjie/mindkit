@@ -10,6 +10,7 @@ import xyz.nietongxue.mindkit.model.source.FolderSource
 import xyz.nietongxue.mindkit.model.source.Source
 import xyz.nietongxue.mindkit.util.scanForInstance
 import java.io.File
+import kotlin.reflect.KClass
 
 
 interface Favorite {
@@ -27,6 +28,7 @@ data class FolderFavorite(val path: String) : Favorite {
 
     override fun name() = "Folder - $path"
 }
+
 data class FileFavorite(val path: String) : Favorite {
     private val fileSourceDescriptors = scanForInstance(FileSourceDescriptor::class)
     override fun sources(): List<Source> {
@@ -51,13 +53,14 @@ object Favorites : Component() {
         val favorites: List<Favorite> = (Parser.default().parse(jsonS.reader()) as JsonArray<JsonObject>).mapNotNull {
             val t = it.string("_type")!!
             val ob = it.obj("favorite")!!
-            when (t) {
-                //TODO 搞一个跟一般的模式，不要when，比如forName
-                "xyz.nietongxue.mindkit.model.FolderFavorite" -> Klaxon().parseFromJsonObject<FolderFavorite>(ob)
-                "xyz.nietongxue.mindkit.model.FileFavorite" -> Klaxon().parseFromJsonObject<FileFavorite>(ob)
-                else -> throw IllegalArgumentException("Unknown type: $t")
-            }
-        }
+            val clazz: Class<Any>? =
+                    try {
+                        Class .forName(t) as Class<Any>?
+                    } catch (_: Throwable) {
+                        throw IllegalArgumentException("Unknown type: $t")
+                    }
+            clazz?.let { Klaxon().fromJsonObject(ob, it, it.kotlin) }
+        }.map { it as Favorite }
         all.addAll(if (favorites.isEmpty()) default else favorites)
     }
 
