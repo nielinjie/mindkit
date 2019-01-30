@@ -81,8 +81,8 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         }
 
         fun emptyRoot() = ViewNode.fromNode(object : Node {
-            override val markers: List<Marker>
-                = emptyList()
+            override val markers: MutableList<Marker>
+                = mutableListOf()
             override val id: String = "_root"
             override val title: String = "/"
             override val children: ArrayList<Node> = ArrayList()

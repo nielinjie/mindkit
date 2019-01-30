@@ -1,9 +1,19 @@
 package xyz.nietongxue.mindkit.model.source
 
+import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
 
 
-data class Mounting(val where: Node, val what: () -> List<Node>)
+data class Mounting(val where: Node, private val what: () -> List<Node>){
+    fun getAndMark():List<Node>{
+        return what().map{
+           it.collect {
+               Markers.mark(it)
+           }
+            it
+        }
+    }
+}
 interface Source {
     val description: String
     fun mount(tree: Node, mountPoint: Node = tree): List<Mounting>

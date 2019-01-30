@@ -7,7 +7,7 @@ interface Node {
     val title: String
 
     val children: MutableList<Node>
-    val markers: List<Marker>
+    val markers: MutableList<Marker>
 
     val source: Source
     fun <T> collect(f: (Node) -> T): List<T> {

@@ -17,7 +17,7 @@ data class XNode(override val id: String,
                  val labels: List<String>,
                  val note: String?,
                  //TODO Marker的识别应该是source/node的职责还是application的职责？
-                 override val markers: List<Marker>,
+                 override val markers:  MutableList<Marker>,
                  val originalMarkers:List<String>,
 
                  val image: Image?,
@@ -45,7 +45,7 @@ data class XNode(override val id: String,
                         json["title"] as? String ?: "",
                         (json["labels"] as? JsonArray<*>)?.map { it.toString() } ?: emptyList(),
                         json.lookup<String?>("notes.plain.content")[0],
-                        json.lookup<String?>("markers.markerId").filterNotNull().map { XmindMarker(it).toGeneral() }.flatten().distinct(),
+                        mutableListOf(),
                         json.lookup<String?>("markers.markerId").filterNotNull(),
                         (json["image"]  as? JsonObject)?.let {
                             Image(it["src"] as String, it["type"] as? String)
@@ -57,7 +57,7 @@ data class XNode(override val id: String,
                         , source
                 )
             } catch (e: Exception) {
-                XNode(UUID.randomUUID().toString(), "error", emptyList(), null, emptyList(), emptyList(),null, null, arrayListOf(),InternalSource)
+                XNode(UUID.randomUUID().toString(), "error", emptyList(), null, mutableListOf(), emptyList(),null, null, arrayListOf(),InternalSource)
             }
         }
     }
@@ -80,35 +80,6 @@ data class MindMap(val sheets: List<Sheet>) {
     }
 }
 
-data class XmindMarker(val id: String) {
-    fun toGeneral(): List<Marker> {
-        val nameMap: Map<String, String> = mapOf(
-                "c_symbol_hourglass" to "wait",
-                "priority-0" to "p0",
-                "priority-1" to "p1",
-                "priority-2" to "p2",
-                "priority-3" to "p3",
-                "priority-4" to "p4",
-                "priority-5" to "p5",
-                "symbol-attention" to "attention",
-                "symbol-question" to "question",
-                "task-oct" to "task 12.5p",
-                "task-3oct" to "task 37.5p",
-                "task-5oct" to "task 62.5p",
-                "task-7oct" to "task 87.5p",
-                "task-done" to "task 100p",
-                "task-half" to "task 50p",
-                "task-start" to "task 0p"
 
-//TODO 增加更多的marker。注意id不等于icon的文件名
-                        //task-5oct 没有，oct是不是八分之的意思？
-        //写个程序，把所有的markerId全部列出来。
-        //来一个debug用的的action
-                )
-        return listOfNotNull(nameMap[id]?.split(" ")?.let {names:List<String> ->
-            names.mapNotNull {Markers.byName(it) }
-        }).flatten()
-    }
-}
 
 data class Image(val src: String, val type: String?)

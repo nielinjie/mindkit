@@ -25,7 +25,7 @@ class TreeModel : Component() {
         } ui {
             it.forEach {mounting ->
                 runAsync{
-                    mounting.what()
+                    mounting.getAndMark()
                 } ui {
                     val viewNode = root.findNode(mounting.where)
                     //TODO lazyload，需要显示的时候load

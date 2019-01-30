@@ -7,6 +7,7 @@ import tornadofx.field
 import tornadofx.label
 import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
 import xyz.nietongxue.mindkit.util.Priority
+import xyz.nietongxue.mindkit.util.scanForInstance
 
 //NOTE marker就是tag，是有结构有业务意义的标记。 label是自由标记。
 
@@ -15,19 +16,25 @@ data class Marker(val name: String, val alias: List<String>)
 //NOTE 松耦合，marker首先是独立存在的。family是marker之上的一种应用。
 data class MarkerFamily(val name: String, val alias: List<String>, val markers: List<Marker>)
 
+
+interface MarkerDescriptor {
+    fun mark(node: Node)
+    val markers: List<Marker>
+    val families: List<MarkerFamily>
+}
+
+
 object Markers {
-    //TODO 需要具体应用各自定义marker 么？
-    private val priorityN: List<Marker> = (0..5).toList().map { "p$it" }.map { Marker(it, emptyList()) }
-    private val percentN: List<Marker> = (0..100 step 10).toList().map { "${it}p" }.map { Marker(it, emptyList()) }
-    private val words: List<Marker> = listOf("attention", "wait", "question", "task").map { Marker(it, emptyList()) }
 
-    val markers: List<Marker> =
-            priorityN + percentN + words
 
-    val markerFamilies: List<MarkerFamily> = listOf(
-            MarkerFamily("todo", listOf("task"), markers),
-            MarkerFamily("waiting", emptyList(), listOfNotNull(byName("waiting")))
-    )
+    val markerDescriptors = scanForInstance(MarkerDescriptor::class)
+
+    fun mark(node: Node) = markerDescriptors.forEach { it.mark(node) }
+
+
+
+    val markers: List<Marker> = markerDescriptors.flatMap { it.markers }.distinct()
+    val markerFamilies: List<MarkerFamily> = markerDescriptors.flatMap { it.families }.distinct()
 
     fun byName(name: String, byAlias: Boolean = true): Marker? {
         return markers.filter { it.name == name || (byAlias && it.alias.contains(name)) }.let {
