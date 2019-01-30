@@ -35,6 +35,7 @@ object PropertiesApp {
             //default action
             //NOTE default action 本质上应该是一种app。但目前工作地很好，不需要改。
             //setup action view
+
             val action = ActionDescriptor.default().actions(node).first()
             action.view(node)?.also { view ->
                 UIGlobal.resultPane?.apply {

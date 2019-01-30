@@ -12,7 +12,7 @@ import xyz.nietongxue.mindkit.model.source.InternalSource
 import xyz.nietongxue.mindkit.model.source.Source
 
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
-    var collapse: Boolean = false
+    var expanded: Boolean = false
     var focus: Boolean = false
 
 

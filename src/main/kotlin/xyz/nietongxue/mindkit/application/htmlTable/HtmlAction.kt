@@ -6,6 +6,8 @@ import kotlinx.html.classes
 import kotlinx.html.html
 import kotlinx.html.stream.appendHTML
 import kotlinx.html.unsafe
+import tornadofx.runAsync
+import tornadofx.ui
 import xyz.nietongxue.mindkit.actions.Action
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.application.xmind.XNode
@@ -23,18 +25,21 @@ object HtmlAction : ActionDescriptor {
                     override val description: String = "显示为HTML"
 
                     override fun action(node: Node) {
-                        val h = buildString {
-                            appendHTML().html {
-                                body {
-                                    classes = setOf("typo")
-                                    unsafe {
-                                        +node.toHtml()
-                                    }
+                        runAsync {
+                            buildString {
+                                appendHTML().html {
+                                    body {
+                                        classes = setOf("typo")
+                                        unsafe {
+                                            +node.toHtml()
+                                        }
 
+                                    }
                                 }
                             }
+                        } ui {
+                            con.resultText = it
                         }
-                        con.resultText = h
                     }
 
                     override fun view(node: Node): Parent? {
@@ -64,7 +69,7 @@ object HtmlTableAction : ActionDescriptor {
                                     body {
                                         classes = setOf("typo")
                                         unsafe {
-                                            + Table.fromNode(node as XNode).toHTML()
+                                            +Table.fromNode(node as XNode).toHTML()
                                         }
 
                                     }

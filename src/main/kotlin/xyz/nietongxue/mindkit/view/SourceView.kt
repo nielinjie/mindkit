@@ -112,17 +112,17 @@ class SourceView : View() {
             history.add(treeModel.root)
             setupTreeView()
             treeModel.mount(favorite.sources())
-
+            treeView.root.isExpanded = true
         }
     }
 
     private fun setupTreeViewKeymap() {
         treeView.onKeyReleased = EventHandler<KeyEvent> { event ->
             if (event.metaAnd("Right")) {
-                //TODO 把展开状态和焦点状态存储在viewNode中。
                 treeView.selectionModel.selectedItem.expandAll()
             }
             if (event.metaAnd("F")) {
+                saveTreeState()
                 val viewNode = treeView.selectionModel.selectedItem.value
                 history.add(viewNode)
                 treeModel.moveRoot(viewNode)
@@ -130,21 +130,22 @@ class SourceView : View() {
                 treeView.selectFirst()
             }
             if(event.metaAnd("J")){
+
                 if(history.state().backEnabled){
+                    saveTreeState()
                     history.back()
                     val viewNode =history.current()
                     treeModel.moveRoot(viewNode)
                     setupTreeView()
-                    treeView.selectFirst()
                 }
             }
             if(event.metaAnd("K")){
                 if(history.state().forwardEnabled){
+                    saveTreeState()
                     history.forward()
                     val viewNode =history.current()
                     treeModel.moveRoot(viewNode)
                     setupTreeView()
-                    treeView.selectFirst()
                 }
             }
 
@@ -157,6 +158,19 @@ class SourceView : View() {
             populate {
                 it.value.filteredChildren
             }
+
+        }
+        iterTree(treeView.root){
+            it.isExpanded = it.value.expanded
+        }
+
+    }
+    private fun saveTreeState(){
+        iterTree(treeView.root){
+            it.value.expanded = it.isExpanded
+            //TODO 把展开状态和焦点状态存储在viewNode中。
+
+//            it.value.focus = treeView.selectedValue?.node?.id == it.value.node.id
         }
     }
 }

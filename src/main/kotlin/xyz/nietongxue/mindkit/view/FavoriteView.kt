@@ -7,6 +7,7 @@ import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.control.ComboBox
 import javafx.scene.layout.VBox
+import javafx.util.Duration
 import javafx.util.StringConverter
 import org.controlsfx.control.PopOver
 import tornadofx.*
@@ -27,7 +28,7 @@ class FavoriteView : Component() {
 
     val pair = favoriteP.withAnother(onFavoriteSelectedP).let {
         it.onChange { pair ->
-            pair!!.second?.also { it(pair.first) }
+                pair!!.second?.also { it(pair.first) }
         }
     }
 
@@ -40,6 +41,11 @@ class FavoriteView : Component() {
         favoriteP.value = Favorites.all.find {
             it.name() == currentFavoriteName
         } ?: Favorites.all.first()
+
+        this.popOver = PopOver(popoverContent).apply {
+            this.arrowLocation = PopOver.ArrowLocation.TOP_LEFT
+            fadeOutDuration = Duration(500.0)
+        }
 
         with(popoverContent) {
             defaultPadding()
@@ -58,13 +64,11 @@ class FavoriteView : Component() {
                 this.onAction = EventHandler<ActionEvent> {
                     //NOTE 代替是favorite的行为，而不是source的，所以source是append
                     favoriteP.value = this.value
+                    this@FavoriteView.popOver.hide()
                 }
             }
         }
 
-        this.popOver = PopOver(popoverContent).apply {
-            this.arrowLocation = PopOver.ArrowLocation.TOP_LEFT
-        }
 
     }
 

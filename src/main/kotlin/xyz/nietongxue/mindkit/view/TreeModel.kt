@@ -1,29 +1,40 @@
 package xyz.nietongxue.mindkit.view
 
 import tornadofx.Component
+import tornadofx.runLater
 import xyz.nietongxue.mindkit.model.source.Source
 
-class TreeModel : Component(){
+class TreeModel : Component() {
     var root: ViewNode = ViewNode.emptyRoot()
-    val rootHistory:MutableList<ViewNode> = mutableListOf(root)
+    val rootHistory: MutableList<ViewNode> = mutableListOf(root)
 
-    fun moveRoot(viewNode: ViewNode){
+    fun moveRoot(viewNode: ViewNode) {
         this.rootHistory.add(this.root)
         this.root = viewNode
     }
-    fun resetRoot(){
+
+    fun resetRoot() {
         this.root = ViewNode.emptyRoot()
         rootHistory.clear()
         rootHistory.add(root)
     }
+
     fun mount(sources: List<Source>) {
-        sources.forEach {
-            //TODO mount的调用需要放到runAsync里面去。
-            it.mount(root.node).forEach {
-                val mounting = it
-                val viewNode = root.findNode(mounting.where)
-                viewNode?.addChildren(mounting.what())
+        runAsync {
+            sources.flatMap { it.mount(root.node) }
+        } ui {
+            it.forEach {mounting ->
+                runAsync{
+                    mounting.what()
+                } ui {
+                    val viewNode = root.findNode(mounting.where)
+                    //TODO lazyload，需要显示的时候load
+                    viewNode?.addChildren(it)
+                }
+
             }
         }
     }
+
+
 }
