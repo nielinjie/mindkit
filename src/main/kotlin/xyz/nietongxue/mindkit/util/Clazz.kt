@@ -11,15 +11,22 @@ val cache: MutableMap<Any, Any> = mutableMapOf()
 fun <T : Any> scanForInstance(clazz: KClass<T>, prefix: String = "xyz.nietongxue.mindkit"): List<T> {
     return synchronized(cache) {
         cache.computeIfAbsent((clazz to prefix)) {
-            Reflections(prefix).getSubTypesOf(clazz.java).map {
+            Reflections(prefix).getSubTypesOf(clazz.java).asSequence().filterNot {
+                it.kotlin.findAnnotation<Disabled>() != null
+            }.sortedByDescending {
+                it.kotlin.findAnnotation<Priority>()?.value ?: 0
+            }.map {
                 it.kotlin.objectInstance ?: it.newInstance()
-            }.toList().filterNotNull().sortedByDescending {
-                it::class.findAnnotation<Priority>()?.value ?: 0
-            }
+            }.toList().filterNotNull().toList()
         } as List<T>
     }
 }
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
-annotation class Priority(val value: Int)
+annotation class Priority(val value: Int = 10)
+
+
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.CLASS)
+annotation class Disabled

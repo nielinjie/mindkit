@@ -3,6 +3,8 @@ package xyz.nietongxue.mindkit.util
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.assertj.core.api.Assertions.*
+
 
 internal class HistoryTest {
 
@@ -11,7 +13,7 @@ internal class HistoryTest {
         val history = History<String>()
         history.add("a")
         //A
-        assertEquals(history.current(),"a")
+        assertThat(history.current()).isEqualTo("a")
         assertEquals(history.state().backEnabled,false)
         assertEquals(history.state().forwardEnabled,false)
         history.add("b")

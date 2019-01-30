@@ -7,7 +7,7 @@ import tornadofx.label
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.Priority
 
-@Priority(-5)
+@Priority(2)
 object SourcePropertiesDescriptor : PropertiesDescriptor {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
         val re =

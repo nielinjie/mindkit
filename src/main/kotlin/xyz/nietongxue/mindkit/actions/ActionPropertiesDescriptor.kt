@@ -8,7 +8,7 @@ import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.UIGlobal
 
 
-@Priority(value = -100)
+@Priority(value = 1)
 object ActionPropertiesDescriptor : PropertiesDescriptor {
     override fun fieldSet(nodeP: SimpleObjectProperty<Node>): List<Fieldset> {
         val actions: List<Action> = ActionDescriptor.actions(nodeP.value)

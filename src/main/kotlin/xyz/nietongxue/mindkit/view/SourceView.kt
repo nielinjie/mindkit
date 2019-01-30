@@ -119,7 +119,7 @@ class SourceView : View() {
     private fun setupTreeViewKeymap() {
         treeView.onKeyReleased = EventHandler<KeyEvent> { event ->
             if (event.metaAnd("Right")) {
-                //TODO 把展开状态存储在viewNode中。
+                //TODO 把展开状态和焦点状态存储在viewNode中。
                 treeView.selectionModel.selectedItem.expandAll()
             }
             if (event.metaAnd("F")) {
