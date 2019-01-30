@@ -11,6 +11,8 @@ class TaskMarker : MarkerDescriptor {
     private val words: List<Marker> = listOf("attention", "wait", "question", "task").map { Marker(it, emptyList()) }
     private val octs: List<Marker> = listOf("oct", "3oct", "5oct", "7oct").map { Marker(it, emptyList()) }
 
+    //TODO Marker的识别应该是source/node的职责还是application的职责？
+    //能不能分在两头处理？
 
     private val xnodeMarkerMap: Map<String, String> = mapOf(
             "c_symbol_hourglass" to "wait",

@@ -55,7 +55,7 @@ object Favorites : Component() {
             val ob = it.obj("favorite")!!
             val clazz: Class<Any>? =
                     try {
-                        Class .forName(t) as Class<Any>?
+                        Class .forName(t) as? Class<Any>?
                     } catch (_: Throwable) {
                         throw IllegalArgumentException("Unknown type: $t")
                     }

@@ -16,7 +16,6 @@ data class XNode(override val id: String,
                  override val title: String,
                  val labels: List<String>,
                  val note: String?,
-                 //TODO Marker的识别应该是source/node的职责还是application的职责？
                  override val markers:  MutableList<Marker>,
                  val originalMarkers:List<String>,
 

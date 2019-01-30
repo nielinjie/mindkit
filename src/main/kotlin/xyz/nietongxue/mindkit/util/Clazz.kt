@@ -11,6 +11,7 @@ val cache: MutableMap<Any, Any> = mutableMapOf()
 fun <T : Any> scanForInstance(clazz: KClass<T>, prefix: String = "xyz.nietongxue.mindkit"): List<T> {
     return synchronized(cache) {
         cache.computeIfAbsent((clazz to prefix)) {
+//            println(clazz.simpleName)
             Reflections(prefix).getSubTypesOf(clazz.java).asSequence().filterNot {
                 it.kotlin.findAnnotation<Disabled>() != null
             }.sortedByDescending {

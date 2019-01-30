@@ -27,10 +27,21 @@ interface MarkerDescriptor {
 object Markers {
 
 
-    val markerDescriptors = scanForInstance(MarkerDescriptor::class)
+    private val markerDescriptors = scanForInstance(MarkerDescriptor::class)
 
     fun mark(node: Node) = markerDescriptors.forEach { it.mark(node) }
 
+    fun findByFamily(node: Node, name: String): List<Node> {
+        return node.collect { n ->
+            if (familyByName(name)?.markers?.let {
+                        it.any {
+                            n.markers.contains(it)
+                        }
+                    } == true) n else null
+
+        }
+                .filterNotNull()
+    }
 
 
     val markers: List<Marker> = markerDescriptors.flatMap { it.markers }.distinct()

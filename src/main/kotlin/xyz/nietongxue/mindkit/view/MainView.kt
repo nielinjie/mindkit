@@ -4,6 +4,7 @@ import javafx.scene.control.SplitPane
 import tornadofx.*
 import xyz.nietongxue.mindkit.actions.ActionDescriptor
 import xyz.nietongxue.mindkit.model.FilterDescriptor
+import xyz.nietongxue.mindkit.model.MarkerDescriptor
 import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
 import xyz.nietongxue.mindkit.model.source.FileSourceDescriptor
 import xyz.nietongxue.mindkit.util.UIGlobal
@@ -62,6 +63,7 @@ class MyApp : App() {
             scanForInstance(ActionDescriptor::class)
             scanForInstance(FilterDescriptor::class)
             scanForInstance(FileSourceDescriptor::class)
+            scanForInstance(MarkerDescriptor::class)
         }
     }
 }
