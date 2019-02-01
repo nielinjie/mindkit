@@ -2,19 +2,20 @@ package xyz.nietongxue.mindkit.view
 
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
-import javafx.scene.control.TextField
-import javafx.scene.control.TreeItem
-import javafx.scene.control.TreeView
+import javafx.scene.Parent
+import javafx.scene.control.*
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.VBox
 import javafx.util.Duration
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Filters
+import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.util.History
 import xyz.nietongxue.mindkit.util.defaultPadding
 import xyz.nietongxue.mindkit.util.growV
 import xyz.nietongxue.mindkit.util.metaAnd
 import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
+import javafx.scene.layout.HBox
 
 
 class SourceView : View() {
@@ -32,6 +33,7 @@ class SourceView : View() {
         }
         p(item)
     }
+
     val history = History<ViewNode>()
 
     val folderView: FolderView = find()
@@ -70,13 +72,7 @@ class SourceView : View() {
                 treeView = treeview {
                     root = TreeItem(treeModel.root)
                     root.isExpanded = true
-                    cellFormat {
-                        text = it.node.title
-                        opacity = when (it.searchResult) {
-                            SearchResult.CHILD -> 0.5
-                            else -> 1.0
-                        }
-                    }
+                    cellFragment(ViewNodeTreeF::class)
                     onUserSelect {
                         controller.selectedNode = it.node
                     }
@@ -135,21 +131,21 @@ class SourceView : View() {
                 setupTreeView()
                 treeView.selectFirst()
             }
-            if(event.metaAnd("J")){
+            if (event.metaAnd("J")) {
 
-                if(history.state().backEnabled){
+                if (history.state().backEnabled) {
                     saveTreeState()
                     history.back()
-                    val viewNode =history.current()
+                    val viewNode = history.current()
                     treeModel.moveRoot(viewNode)
                     setupTreeView()
                 }
             }
-            if(event.metaAnd("K")){
-                if(history.state().forwardEnabled){
+            if (event.metaAnd("K")) {
+                if (history.state().forwardEnabled) {
                     saveTreeState()
                     history.forward()
-                    val viewNode =history.current()
+                    val viewNode = history.current()
                     treeModel.moveRoot(viewNode)
                     setupTreeView()
                 }
@@ -166,13 +162,14 @@ class SourceView : View() {
             }
 
         }
-        iterTree(treeView.root){
+        iterTree(treeView.root) {
             it.isExpanded = it.value.expanded
         }
 
     }
-    private fun saveTreeState(){
-        iterTree(treeView.root){
+
+    private fun saveTreeState() {
+        iterTree(treeView.root) {
             it.value.expanded = it.isExpanded
             //TODO 把焦点状态存储在viewNode中。
 
@@ -180,6 +177,34 @@ class SourceView : View() {
         }
     }
 }
+
+class ViewNodeTreeF : TreeCellFragment<ViewNode>() {
+    override val root: Parent = HBox()
+
+    init {
+        itemProperty.onChange {
+            root.replaceChildren()
+            it?.let{
+                with(root) {
+                    label(item.let {
+                        it.node.title +
+                                " - " + it.node.markers.let { Markers.findFamilyByMarker(it) }.joinToString(" ,") { it.name } +
+                                " - " + it.descendantsMarkersCache.let { Markers.findFamilyByMarker(it) }.joinToString(" ,") { it.name }
+                    })
+                    opacity = when (item.searchResult) {
+                        SearchResult.CHILD -> 0.5
+                        else -> 1.0
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
+
+
 
 
 

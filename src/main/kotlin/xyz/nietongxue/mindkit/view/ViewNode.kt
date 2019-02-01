@@ -11,12 +11,14 @@ import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.model.source.InternalSource
 import xyz.nietongxue.mindkit.model.source.Source
 
-class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>, val deep: Int) {
+class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>) {
     var expanded: Boolean = false
     var focus: Boolean = false
+    val descendantsMarkersCache: MutableList<Marker> = mutableListOf()
 
 
-    enum class SearchResult { CHILD_AND_SELF, SELF, CHILD, NONE
+    enum class SearchResult {
+        CHILD_AND_SELF, SELF, CHILD, NONE
 
     }
 
@@ -33,8 +35,8 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     }
 
     private fun setSearchResult() {
-        if(filter == null) {
-            this.searchResult =  SearchResult.NONE
+        if (filter == null) {
+            this.searchResult = SearchResult.NONE
             return
         }
         val self: Boolean = (filter?.let { it -> it(this.node) } == true)
@@ -74,15 +76,19 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     }
 
     companion object {
-        fun fromNode(n: Node, parent: Node? = null, deep: Int = 0): ViewNode {
-            return ViewNode(n, parent, FXCollections.observableArrayList(n.children.map {
-                fromNode(it, n, deep + 1)
-            }), deep + 1)
+        fun fromNode(n: Node, parent: Node? = null): ViewNode {
+            val children = FXCollections.observableArrayList(n.children.map {
+                fromNode(it, n)
+            })
+            val re = ViewNode(n, parent, children)
+            re.descendantsMarkersCache.addAll(children.flatMap {
+                it.node.markers + it.descendantsMarkersCache
+            }.distinct())
+            return re
         }
 
         fun emptyRoot() = ViewNode.fromNode(object : Node {
-            override val markers: MutableList<Marker>
-                = mutableListOf()
+            override val markers: MutableList<Marker> = mutableListOf()
             override val id: String = "_root"
             override val title: String = "/"
             override val children: ArrayList<Node> = ArrayList()
@@ -106,15 +112,19 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
 
     fun addChildren(nodes: List<Node>): ViewNode {
         node.children.addAll(nodes)
-        this.children.addAll(nodes.map {
-            ViewNode.fromNode(it, this.node, this.deep)
-        })
+        val ch = nodes.map {
+            ViewNode.fromNode(it, this.node)
+        }
+        this.children.addAll(ch)
+        this.descendantsMarkersCache.clear()
+        this.descendantsMarkersCache.addAll(ch.flatMap { it.node.markers + it.descendantsMarkersCache }.distinct())
         return this
     }
 
     fun removeChildren(): ViewNode {
         node.children.clear()
         this.children.clear()
+        this.descendantsMarkersCache.clear()
         return this
     }
 

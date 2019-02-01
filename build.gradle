@@ -29,7 +29,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 dependencies {
     compile 'com.beust:klaxon:5.0.1'
     compile "org.jtwig:jtwig-core:5.87.0.RELEASE"
-    compile 'no.tornado:tornadofx:1.7.17'
+    compile 'no.tornado:tornadofx:1.7.18'
     implementation 'org.controlsfx:controlsfx:8.40.14'
 //    compile 'org.jfxtras:jmetro:4.2'
     compile 'org.reflections:reflections:0.9.11'

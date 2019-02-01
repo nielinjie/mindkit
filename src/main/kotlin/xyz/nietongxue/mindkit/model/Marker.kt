@@ -43,6 +43,14 @@ object Markers {
                 .filterNotNull()
     }
 
+    fun findFamilyByMarker(markers: List<Marker>): List<MarkerFamily> {
+        return markerFamilies.filter {
+            markers.any { m: Marker ->
+                it.markers.contains(m)
+            }
+        }
+    }
+
 
     val markers: List<Marker> = markerDescriptors.flatMap { it.markers }.distinct()
     val markerFamilies: List<MarkerFamily> = markerDescriptors.flatMap { it.families }.distinct()

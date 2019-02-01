@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.actions
 import javafx.scene.Parent
 import javafx.scene.layout.VBox
 import tornadofx.label
+import tornadofx.text
 import xyz.nietongxue.mindkit.model.Node
 import xyz.nietongxue.mindkit.util.defaultPadding
 import xyz.nietongxue.mindkit.util.scanForInstance
@@ -36,7 +37,6 @@ interface Action {
         VBox().apply {
             defaultPadding()
             label(result)
-
     }
 }
 
