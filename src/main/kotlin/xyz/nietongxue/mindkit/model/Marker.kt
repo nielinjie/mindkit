@@ -2,12 +2,13 @@ package xyz.nietongxue.mindkit.model
 
 
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.Fieldset
-import tornadofx.field
-import tornadofx.label
+import javafx.geometry.Pos
+import tornadofx.*
 import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.scanForInstance
+import xyz.nietongxue.mindkit.view.bigMarkerStyle
+import xyz.nietongxue.mindkit.view.markerStyle
 
 //NOTE marker就是tag，是有结构有业务意义的标记。 label是自由标记。
 
@@ -100,7 +101,15 @@ class MarkderPropertiesDescriptor : PropertiesDescriptor {
         return if (node.markers.isNotEmpty()) {
             listOf(Fieldset("Marker").apply {
                 field {
-                    label(node.markers.joinToString(",") { it.name })
+                    hbox {
+                        spacing = 5.0
+                        alignment = Pos.CENTER_LEFT
+                        node.markers.forEach {
+                            label(it.name.toUpperCase()) {
+                                bigMarkerStyle()
+                            }
+                        }
+                    }
                 }
             })
         } else emptyList()
