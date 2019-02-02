@@ -12,7 +12,7 @@ fun Label.markerStyle(gray:Boolean = false):Unit{
         fontSize = 10.px
         fontWeight = FontWeight.EXTRA_BOLD
         textFill = Color.WHITE
-        backgroundColor += Color.gray(if(gray) 0.8 else 0.5)
+        backgroundColor += Color.web("#3973ac",if(gray) 0.5 else 0.9)
         backgroundRadius += box(2.px)
         padding = box(0.px,2.px)
     }
@@ -22,7 +22,7 @@ fun Label.bigMarkerStyle(gray:Boolean = false):Unit{
         fontSize = 16.px
         fontWeight = FontWeight.EXTRA_BOLD
         textFill = Color.WHITE
-        backgroundColor += Color.gray(if(gray) 0.8 else 0.5)
+        backgroundColor += Color.web("#3973ac",if(gray) 0.5 else 0.9)
         backgroundRadius += box(4.px)
         padding = box(0.px,4.px)
     }
