@@ -8,7 +8,6 @@ import xyz.nietongxue.mindkit.model.properties.PropertiesDescriptor
 import xyz.nietongxue.mindkit.util.Priority
 import xyz.nietongxue.mindkit.util.scanForInstance
 import xyz.nietongxue.mindkit.view.bigMarkerStyle
-import xyz.nietongxue.mindkit.view.markerStyle
 
 //NOTE marker就是tag，是有结构有业务意义的标记。 label是自由标记。
 
@@ -32,9 +31,9 @@ object Markers {
 
     fun mark(node: Node) = markerDescriptors.forEach { it.mark(node) }
 
-    fun findByFamily(node: Node, name: String): List<Node> {
+    fun findByFamily(node: Node, familyName: String): List<Node> {
         return node.collect { n ->
-            if (familyByName(name)?.markers?.let {
+            if (familyByName(familyName)?.markers?.let {
                         it.any {
                             n.markers.contains(it)
                         }
@@ -43,6 +42,7 @@ object Markers {
         }
                 .filterNotNull()
     }
+
 
     fun findFamilyByMarker(markers: List<Marker>): List<MarkerFamily> {
         return markerFamilies.filter {

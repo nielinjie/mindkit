@@ -1,14 +1,11 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.geometry.Pos
-import javafx.scene.Parent
-import javafx.scene.control.Label
 import javafx.scene.layout.HBox
-import javafx.scene.paint.Color
-import javafx.scene.text.FontWeight
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Markers
-import java.awt.Font.BOLD
+import xyz.nietongxue.mindkit.util.UIGlobal
+import xyz.nietongxue.mindkit.util.ensureVisibleItem
 
 class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     override val root: HBox = HBox()
@@ -33,9 +30,18 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
                     hbox {
                         spacing = 2.0
                         alignment = Pos.CENTER_LEFT
-                        Markers.findFamilyByMarker(item.descendantsMarkersCache).forEach {
-                            label(it.name.toUpperCase()){
+                        Markers.findFamilyByMarker(item.descendantsMarkersCache).forEach { mf ->
+                            hyperlink(mf.name.toUpperCase()){
                                 markerStyle(true)
+                                action{
+                                    UIGlobal.treeView?.let{
+                                        it.ensureVisibleItem(this@ViewNodeTreeFragment.cell!!.treeItem) { viewNode ->
+                                            mf.markers.any{
+                                                viewNode.node.markers.contains(it)
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

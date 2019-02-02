@@ -8,10 +8,7 @@ import javafx.scene.layout.VBox
 import javafx.util.Duration
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Filters
-import xyz.nietongxue.mindkit.util.History
-import xyz.nietongxue.mindkit.util.defaultPadding
-import xyz.nietongxue.mindkit.util.growV
-import xyz.nietongxue.mindkit.util.metaAnd
+import xyz.nietongxue.mindkit.util.*
 import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
 
 
@@ -83,6 +80,7 @@ class SourceView : View() {
         }
         setupFavoriteSelectedEvent()
         setupTreeViewKeymap()
+        UIGlobal.treeView = this.treeView
     }
 
     private fun setupSearchingTextEvent(): PauseTransition {
