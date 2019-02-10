@@ -1,8 +1,15 @@
 package xyz.nietongxue.mindkit.view
 
+import javafx.concurrent.Worker
 import tornadofx.Component
-import tornadofx.runLater
+import tornadofx.task
 import xyz.nietongxue.mindkit.model.source.Source
+import javafx.animation.Timeline
+import javafx.animation.KeyFrame
+import javafx.event.ActionEvent
+import javafx.event.EventHandler
+import javafx.util.Duration
+
 
 class TreeModel : Component() {
     var root: ViewNode = ViewNode.emptyRoot()
@@ -38,10 +45,34 @@ class TreeModel : Component() {
 //                        viewNode?.addChildren(it.second)
 //                    }
 //                }
-            it.forEach {
-                root.findNode(it.where)?.addChildren(it.getAndMark())
+//            it.forEach {
+//                root.findNode(it.where)?.addChildren(it.getAndMark())
+//
+//            }
 
-            }
+            val tasks = it.map {
+                task {
+                    it.where to it.getAndMark()
+                }
+            }.toMutableList()
+
+
+            val timeline = Timeline(KeyFrame(Duration.seconds(0.5), EventHandler<ActionEvent> {
+                val iter = tasks.iterator()
+                while (iter.hasNext()) {
+                    val task = iter.next()
+                    if (task.state == Worker.State.SUCCEEDED)
+                        root.findNode(task.value.first)?.let { vn ->
+                            vn.addChildren(task.value.second)
+                            iter.remove()
+                        }
+                    if (task.state == Worker.State.CANCELLED || task.state == Worker.State.FAILED)
+                        iter.remove()
+                }
+            }))
+            timeline.cycleCount = Timeline.INDEFINITE
+            timeline.play()
+            if(tasks.isEmpty()) timeline.stop()
 
         }
     }

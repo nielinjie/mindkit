@@ -61,7 +61,6 @@ fun KeyEvent?.metaAnd(name: String): Boolean {
 
 
 object UIGlobal {
-    //TODO 这个实现丑陋吧？
     var resultPane: Pane? = null
     var treeView: TreeView<ViewNode>? = null
 }
