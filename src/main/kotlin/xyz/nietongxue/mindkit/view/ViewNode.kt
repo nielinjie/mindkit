@@ -14,7 +14,7 @@ import xyz.nietongxue.mindkit.model.source.Source
 class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<ViewNode>) {
     var expanded: Boolean = false
     var focus: Boolean = false
-    val descendantsMarkersCache: MutableList<Marker> = mutableListOf()
+//    val descendantsMarkersCache: MutableList<Marker> = mutableListOf()
 
 
     enum class SearchResult {
@@ -81,9 +81,9 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
                 fromNode(it, n)
             })
             val re = ViewNode(n, parent, children)
-            re.descendantsMarkersCache.addAll(children.flatMap {
-                it.node.markers + it.descendantsMarkersCache
-            }.distinct())
+//            re.descendantsMarkersCache.addAll(children.flatMap {
+//                it.node.markers + it.descendantsMarkersCache
+//            }.distinct())
             return re
         }
 
@@ -116,15 +116,15 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             ViewNode.fromNode(it, this.node)
         }
         this.children.addAll(ch)
-        this.descendantsMarkersCache.clear()
-        this.descendantsMarkersCache.addAll(ch.flatMap { it.node.markers + it.descendantsMarkersCache }.distinct())
+//        this.descendantsMarkersCache.clear()
+//        this.descendantsMarkersCache.addAll(ch.flatMap { it.node.markers + it.descendantsMarkersCache }.distinct())
         return this
     }
 
     fun removeChildren(): ViewNode {
         node.children.clear()
         this.children.clear()
-        this.descendantsMarkersCache.clear()
+//        this.descendantsMarkersCache.clear()
         return this
     }
 

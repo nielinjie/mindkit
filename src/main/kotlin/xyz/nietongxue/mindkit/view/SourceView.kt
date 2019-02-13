@@ -69,7 +69,14 @@ class SourceView : View() {
                 treeView = treeview {
                     root = TreeItem(treeModel.root)
                     root.isExpanded = true
-                    cellFragment(ViewNodeTreeFragment::class)
+//                    cellFragment(ViewNodeTreeFragment::class)
+                    cellFormat {
+                        text = it.node.title
+                        opacity = when (it.searchResult) {
+                            SearchResult.CHILD -> 0.5
+                            else -> 1.0
+                        }
+                    }
                     onUserSelect {
                         controller.selectedNode = it.node
                     }

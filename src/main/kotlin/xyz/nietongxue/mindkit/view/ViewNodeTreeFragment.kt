@@ -33,11 +33,11 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
                     hbox {
                         spacing = 2.0
                         alignment = Pos.CENTER_LEFT
-                        Markers.findFamilyByMarker(item.descendantsMarkersCache).forEach {
-                            label(it.name.toUpperCase()){
-                                markerStyle(true)
-                            }
-                        }
+//                        Markers.findFamilyByMarker(item.descendantsMarkersCache).forEach {
+//                            label(it.name.toUpperCase()){
+//                                markerStyle(true)
+//                            }
+//                        }
                     }
                     opacity = when (item.searchResult) {
                         ViewNode.SearchResult.CHILD -> 0.5
