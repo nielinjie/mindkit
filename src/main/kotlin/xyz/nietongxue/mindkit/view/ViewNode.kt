@@ -1,6 +1,7 @@
 package xyz.nietongxue.mindkit.view
 
 import com.beust.klaxon.internal.firstNotNullResult
+import com.sun.javafx.collections.ObservableListWrapper
 import javafx.collections.FXCollections
 import javafx.collections.FXCollections.observableArrayList
 import javafx.collections.ObservableList
@@ -36,7 +37,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             this.searchResult =  SearchResult.NONE
             return
         }
-        val self: Boolean = (filter?.let { it -> it(this) } == true)
+        val self: Boolean = (filter?.let { it(this) } == true)
         val child: Boolean = (children.any {
             it.searchResult != SearchResult.NONE
         })
@@ -65,9 +66,10 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             setSearchResult()
         }
 
-    val filteredChildren: ObservableList<ViewNode> = observableArrayList(children)
+    val filteredChildren: ObservableList<ViewNode> = observableArrayList()
 
     init {
+        filteredChildren.setAll(filtered())
         children.onChange {
             this.filteredChildren.setAll(filtered())
             setSearchResult()
