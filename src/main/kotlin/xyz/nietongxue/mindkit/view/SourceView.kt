@@ -38,7 +38,7 @@ class SourceView : View() {
             } else {
                 treeModel.root.filter = null
             }
-            //
+
             iterTree(treeView.root) {
                 if(it.value.searchResult== ViewNode.SearchResult.CS
                         || it.value.searchResult == ViewNode.SearchResult.CHILD)

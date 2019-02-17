@@ -21,12 +21,12 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
 
     var searchResult: SearchResult = SearchResult.NONE
 
-    private fun filteredChildren(): List<ViewNode> {
+    private fun filtered(): List<ViewNode> {
         return if (filter === null) {
             this.children
         } else {
             children.filter {
-                filter!!.let { it1 -> it1(it) } || it.filteredChildren().isNotEmpty()
+                filter!!.let { it1 -> it1(it) } || it.filtered().isNotEmpty()
             }
         }
     }
@@ -59,7 +59,9 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
             children.forEach {
                 it.filter = value
             }
-            this.filteredChildren.setAll(filteredChildren())
+            //fixme 如果注掉这一句就没有问题。
+            //因为没有执行任何实际的筛选
+            this.filteredChildren.setAll(filtered())
             setSearchResult()
         }
 
@@ -67,7 +69,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
 
     init {
         children.onChange {
-            this.filteredChildren.setAll(filteredChildren())
+            this.filteredChildren.setAll(filtered())
             setSearchResult()
         }
     }
