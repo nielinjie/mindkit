@@ -1,6 +1,7 @@
 package xyz.nietongxue.mindkit.model
 
 import xyz.nietongxue.mindkit.model.source.FolderSource
+import xyz.nietongxue.mindkit.model.source.InternalSource
 import xyz.nietongxue.mindkit.model.source.Mounting
 import xyz.nietongxue.mindkit.model.source.Source
 import java.io.File
@@ -32,4 +33,9 @@ data class RepositoryDefaultSource(val base:File):Source{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+}
+
+data class SimpleTextNode(override val id: String, override val title: String, override val children: MutableList<Node>, override val markers: MutableList<Marker>) :Node {
+    @Transient
+    override val source: Source = InternalSource
 }

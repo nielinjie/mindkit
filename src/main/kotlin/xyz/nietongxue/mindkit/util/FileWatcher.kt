@@ -1,4 +1,4 @@
-package xyz.nietongxue.mindkit.io
+package xyz.nietongxue.mindkit.util
 
 import java.io.File
 import java.nio.file.Path
