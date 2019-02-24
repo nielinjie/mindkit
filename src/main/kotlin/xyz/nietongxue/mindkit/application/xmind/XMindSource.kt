@@ -47,3 +47,4 @@ class XMindSource(path: String) : FileSource, Openable {
     }
 
 }
+
