@@ -9,8 +9,7 @@ internal class JsonStoreTest{
 
     @Test
     fun saveLoad(){
-        val a = SimpleTextNode("test", "test", mutableListOf(),
-                mutableListOf(), InternalSource)
+        val a = simple("test")
         val json = JsonStore.save(listOf(a))
         val b = JsonStore.load(json).first() as? SimpleTextNode
         assertThat(a.id).isEqualTo(b!!.id)

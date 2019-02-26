@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.model.repository
 import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.repository.NodeRecorder.Companion.toNodes
 import xyz.nietongxue.mindkit.model.source.*
 import xyz.nietongxue.mindkit.util.FileJsonStore
 import java.io.File
@@ -37,6 +38,7 @@ data class SimpleTextNode(override val id: String,
                           override val title: String,
                           override val children: MutableList<Node>,
                           override val markers: MutableList<Marker>,
+                          @Transient
                           override val source: Source) : Node
 
 
@@ -48,32 +50,48 @@ class MindKitFileSource(path: String) : FileSource {
         //TODO lazy?
         val nodeRecorders: List<NodeRecorder> = FileJsonStore(file).load().filterIsInstance<NodeRecorder>()
 
-        toNodes(nodeRecorders).groupBy { it.second }.map {
+        return toNodes(nodeRecorders,this).groupBy { it.second }.map {
             val parentId = it.key
             val nodes = it.value.map { it.first }
-
-        }
+            tree.findById(parentId)?.let { it1 -> Mounting(it1) { nodes } }
+        }.filterNotNull()
     }
 
-    //返回node和他的parent，如果parent不在这些recorder里面的话。
-    //如果parent在这些recorder里面，就直接组装到children里面
-    fun toNodes(recorders: List<NodeRecorder>): List<Pair<Node, String>> {
-        val nodes = recorders.map{ it.toNode(this)}
-        val parentToNode: Map<String, Node> = recorders.zip(nodes).map{
-            it.first.parent to it.second
-        }.toMap()
-        val idToNode = nodes.map{it.id to it}.toMap()
-        
-    }
+
+
 }
 
 data class NodeRecorder(val id: String, val title: String, val markers: List<String>, val parent: String) {
+    init{
+        require(parent != id)
+    }
     fun toNode(source: Source): Node {
         return SimpleTextNode(
                 id, title, mutableListOf(), markers.mapNotNull {
             Markers.byName(it)
         }.toMutableList(), source)
 
+    }
+
+    companion object {
+        //返回node和他的parent，如果parent不在这些recorder里面的话。
+        //如果parent在这些recorder里面，就直接组装到children里面
+        fun toNodes(recorders: List<NodeRecorder>, source: Source = InternalSource): List<Pair<Node, String>> {
+            val nodes = recorders.map { it.toNode(source) }
+            val parentToNode: Map<String, Node> = recorders.zip(nodes).map {
+                it.first.parent to it.second
+            }.toMap()
+            val idToNode = nodes.map { it.id to it }.toMap()
+            val withNoParent = mutableListOf<Pair<Node, String>>()
+            parentToNode.forEach {
+                val parentId = it.key
+                val node = it.value
+                idToNode[parentId].let {
+                    it?.children?.add(node) ?: withNoParent.add(node to parentId)
+                }
+            }
+            return withNoParent.toList()
+        }
     }
 }
 
