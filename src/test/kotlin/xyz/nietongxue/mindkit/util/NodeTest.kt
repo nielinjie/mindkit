@@ -14,7 +14,7 @@ class NodeTest {
                 simple("a1"),
                 simple("a2", listOf(
                         simple("a21")
-                        )
+                )
                 )
         ))
         val find = root.findById("a1")
@@ -28,18 +28,32 @@ class NodeTest {
     }
 
     @Test
-    fun testRecorder(){
-        fun sR(id:String,parentId:String) = NodeRecorder(id, id, emptyList(),parentId)
+    fun testRecorder() {
+        fun sR(id: String, parentId: String) = NodeRecorder(id, id, emptyList(), parentId)
         val recorders = listOf(
-                sR("a","_"),
-                sR("a1","a")
+                sR("a", "_"),
+                sR("a1", "a")
         )
-        val node  = NodeRecorder.toNodes(recorders)
+        val node = NodeRecorder.toNodes(recorders)
         assertThat(node).isNotEmpty.size().isEqualTo(1)
         assertThat(node.first().first.children).size().isEqualTo(1)
         assertThat(node.first().first.children).first().satisfies {
             it.id == "a1"
             it.children.isEmpty()
         }
+    }
+
+    @Test
+    fun testRecorder2() {
+        val root = simple("a", listOf(
+                simple("a1"),
+                simple("a2", listOf(
+                        simple("a21")
+                )
+                )
+        ))
+        val recorders = NodeRecorder.fromNodes(root)
+        val node = NodeRecorder.toNodes(recorders)
+        assertThat(node.first().first).isEqualTo(root)
     }
 }

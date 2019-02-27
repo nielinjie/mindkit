@@ -1,5 +1,6 @@
 package xyz.nietongxue.mindkit.model.repository
 
+import org.w3c.dom.NodeList
 import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
@@ -50,7 +51,7 @@ class MindKitFileSource(path: String) : FileSource {
         //TODO lazy?
         val nodeRecorders: List<NodeRecorder> = FileJsonStore(file).load().filterIsInstance<NodeRecorder>()
 
-        return toNodes(nodeRecorders,this).groupBy { it.second }.map {
+        return toNodes(nodeRecorders, this).groupBy { it.second }.map {
             val parentId = it.key
             val nodes = it.value.map { it.first }
             tree.findById(parentId)?.let { it1 -> Mounting(it1) { nodes } }
@@ -58,13 +59,13 @@ class MindKitFileSource(path: String) : FileSource {
     }
 
 
-
 }
 
 data class NodeRecorder(val id: String, val title: String, val markers: List<String>, val parent: String) {
-    init{
+    init {
         require(parent != id)
     }
+
     fun toNode(source: Source): Node {
         return SimpleTextNode(
                 id, title, mutableListOf(), markers.mapNotNull {
@@ -78,19 +79,25 @@ data class NodeRecorder(val id: String, val title: String, val markers: List<Str
         //如果parent在这些recorder里面，就直接组装到children里面
         fun toNodes(recorders: List<NodeRecorder>, source: Source = InternalSource): List<Pair<Node, String>> {
             val nodes = recorders.map { it.toNode(source) }
-            val parentToNode: Map<String, Node> = recorders.zip(nodes).map {
+            val parentToNode: List<Pair<String, Node>> = recorders.zip(nodes).map {
                 it.first.parent to it.second
-            }.toMap()
+            }
             val idToNode = nodes.map { it.id to it }.toMap()
             val withNoParent = mutableListOf<Pair<Node, String>>()
             parentToNode.forEach {
-                val parentId = it.key
-                val node = it.value
+                val parentId = it.first
+                val node = it.second
                 idToNode[parentId].let {
                     it?.children?.add(node) ?: withNoParent.add(node to parentId)
                 }
             }
             return withNoParent.toList()
+        }
+
+        fun fromNodes(node: Node, parentId: String = ""): List<NodeRecorder> {
+            return listOf(NodeRecorder(node.id, node.title, node.markers.map { it.name }, parentId)).plus(node.children.map {
+                fromNodes(it, node.id)
+            }.flatten())
         }
     }
 }
