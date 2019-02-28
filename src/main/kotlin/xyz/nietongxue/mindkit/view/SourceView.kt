@@ -16,7 +16,8 @@ class SourceView : View() {
     override val root = VBox()
     val controller: MainController by inject()
     val treeModel = find<TreeModel>()
-    val favoriteView = find<FavoriteView>()
+    //    val favoriteView = find<FavoriteView>()
+    val repositoryView = find<RepositoryView>()
 
 
     val filterField = TextField()
@@ -30,31 +31,15 @@ class SourceView : View() {
 
     val history = History<ViewNode>()
 
-    val folderView: FolderView = find()
-    val fileView: FileView = find()
 
     init {
         val searchActionDebounce = setupSearchingTextEvent()
         with(root) {
             defaultPadding()
-            hbox {
-                defaultPadding()
-                hyperlink("收藏") {
-                    action { favoriteView.popOver.show(this) }
-                }
-                hyperlink("打开目录") {
-                    action {
-                        val folder = folderView.openChooser()
-                        folder?.let { favoriteView.addFolder(it) }
-                    }
-                }
-                hyperlink("打开文件") {
-                    action {
-                        val file = fileView.openChooser()
-                        file?.let { favoriteView.addFile(it) }
-                    }
-                }
-            }
+            this.add(
+//                    favoriteView.root
+                    repositoryView.root
+            )
             this.add(filterField)
             filterField.textProperty().onChange {
                 searchActionDebounce.playFromStart()
@@ -78,7 +63,8 @@ class SourceView : View() {
 
             }
         }
-        setupFavoriteSelectedEvent()
+//        setupFavoriteSelectedEvent()
+        setupRepositorySelectedEvent()
         setupTreeViewKeymap()
         UIGlobal.treeView = this.treeView
     }
@@ -102,13 +88,24 @@ class SourceView : View() {
         return searchActionDebounce
     }
 
-    private fun setupFavoriteSelectedEvent() {
-        favoriteView.onFavoriteSelectedP.value = { favorite ->
+//    private fun setupFavoriteSelectedEvent() {
+//        favoriteView.onFavoriteSelectedP.value = { favorite ->
+//            treeModel.resetRoot()
+//            history.clear()
+//            history.add(treeModel.root)
+//            setupTreeView()
+//            treeModel.mount(favorite.sources())
+//            treeView.root.isExpanded = true
+//        }
+//    }
+
+    private fun setupRepositorySelectedEvent() {
+        repositoryView.onRepositorySelectedP.value = { repository ->
             treeModel.resetRoot()
             history.clear()
             history.add(treeModel.root)
             setupTreeView()
-            treeModel.mount(favorite.sources())
+            treeModel.mount(repository.sources())
             treeView.root.isExpanded = true
         }
     }

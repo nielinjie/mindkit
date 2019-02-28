@@ -56,6 +56,7 @@ class MindKitFileSource(path: String) : FileSource {
         return toNodes(nodeRecorders, this).groupBy { it.second }.map {
             val parentId = it.key
             val nodes = it.value.map { it.first }
+                    //NOTE 不一定挂载在文件名node下面，mindkit的文件没有意义，一般来说，一个repository就一个mindkit。
             tree.findById(parentId)?.let { it1 -> Mounting(it1) { nodes } }
         }.filterNotNull()
     }

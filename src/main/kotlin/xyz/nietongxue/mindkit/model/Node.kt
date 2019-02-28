@@ -18,7 +18,7 @@ interface Node {
         return if(this.id == id) this
         else{
             //TODO 不需要所有children都map一遍，第一就可以了。
-            this.children.map{it.findById(id)}.filterNotNull().firstOrNull()
+            this.children.mapNotNull { it.findById(id) }.firstOrNull()
         }
     }
 }

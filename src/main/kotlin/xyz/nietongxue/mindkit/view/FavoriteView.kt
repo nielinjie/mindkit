@@ -19,13 +19,18 @@ import xyz.nietongxue.mindkit.util.defaultPadding
 import xyz.nietongxue.mindkit.util.withAnother
 import java.io.File
 
-class FavoriteView : Component() {
+class FavoriteView : View() {
+    override val root = VBox()
     val popoverContent = VBox()
     val allFavoriteP = SimpleListProperty<Favorite>(Favorites.all.observable())
 
     val favoriteP = SimpleObjectProperty<Favorite>(allFavoriteP.value.first())
     val onFavoriteSelectedP = SimpleObjectProperty<((Favorite) -> Unit)?>(null)
     var popOver: PopOver
+
+    val folderView: FolderView = find()
+    val fileView: FileView = find()
+
 
     val pair = favoriteP.withAnother(onFavoriteSelectedP).let {
         it.onChange { pair ->
@@ -38,6 +43,8 @@ class FavoriteView : Component() {
     init {
 
 
+
+
         val currentFavoriteName = config["currentFavoriteName"] as? String
         favoriteP.value = Favorites.all.find {
             it.name() == currentFavoriteName
@@ -48,6 +55,28 @@ class FavoriteView : Component() {
             fadeOutDuration = Duration(500.0)
         }
 
+
+
+        with (root){
+            hbox {
+                defaultPadding()
+                hyperlink("收藏") {
+                    action { popOver.show(this) }
+                }
+                hyperlink("打开目录") {
+                    action {
+                        val folder = folderView.openChooser()
+                        folder?.let { addFolder(it) }
+                    }
+                }
+                hyperlink("打开文件") {
+                    action {
+                        val file = fileView.openChooser()
+                        file?.let { addFile(it) }
+                    }
+                }
+            }
+        }
         with(popoverContent) {
             defaultPadding()
             combo = combobox(favoriteP, allFavoriteP) {
