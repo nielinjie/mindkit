@@ -22,9 +22,9 @@ class FolderJsonStore(val base: File) {
 }
 
 class FileJsonStore(val file: File) {
-    init {
-        require(file.isFile && file.canRead() && file.canWrite())
-    }
+//    init {
+//        require(file.isFile && file.canRead() && file.canWrite())
+//    }
 
     inline fun <reified T : Any> save(list: List<T>) {
         file.writeText(JsonStore.save(list))

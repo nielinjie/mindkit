@@ -4,9 +4,11 @@ import org.w3c.dom.NodeList
 import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
+import xyz.nietongxue.mindkit.model.repository.NodeRecorder.Companion.fromNodes
 import xyz.nietongxue.mindkit.model.repository.NodeRecorder.Companion.toNodes
 import xyz.nietongxue.mindkit.model.source.*
 import xyz.nietongxue.mindkit.util.FileJsonStore
+import xyz.nietongxue.mindkit.util.JsonStore
 import java.io.File
 
 interface Repository {
@@ -105,8 +107,30 @@ data class NodeRecorder(val id: String, val title: String, val markers: List<Str
 
 object MindKitFileSourceDescriptor : FileSourceDescriptor {
     override fun fileToSource(file: File): List<FileSource> {
-        return if (file.isFile && file.extension == "mindKit")
+        return if (file.isFile && file.extension == "mindkit")
             listOf(MindKitFileSource(file.path))
         else emptyList()
     }
+}
+
+fun main() {
+    fun simple(id: String, ch: List<SimpleTextNode> = emptyList()) =
+            SimpleTextNode(id, id, ch.toMutableList(), mutableListOf(), InternalSource)
+
+    val path = "/Users/nielinjie/Desktop/fake.mindkit"
+    val root = simple("a", listOf(
+            simple("a1"),
+            simple("a2", listOf(
+                    simple("a21"),
+                    simple("a23")
+            )
+            ),
+            simple("a3"),
+            simple("a4", listOf(
+                    simple("a41"),
+                    simple("a42")
+            ))
+    ))
+    val recorders = fromNodes(root,"_root")
+    FileJsonStore(File(path)).save(recorders)
 }

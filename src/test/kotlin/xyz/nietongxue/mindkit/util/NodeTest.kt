@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.util
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import xyz.nietongxue.mindkit.model.repository.NodeRecorder
+import xyz.nietongxue.mindkit.model.repository.NodeRecorder.Companion.fromNodes
 
 
 class NodeTest {
@@ -55,5 +56,53 @@ class NodeTest {
         val recorders = NodeRecorder.fromNodes(root)
         val node = NodeRecorder.toNodes(recorders)
         assertThat(node.first().first).isEqualTo(root)
+    }
+
+    @Test
+    fun testRecorder3() {
+        val root = simple("a", listOf(
+                simple("a1"),
+                simple("a2", listOf(
+                        simple("a21"),
+                        simple("a23")
+                )
+                ),
+                simple("a3"),
+                simple("a4", listOf(
+                        simple("a41"),
+                        simple("a42")
+                ))
+        ))
+        val recorders = NodeRecorder.fromNodes(root)
+        val node = NodeRecorder.toNodes(recorders)
+        assertThat(node.first().first).isEqualTo(root)
+    }
+
+    @Test
+    fun testRecorder4() {
+        val root = simple("a", listOf(
+                simple("a1"),
+                simple("a2", listOf(
+                        simple("a21"),
+                        simple("a23")
+                )
+                ),
+                simple("a3"),
+                simple("a4", listOf(
+                        simple("a41"),
+                        simple("a42")
+                ))
+        ))
+        val root2 = simple("b", listOf(
+                simple("b1"),
+                simple("b2", listOf(
+                        simple("b21")
+                )
+                )
+        ))
+        val recorders = NodeRecorder.fromNodes(root) + fromNodes(root2)
+        val node = NodeRecorder.toNodes(recorders)
+        assertThat(node.first().first).isEqualTo(root)
+        assertThat(node.get(1).first).isEqualTo(root2)
     }
 }
