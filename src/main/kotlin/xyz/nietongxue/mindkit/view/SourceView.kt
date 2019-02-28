@@ -8,8 +8,10 @@ import javafx.scene.layout.VBox
 import javafx.util.Duration
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Filters
+import xyz.nietongxue.mindkit.model.repository.FolderRepository
 import xyz.nietongxue.mindkit.util.*
 import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
+import java.io.File
 
 
 class SourceView : View() {
@@ -33,6 +35,7 @@ class SourceView : View() {
 
 
     init {
+        repositoryView.repositoryP.value = FolderRepository(File("/Users/nielinjie/Desktop"))
         val searchActionDebounce = setupSearchingTextEvent()
         with(root) {
             defaultPadding()

@@ -32,7 +32,7 @@ class MainView : View() {
     override fun onUndock() {
 
 
-        sourceView.favoriteView.onClose()
+        sourceView.repositoryView.onClose()
 
         config["width"] = this.currentWindow?.width?.toString()
         config["height"] = this.currentWindow?.height?.toString()
@@ -69,5 +69,5 @@ class MyApp : App() {
 }
 
 fun main(args: Array<String>) {
-    launch<MyApp>(args = args)
+    launch<MyApp>(args)
 }
