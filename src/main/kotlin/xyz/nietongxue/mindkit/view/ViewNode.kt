@@ -25,11 +25,11 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     var searchResult: SearchResult = SearchResult.NONE
 
     private fun filteredChildren(): List<ViewNode> {
-        return if (filter === null) {
+        return if (filter == null) {
             this.children
         } else {
             children.filter {
-                filter!!.let { it1 -> it1(it.node) } || it.filteredChildren().isNotEmpty()
+                filter!!.invoke(it.node) || it.filteredChildren().isNotEmpty()
             }
         }
     }

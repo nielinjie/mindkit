@@ -13,9 +13,9 @@ import xyz.nietongxue.mindkit.util.scanForInstance
 
 class MainView : View() {
     override val root = SplitPane()
-    val sourceView: SourceView by inject()
-    val appView: AppView by inject()
-    val actionView: ActionView by inject()
+    private val sourceView: SourceView by inject()
+    private val appView: AppView by inject()
+    private val actionView: ActionView by inject()
 
     init {
 //        JMetro(JMetro.Style.LIGHT).applyTheme(root)

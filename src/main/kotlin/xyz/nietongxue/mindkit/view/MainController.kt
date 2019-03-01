@@ -9,9 +9,9 @@ import xyz.nietongxue.mindkit.application.AppController
 import xyz.nietongxue.mindkit.model.Node
 
 class MainController : Controller() {
-    val selectedNodeP = SimpleObjectProperty<Node?>(null)
+    private val selectedNodeP = SimpleObjectProperty<Node?>(null)
     var selectedNode by selectedNodeP
-    val processorControllerP = SimpleObjectProperty<xyz.nietongxue.mindkit.application.AppController>()
+    private val processorControllerP = SimpleObjectProperty<xyz.nietongxue.mindkit.application.AppController>()
     var processorAppController: AppController by processorControllerP
 
 

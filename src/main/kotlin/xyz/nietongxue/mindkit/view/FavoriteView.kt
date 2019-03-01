@@ -32,18 +32,15 @@ class FavoriteView : View() {
     val fileView: FileView = find()
 
 
-    val pair = favoriteP.withAnother(onFavoriteSelectedP).let {
-        it.onChange { pair ->
-                pair!!.second?.also { it(pair.first) }
-        }
-    }
 
     var combo: ComboBox<Favorite> by singleAssign()
 
     init {
-
-
-
+        favoriteP.withAnother(onFavoriteSelectedP).let {
+            it.onChange { pair ->
+                pair!!.second?.also { it(pair.first) }
+            }
+        }
 
         val currentFavoriteName = config["currentFavoriteName"] as? String
         favoriteP.value = Favorites.all.find {

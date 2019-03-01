@@ -13,7 +13,7 @@ import javafx.util.Duration
 
 class TreeModel : Component() {
     var root: ViewNode = ViewNode.emptyRoot()
-    val rootHistory: MutableList<ViewNode> = mutableListOf(root)
+    private val rootHistory: MutableList<ViewNode> = mutableListOf(root)
 
     fun moveRoot(viewNode: ViewNode) {
         this.rootHistory.add(this.root)
@@ -31,7 +31,7 @@ class TreeModel : Component() {
             sources.flatMap { it.mount(root.node) }
         } ui {
 
-            //TODO lazyload，需要显示的时候load
+            //TODO lazyLoad，需要显示的时候load
             //Fixme runAsync 方式体验不错，但会有些node没有mounting的情况。出现在上级节点较多的情况。
             //可能是因为在异步模式下，有的时候子节点先出来了，父节点还没出来，所以无法mounting。
 
@@ -58,16 +58,16 @@ class TreeModel : Component() {
 
 
             val timeline = Timeline(KeyFrame(Duration.seconds(0.5), EventHandler<ActionEvent> {
-                val iter = tasks.iterator()
-                while (iter.hasNext()) {
-                    val task = iter.next()
+                val iterator = tasks.iterator()
+                while (iterator.hasNext()) {
+                    val task = iterator.next()
                     if (task.state == Worker.State.SUCCEEDED)
                         root.findNode(task.value.first)?.let { vn ->
                             vn.addChildren(task.value.second)
-                            iter.remove()
+                            iterator.remove()
                         }
                     if (task.state == Worker.State.CANCELLED || task.state == Worker.State.FAILED)
-                        iter.remove()
+                        iterator.remove()
                 }
             }))
             timeline.cycleCount = Timeline.INDEFINITE

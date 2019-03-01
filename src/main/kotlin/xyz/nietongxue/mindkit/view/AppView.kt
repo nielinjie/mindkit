@@ -7,9 +7,9 @@ import xyz.nietongxue.mindkit.util.growV
 
 class AppView : View() {
     override val root = VBox()
-    val mainController: MainController by inject()
+    private val mainController: MainController by inject()
 
-    val appView = VBox()
+    private val appView = VBox()
     //NOTE 目前写死了properties。
 
 

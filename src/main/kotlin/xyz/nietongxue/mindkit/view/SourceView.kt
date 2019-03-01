@@ -1,11 +1,10 @@
 package xyz.nietongxue.mindkit.view
 
-import javafx.animation.PauseTransition
 import javafx.event.EventHandler
-import javafx.scene.control.*
+import javafx.scene.control.TreeItem
+import javafx.scene.control.TreeView
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.VBox
-import javafx.util.Duration
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Filters
 import xyz.nietongxue.mindkit.model.repository.FolderRepository
@@ -16,37 +15,35 @@ import java.io.File
 
 class SourceView : View() {
     override val root = VBox()
-    val controller: MainController by inject()
-    val treeModel = find<TreeModel>()
+    private val controller: MainController by inject()
+    private val treeModel = find<TreeModel>()
     //    val favoriteView = find<FavoriteView>()
     val repositoryView = find<RepositoryView>()
+    private val searchView = find<SearchView>()
 
 
-    val filterField = TextField()
     var treeView by singleAssign<TreeView<ViewNode>>()
-    fun <T> iterTree(item: TreeItem<ViewNode>, p: (TreeItem<ViewNode>) -> T) {
+    private fun <T> iterateTree(item: TreeItem<ViewNode>, p: (TreeItem<ViewNode>) -> T) {
         item.children.forEach {
-            iterTree(it, p)
+            iterateTree(it, p)
         }
         p(item)
     }
 
-    val history = History<ViewNode>()
+    private val history = History<ViewNode>()
 
 
     init {
         repositoryView.repositoryP.value = FolderRepository(File("/Users/nielinjie/Desktop"))
-        val searchActionDebounce = setupSearchingTextEvent()
         with(root) {
             defaultPadding()
             this.add(
-//                    favoriteView.root
+//                  favoriteView.root
                     repositoryView.root
             )
-            this.add(filterField)
-            filterField.textProperty().onChange {
-                searchActionDebounce.playFromStart()
-            }
+            this.add(
+                    searchView.root
+            )
             scrollpane {
                 isFitToHeight = true
                 isFitToWidth = true
@@ -61,35 +58,33 @@ class SourceView : View() {
                     populate {
                         it.value.filteredChildren
                     }
-
                 }
-
             }
         }
-//        setupFavoriteSelectedEvent()
+
+//      setupFavoriteSelectedEvent()
         setupRepositorySelectedEvent()
         setupTreeViewKeymap()
+        setupSearchChangeEvent()
+
         UIGlobal.treeView = this.treeView
     }
 
-    private fun setupSearchingTextEvent(): PauseTransition {
-        val searchActionDebounce = PauseTransition(Duration.seconds(1.0))
-        searchActionDebounce.setOnFinished {
-            val filterS = filterField.textProperty().value
-            if (filterS?.let { it.length > 1 } == true) {
+    private fun setupSearchChangeEvent() {
+        searchView.onChange = { filterS ->
+            if (filterS.length > 1) {
                 treeModel.root.filter = Filters.filter(filterS)
             } else {
                 treeModel.root.filter = null
             }
-            //
-            iterTree(treeView.root) {
+            iterateTree(treeView.root) {
                 if (it.value.searchResult == SearchResult.CHILD_AND_SELF
                         || it.value.searchResult == SearchResult.CHILD)
                     it.isExpanded = true
             }
         }
-        return searchActionDebounce
     }
+
 
 //    private fun setupFavoriteSelectedEvent() {
 //        favoriteView.onFavoriteSelectedP.value = { favorite ->
@@ -127,7 +122,6 @@ class SourceView : View() {
                 treeView.selectFirst()
             }
             if (event.metaAnd("J")) {
-
                 if (history.state().backEnabled) {
                     saveTreeState()
                     history.back()
@@ -145,7 +139,6 @@ class SourceView : View() {
                     setupTreeView()
                 }
             }
-
         }
     }
 
@@ -155,16 +148,14 @@ class SourceView : View() {
             populate {
                 it.value.filteredChildren
             }
-
         }
-        iterTree(treeView.root) {
+        iterateTree(treeView.root) {
             it.isExpanded = it.value.expanded
         }
-
     }
 
     private fun saveTreeState() {
-        iterTree(treeView.root) {
+        iterateTree(treeView.root) {
             it.value.expanded = it.isExpanded
             //TODO 是否要把焦点状态存储在viewNode中？
 

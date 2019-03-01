@@ -14,14 +14,12 @@ class RepositoryView : View() {
     val onRepositorySelectedP = SimpleObjectProperty<((Repository) -> Unit)?>(null)
 
 
-    val pair = repositoryP.withAnother(onRepositorySelectedP).let {
-        it.onChange { pair ->
-            pair!!.second?.also { it(pair.first) }
-        }
-    }
-
-
     init {
+        repositoryP.withAnother(onRepositorySelectedP).let {
+            it.onChange { pair ->
+                pair!!.second?.also { it(pair.first) }
+            }
+        }
 
         with(root) {
             hbox {
