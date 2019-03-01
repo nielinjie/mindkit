@@ -3,9 +3,12 @@ package xyz.nietongxue.mindkit.view
 import javafx.animation.PauseTransition
 import javafx.scene.control.TextField
 import javafx.scene.layout.HBox
+import javafx.scene.layout.Priority
 import javafx.util.Duration
 import tornadofx.View
+import tornadofx.hgrow
 import tornadofx.onChange
+import xyz.nietongxue.mindkit.util.defaultPadding
 
 class SearchView : View(){
     override val root = HBox()
@@ -15,7 +18,9 @@ class SearchView : View(){
     var onChange:((String)->Unit)? = null
 
     init{
-        this.add(filterField)
+        root.defaultPadding()
+        root.add(filterField)
+        filterField.hgrow = Priority.ALWAYS
         filterField.textProperty().onChange {
             searchActionDebounce.playFromStart()
         }

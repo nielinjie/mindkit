@@ -31,7 +31,9 @@ class FileJsonStore(val file: File) {
     }
 
     fun load(): List<Any> {
-        return JsonStore.load(file.readText())
+        if (file.isFile)
+            return JsonStore.load(file.readText())
+        return emptyList()
     }
 }
 

@@ -1,6 +1,5 @@
 package xyz.nietongxue.mindkit.model.repository
 
-import org.w3c.dom.NodeList
 import xyz.nietongxue.mindkit.model.Marker
 import xyz.nietongxue.mindkit.model.Markers
 import xyz.nietongxue.mindkit.model.Node
@@ -8,8 +7,8 @@ import xyz.nietongxue.mindkit.model.repository.NodeRecorder.Companion.fromNodes
 import xyz.nietongxue.mindkit.model.repository.NodeRecorder.Companion.toNodes
 import xyz.nietongxue.mindkit.model.source.*
 import xyz.nietongxue.mindkit.util.FileJsonStore
-import xyz.nietongxue.mindkit.util.JsonStore
 import java.io.File
+import java.lang.IllegalStateException
 
 interface Repository {
     fun sources(): List<Source>
@@ -20,19 +19,43 @@ interface Repository {
 data class FolderRepository(val base: File) : Repository {
     /*
         /--（root）（repository的主要形式）包括其下所有的文件，可以外链（文件、folder、其他一切）。
-            --- .repository (其他源信息，比如外链)（json形式的数据库，jsonStore）
-            --- .mindkit 文件，全是json形式的node（这个名字怎么起了？）
+            --- .mindkit 文件夹
+                --- nodes.json nodes
+                --- (其他各种，元数据、外链等的json store)
             ---（其他文件可以存在，作为一般文件用文件source来load)
      */
+
+    var nodesSource:MindKitFileSource?  = null
+    init{
+        checkAndCreate()
+    }
+    private fun checkAndCreate(){
+        val mindkitFolder = File(base,".mindkit")
+        if(mindkitFolder.isDirectory){
+            nodesSource = MindKitFileSource(File(mindkitFolder,"nodes.json"))
+        }else{
+            if (mindkitFolder.isFile){
+                throw IllegalStateException(".mindkit 文件存在，无法建立相关文件结构")
+            }else{
+               if( mindkitFolder.mkdir()) {
+                   checkAndCreate()
+                   return
+               }
+
+            }
+            throw IllegalStateException("无法建立相关文件结构")
+        }
+    }
     override fun sources(): List<Source> {
-        return listOf(
-                FolderSource(base.absolutePath)
+        return listOfNotNull(
+                FolderSource(base.absolutePath),
+                this.nodesSource
                 //outerLinkSources
         )
     }
 
     override fun name(): String {
-        return "File base Repository - ${base.name}"
+        return "仓库 - ${base.name}"
     }
 
 }
@@ -45,18 +68,14 @@ data class SimpleTextNode(override val id: String,
                           override val source: Source) : Node
 
 
-class MindKitFileSource(path: String) : FileSource {
-    override val file: File = File(path)
+class MindKitFileSource(override val file: File) : FileSource {
     override val description: String = "MindKit文件 - ${file.name}"
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         //NOTE mindkit文件是一条一条的node。有parent。没有child
-        //TODO lazy?
         val nodeRecorders: List<NodeRecorder> = FileJsonStore(file).load().filterIsInstance<NodeRecorder>()
-
         return toNodes(nodeRecorders, this).groupBy { it.second }.map {
             val parentId = it.key
             val nodes = it.value.map { it.first }
-                    //NOTE 不一定挂载在文件名node下面，mindkit的文件没有意义，一般来说，一个repository就一个mindkit。
             tree.findById(parentId)?.let { it1 -> Mounting(it1) { nodes } }
         }.filterNotNull()
     }
@@ -106,13 +125,7 @@ data class NodeRecorder(val id: String, val title: String, val markers: List<Str
 }
 
 
-object MindKitFileSourceDescriptor : FileSourceDescriptor {
-    override fun fileToSource(file: File): List<FileSource> {
-        return if (file.isFile && file.extension == "mindkit")
-            listOf(MindKitFileSource(file.path))
-        else emptyList()
-    }
-}
+
 
 fun main() {
     fun simple(id: String, ch: List<SimpleTextNode> = emptyList()) =
