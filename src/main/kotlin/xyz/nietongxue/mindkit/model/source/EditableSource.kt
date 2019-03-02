@@ -4,12 +4,16 @@ import xyz.nietongxue.mindkit.model.Node
 
 
 interface EditableSource : Source {
-    fun edit(node: Node)
+    fun edit(parent :Node,node: Node)
     fun remove(node: Node)
     fun add(parent: Node, node: Node)
 }
 
 object MemoryTextSource: EditableSource {
+    override fun edit(parent: Node, node: Node) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override val description: String = "来自于内存"
 
     //TODO 设计：一个输入框，输入文本，整理为树形，再通过app输出，包括纯文本输出、xmind输出。 一个强大的source？
@@ -18,9 +22,7 @@ object MemoryTextSource: EditableSource {
         throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun edit(node: Node) {
-        throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
 
     override fun remove(node: Node) {
         throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
