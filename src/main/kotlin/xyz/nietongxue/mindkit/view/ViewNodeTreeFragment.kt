@@ -1,23 +1,22 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.geometry.Pos
-import javafx.scene.control.ContentDisplay
 import javafx.scene.control.TextField
+import javafx.scene.input.KeyCode
 import javafx.scene.layout.HBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Markers
+import xyz.nietongxue.mindkit.model.source.EditableSource
 import xyz.nietongxue.mindkit.util.UIGlobal
 import xyz.nietongxue.mindkit.util.ensureVisibleItem
-import javafx.scene.input.KeyCode
-import xyz.nietongxue.mindkit.model.source.EditableSource
 
 
 class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     override val root: HBox = HBox()
 
-    var textField : TextField? = null
+    var textField: TextField? = null
 
-    private fun createTextField():TextField {
+    private fun createTextField(): TextField {
         return TextField().apply {
             setOnKeyPressed { t ->
                 if (t.code === KeyCode.ENTER) {
@@ -32,35 +31,42 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     }
 
     override fun startEdit() {
-       if (textField == null) textField = createTextField()
+        super.startEdit()
+
+        if (textField == null) textField = createTextField()
 
         this.cell!!.graphic = textField!!
-        with(textField!!){
+        with(textField!!) {
             text = item.node.title
-            requestFocus()
+            runLater {
+                requestFocus()
 //        setContentDisplay(ContentDisplay.GRAPHIC_ONLY)
-            selectAll()
+                selectAll()
+            }
         }
 
-        super.startEdit()
 
     }
 
     override fun commitEdit(newValue: ViewNode) {
-        (newValue.node.source as EditableSource ).also{
-            it.edit(newValue.parent!!,newValue.node)
-        }
-        setupContent()
         super.commitEdit(newValue)
 
+        (newValue.node.source as EditableSource).also {
+            it.edit(newValue.parent!!, newValue.node)
+        }
+        setupContent()
+        runLater {
+            cell?.requestFocus()
+        }
     }
+
     override fun cancelEdit() {
         this.cell!!.graphic = root
         super.cancelEdit()
-
+        runLater {
+            cell?.requestFocus()
+        }
     }
-
-
 
 
     init {
