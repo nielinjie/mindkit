@@ -5,7 +5,7 @@ import xyz.nietongxue.mindkit.model.source.Source
 
 interface Node {
     val id: String
-    val title: String
+    var title: String
 
     val children: MutableList<Node>
     val markers: MutableList<Marker>

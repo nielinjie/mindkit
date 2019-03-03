@@ -3,6 +3,7 @@ package xyz.nietongxue.mindkit.view
 import javafx.event.EventHandler
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
+import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.VBox
 import tornadofx.*
@@ -34,7 +35,8 @@ class SourceView : View() {
 
 
     init {
-        repositoryView.repositoryP.value = FolderRepository(File("/Users/nielinjie/Desktop"))
+        //TODO repository选择和保存最后一个
+        repositoryView.repositoryP.value = FolderRepository(File("/Users/nielinjie/Desktop/testRepository/"))
         with(root) {
             defaultPadding()
             this.add(
@@ -52,12 +54,14 @@ class SourceView : View() {
                     root = TreeItem(treeModel.root)
                     root.isExpanded = true
                     cellFragment(ViewNodeTreeFragment::class)
+
                     onUserSelect {
                         controller.selectedNode = it.node
                     }
                     populate {
                         it.value.filteredChildren
                     }
+
                 }
             }
         }
@@ -139,11 +143,17 @@ class SourceView : View() {
                     setupTreeView()
                 }
             }
+            if (event.code == KeyCode.F2) {
+                val selectedItem = treeView.selectionModel.selectedItem
+                treeView.edit(selectedItem)
+
+            }
         }
     }
 
     private fun setupTreeView() {
         with(treeView) {
+            this.isEditable = true
             root = TreeItem(treeModel.root)
             populate {
                 it.value.filteredChildren

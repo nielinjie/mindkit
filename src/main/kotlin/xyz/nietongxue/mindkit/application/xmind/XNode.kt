@@ -13,7 +13,7 @@ import java.util.*
 
 
 data class XNode(override val id: String,
-                 override val title: String,
+                 override var title: String,
                  val labels: List<String>,
                  val note: String?,
                  override val markers:  MutableList<Marker>,

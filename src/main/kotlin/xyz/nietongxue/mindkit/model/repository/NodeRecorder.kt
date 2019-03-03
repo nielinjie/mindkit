@@ -42,7 +42,7 @@ data class NodeRecorder(val id: String, val title: String, val markers: List<Str
             return withNoParent.toList()
         }
 
-        fun fromNodes(node: Node, parentId: String = ""): List<NodeRecorder> {
+        fun fromNodes(node: Node, parentId: String = "_root"): List<NodeRecorder> {
             return listOf(fromNode(node, parentId)).plus(node.children.map {
                 fromNodes(it, node.id)
             }.flatten())
@@ -58,7 +58,7 @@ fun main() {
     fun simple(id: String, ch: List<SimpleTextNode> = emptyList()) =
             SimpleTextNode(id, id, ch.toMutableList(), mutableListOf(), InternalSource)
 
-    val path = "/Users/nielinjie/Desktop/fake.mindkit"
+    val path = "/Users/nielinjie/Desktop/testRepository/.mindkit/nodes.json"
     val root = simple("a", listOf(
             simple("a1"),
             simple("a2", listOf(

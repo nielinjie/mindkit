@@ -12,7 +12,7 @@ import xyz.nietongxue.mindkit.util.FileJsonStore
 import java.io.File
 
 data class SimpleTextNode(override val id: String,
-                          override val title: String,
+                          override var title: String,
                           override val children: MutableList<Node>,
                           override val markers: MutableList<Marker>,
                           @Transient
@@ -32,10 +32,15 @@ class MindKitFileSource(override val file: File) : FileSource, EditableSource {
         save()
     }
 
-    override fun add(parent: Node, node: Node) {
-        val index = nodeRecorders.indexOfLast { it.parentId == parent.id }
-        if(index == -1) nodeRecorders.add(fromNode(node,parent.id))
-        else nodeRecorders.add(index+1, fromNode(node,parent.id))
+    override fun add(parent: Node,after:Node?, node: Node) {
+       if(after != null){
+           val index = nodeRecorders.indexOfLast { it.id == after.id }
+           nodeRecorders.add(index+1,fromNode(node,parent.id))
+       }else{
+           val index = nodeRecorders.indexOfLast { it.parentId == parent.id }
+           nodeRecorders.add(index+1,fromNode(node,parent.id))
+
+       }
     }
 
     override val description: String = "MindKit文件 - ${file.name}"

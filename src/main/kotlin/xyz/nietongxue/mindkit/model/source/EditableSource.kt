@@ -6,7 +6,7 @@ import xyz.nietongxue.mindkit.model.Node
 interface EditableSource : Source {
     fun edit(parent :Node,node: Node)
     fun remove(node: Node)
-    fun add(parent: Node, node: Node)
+    fun add(parent: Node,after:Node?, node: Node)
 }
 
 object MemoryTextSource: EditableSource {
@@ -28,7 +28,7 @@ object MemoryTextSource: EditableSource {
         throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun add(parent: Node, node: Node) {
+    override fun add(parent: Node,after:Node?, node: Node) {
         throw NotImplementedError("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

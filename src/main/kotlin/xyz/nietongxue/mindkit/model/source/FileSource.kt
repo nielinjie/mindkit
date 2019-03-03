@@ -43,7 +43,7 @@ interface FileSource:Source{
 
 class FileNode(val file: File, override val source: Source) : Node {
     override val id: String = file.toURI().toString()
-    override val title: String = file.name
+    override var title: String = file.name
     override val children: MutableList<Node> = mutableListOf()
     override val markers: MutableList<Marker> = mutableListOf()
 }
