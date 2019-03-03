@@ -50,6 +50,7 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
         (newValue.node.source as EditableSource ).also{
             it.edit(newValue.parent!!,newValue.node)
         }
+        setupContent()
         super.commitEdit(newValue)
 
     }
@@ -59,12 +60,14 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
 
     }
 
+
+
+
     init {
         onEdit {
             startEdit()
         }
         itemProperty.onChange {
-            root.replaceChildren()
             it?.let {
                 setupContent()
             }
@@ -74,6 +77,7 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
 
     private fun setupContent() {
         with(root) {
+            replaceChildren()
             alignment = Pos.CENTER_LEFT
             spacing = 10.0
             label(item.node.title)
