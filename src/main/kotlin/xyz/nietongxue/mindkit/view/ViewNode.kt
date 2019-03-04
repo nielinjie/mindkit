@@ -109,8 +109,8 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         this.removeChildren()
         return this.addChildren(nodes)
     }
-
-    fun addChildren(nodes: List<Node>): ViewNode {
+        //FIXME implement afterNode
+    fun addChildren(nodes: List<Node>, afterNode: Node? = null): ViewNode {
         node.children.addAll(nodes)
         val ch = nodes.map {
             ViewNode.fromNode(it, this.node)
@@ -127,5 +127,6 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         this.descendantsMarkersCache.clear()
         return this
     }
+
 
 }

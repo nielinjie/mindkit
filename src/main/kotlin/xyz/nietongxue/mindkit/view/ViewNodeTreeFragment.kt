@@ -25,7 +25,9 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
                     this@ViewNodeTreeFragment.commitEdit(item)
                 } else if (t.code === KeyCode.ESCAPE) {
                     this@ViewNodeTreeFragment.cancelEdit()
+
                 }
+                t.consume()
             }
         }
     }
@@ -51,7 +53,7 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     override fun commitEdit(newValue: ViewNode) {
         super.commitEdit(newValue)
 
-        (newValue.node.source as EditableSource).also {
+        (newValue.node.source as? EditableSource)?.also {
             it.edit(newValue.parent!!, newValue.node)
         }
         setupContent()

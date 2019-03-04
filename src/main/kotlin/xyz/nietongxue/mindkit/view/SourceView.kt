@@ -1,6 +1,7 @@
 package xyz.nietongxue.mindkit.view
 
 import javafx.event.EventHandler
+import javafx.scene.control.Tab
 import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeView
 import javafx.scene.input.KeyCode
@@ -9,9 +10,12 @@ import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Filters
 import xyz.nietongxue.mindkit.model.repository.FolderRepository
+import xyz.nietongxue.mindkit.model.repository.SimpleTextNode
+import xyz.nietongxue.mindkit.model.source.EditableSource
 import xyz.nietongxue.mindkit.util.*
 import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
 import java.io.File
+import java.util.*
 
 
 class SourceView : View() {
@@ -113,40 +117,75 @@ class SourceView : View() {
     }
 
     private fun setupTreeViewKeymap() {
+        //FIXME
+        //https://stackoverflow.com/questions/27828982/javafx-treeview-remove-expand-collapse-button-disclosure-node-functionali
         treeView.onKeyReleased = EventHandler<KeyEvent> { event ->
-            if (event.metaAnd("Right")) {
-                treeView.selectionModel.selectedItem.expandAll()
-            }
-            if (event.metaAnd("F")) {
-                saveTreeState()
-                val viewNode = treeView.selectionModel.selectedItem.value
-                history.add(viewNode)
-                treeModel.moveRoot(viewNode)
-                setupTreeView()
-                treeView.selectFirst()
-            }
-            if (event.metaAnd("J")) {
-                if (history.state().backEnabled) {
+            if(!event.isConsumed ) {
+                if (event.metaAnd("Right")) {
+                    treeView.selectionModel.selectedItem.expandAll()
+                }
+                if (event.metaAnd("F")) {
                     saveTreeState()
-                    history.back()
-                    val viewNode = history.current()
+                    val viewNode = treeView.selectionModel.selectedItem.value
+                    history.add(viewNode)
                     treeModel.moveRoot(viewNode)
                     setupTreeView()
+                    treeView.selectFirst()
                 }
-            }
-            if (event.metaAnd("K")) {
-                if (history.state().forwardEnabled) {
-                    saveTreeState()
-                    history.forward()
-                    val viewNode = history.current()
-                    treeModel.moveRoot(viewNode)
-                    setupTreeView()
+                if (event.metaAnd("J")) {
+                    if (history.state().backEnabled) {
+                        saveTreeState()
+                        history.back()
+                        val viewNode = history.current()
+                        treeModel.moveRoot(viewNode)
+                        setupTreeView()
+                    }
                 }
-            }
-            if (event.code == KeyCode.F2) {
-                val selectedItem = treeView.selectionModel.selectedItem
-                treeView.edit(selectedItem)
+                if (event.metaAnd("K")) {
+                    if (history.state().forwardEnabled) {
+                        saveTreeState()
+                        history.forward()
+                        val viewNode = history.current()
+                        treeModel.moveRoot(viewNode)
+                        setupTreeView()
+                    }
+                }
+                if (event.code == KeyCode.F2) {
+                    val selectedItem = treeView.selectionModel.selectedItem
+                    treeView.edit(selectedItem)
 
+                }
+                if (event.code == KeyCode.SPACE) {
+                    val selectedItem = treeView.selectionModel.selectedItem
+                    treeView.edit(selectedItem)
+                }
+                if (event.code == KeyCode.ENTER) {
+                    //add following brother
+                    treeView.selectedValue?.also {
+                        val node = it.node
+                        val parentNode = it.parent
+                        (parentNode?.source as? EditableSource)?.let { editableSource ->
+                            val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
+                            editableSource.add(parentNode, node, newNode)
+                            treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode))
+                        }
+                    }
+                    event.consume()
+                }
+                if (event.code == KeyCode.EQUALS){ //KeyCode.TAB) {
+                    //add child
+                    treeView.selectedValue?.also {
+                        val parentNode = it.node
+                        (parentNode.source as? EditableSource)?.let { editableSource ->
+                            val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
+                            editableSource.add(parentNode, null,newNode)
+                            treeView.selectionModel.selectedItem.value.addChildren(listOf(newNode))
+                        }
+                    }
+                }
+                if (event.code == KeyCode.BACK_SPACE) {
+
+                }
             }
         }
     }

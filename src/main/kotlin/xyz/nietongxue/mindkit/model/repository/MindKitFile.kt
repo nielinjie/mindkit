@@ -10,13 +10,20 @@ import xyz.nietongxue.mindkit.model.source.Mounting
 import xyz.nietongxue.mindkit.model.source.Source
 import xyz.nietongxue.mindkit.util.FileJsonStore
 import java.io.File
+import java.util.*
 
 data class SimpleTextNode(override val id: String,
                           override var title: String,
                           override val children: MutableList<Node>,
                           override val markers: MutableList<Marker>,
                           @Transient
-                          override val source: Source) : Node
+                          override val source: Source) : Node{
+    companion object {
+        fun fromText(text:String,source: Source): SimpleTextNode {
+            return SimpleTextNode(UUID.randomUUID().toString(),text, mutableListOf(), mutableListOf(),source)
+        }
+    }
+}
 
 
 class MindKitFileSource(override val file: File) : FileSource, EditableSource {
