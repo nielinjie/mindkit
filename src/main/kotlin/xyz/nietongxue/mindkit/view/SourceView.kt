@@ -171,6 +171,7 @@ class SourceView : View() {
                             runLater {
                                 treeView.findItem { it.node.id == newNode.id }?.let {
                                     treeView.expandToItem(it.parent)
+                                    treeView.selectionModel.select(it)
                                     treeView.edit(it)
                                 }
                             }
@@ -190,6 +191,7 @@ class SourceView : View() {
                             runLater {
                                 treeView.findItem { it.node.id == newNode.id }?.let {
                                     treeView.expandToItem(it.parent)
+                                    treeView.selectionModel.select(it)
                                     treeView.edit(it)
                                 }
                             }
