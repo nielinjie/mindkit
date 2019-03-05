@@ -109,19 +109,46 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         this.removeChildren()
         return this.addChildren(nodes)
     }
-        //FIXME implement afterNode
+
     fun addChildren(nodes: List<Node>, afterNode: Node? = null): ViewNode {
-        node.children.addAll(nodes)
         val ch = nodes.map {
             ViewNode.fromNode(it, this.node)
         }
-        this.children.addAll(ch)
+        if (afterNode != null) {
+            require(nodes.size ==1) {"not implemented yet."}
+            val brotherIndex =  this.children.indexOfFirst { it.node.id == afterNode.id }
+            require(brotherIndex != -1)
+            node.children.add(brotherIndex+1,nodes.first())
+            this.children.add(brotherIndex+1,ch.first())
+        } else {
+            node.children.addAll(nodes)
+            this.children.addAll(ch)
+        }
         this.descendantsMarkersCache.clear()
         this.descendantsMarkersCache.addAll(ch.flatMap { it.node.markers + it.descendantsMarkersCache }.distinct())
         return this
     }
+    //TODO copy 的代码。
+    fun insertChildren(nodes: List<Node>, beforeNode: Node? = null): ViewNode {
+        val ch = nodes.map {
+            ViewNode.fromNode(it, this.node)
+        }
+        if (beforeNode != null) {
+            require(nodes.size ==1) {"not implemented yet."}
+            val brotherIndex =  this.children.indexOfFirst { it.node.id == beforeNode.id }
+            require(brotherIndex != -1)
+            node.children.add(brotherIndex,nodes.first())
+            this.children.add(brotherIndex,ch.first())
+        } else {
+            node.children.add(0,nodes.first())
+            this.children.add(0,ch.first())
+        }
+        this.descendantsMarkersCache.clear()
+        this.descendantsMarkersCache.addAll(ch.flatMap { it.node.markers + it.descendantsMarkersCache }.distinct())
+        return this
 
-    fun removeChildren(): ViewNode {
+    }
+        fun removeChildren(): ViewNode {
         node.children.clear()
         this.children.clear()
         this.descendantsMarkersCache.clear()

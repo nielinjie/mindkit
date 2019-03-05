@@ -120,7 +120,7 @@ class SourceView : View() {
         //FIXME
         //https://stackoverflow.com/questions/27828982/javafx-treeview-remove-expand-collapse-button-disclosure-node-functionali
         treeView.onKeyReleased = EventHandler<KeyEvent> { event ->
-            if(!event.isConsumed ) {
+            if (!event.isConsumed) {
                 if (event.metaAnd("Right")) {
                     treeView.selectionModel.selectedItem.expandAll()
                 }
@@ -159,7 +159,7 @@ class SourceView : View() {
                     val selectedItem = treeView.selectionModel.selectedItem
                     treeView.edit(selectedItem)
                 }
-                if (event.code == KeyCode.ENTER) {
+                if (event.code == KeyCode.MINUS) {//KeyCode.ENTER) {
                     //add following brother
                     treeView.selectedValue?.also {
                         val node = it.node
@@ -167,24 +167,25 @@ class SourceView : View() {
                         (parentNode?.source as? EditableSource)?.let { editableSource ->
                             val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
                             editableSource.add(parentNode, node, newNode)
-                            treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode))
+                            treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode), it.node)
+                            
                         }
                     }
-                    event.consume()
+
                 }
-                if (event.code == KeyCode.EQUALS){ //KeyCode.TAB) {
+                if (event.code == KeyCode.EQUALS) { //KeyCode.TAB) {
                     //add child
                     treeView.selectedValue?.also {
                         val parentNode = it.node
                         (parentNode.source as? EditableSource)?.let { editableSource ->
                             val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
-                            editableSource.add(parentNode, null,newNode)
-                            treeView.selectionModel.selectedItem.value.addChildren(listOf(newNode))
+                            editableSource.add(parentNode, null, newNode)
+                            treeView.selectionModel.selectedItem.value.insertChildren(listOf(newNode))
                         }
                     }
                 }
                 if (event.code == KeyCode.BACK_SPACE) {
-
+                    //remove
                 }
             }
         }
