@@ -168,7 +168,13 @@ class SourceView : View() {
                             val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
                             editableSource.add(parentNode, node, newNode)
                             treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode), it.node)
-                            
+                            runLater {
+                                treeView.findItem { it.node.id == newNode.id }?.let {
+                                    treeView.expandToItem(it.parent)
+                                    treeView.edit(it)
+                                }
+                            }
+
                         }
                     }
 
@@ -181,12 +187,18 @@ class SourceView : View() {
                             val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
                             editableSource.add(parentNode, null, newNode)
                             treeView.selectionModel.selectedItem.value.insertChildren(listOf(newNode))
+                            runLater {
+                                treeView.findItem { it.node.id == newNode.id }?.let {
+                                    treeView.expandToItem(it.parent)
+                                    treeView.edit(it)
+                                }
+                            }
                         }
                     }
                 }
-                if (event.code == KeyCode.BACK_SPACE) {
-                    //remove
-                }
+//                if (event.code == KeyCode.BACK_SPACE) {
+//                    //remove
+//                }
             }
         }
     }

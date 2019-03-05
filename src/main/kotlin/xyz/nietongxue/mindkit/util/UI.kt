@@ -65,7 +65,7 @@ object UIGlobal {
     var treeView: TreeView<ViewNode>? = null
 }
 
-fun <T> TreeView<T>.findItem(item: TreeItem<T>, f: (T) -> Boolean): TreeItem<T>? {
+fun <T> TreeView<T>.findItem(item: TreeItem<T> = this.root, f: (T) -> Boolean): TreeItem<T>? {
     return if (f(item.value)) {
         item
     } else {
