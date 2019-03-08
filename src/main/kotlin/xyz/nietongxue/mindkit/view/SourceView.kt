@@ -16,6 +16,9 @@ import xyz.nietongxue.mindkit.util.*
 import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
 import java.io.File
 import java.util.*
+import javafx.event.EventDispatcher
+
+
 
 
 class SourceView : View() {
@@ -36,6 +39,7 @@ class SourceView : View() {
     }
 
     private val history = History<ViewNode>()
+
 
 
     init {
@@ -72,6 +76,10 @@ class SourceView : View() {
 
 //      setupFavoriteSelectedEvent()
         setupRepositorySelectedEvent()
+
+        val treeOriginal = treeView.eventDispatcher
+        treeView.eventDispatcher = CellEventDispatcher(treeOriginal)
+
         setupTreeViewKeymap()
         setupSearchChangeEvent()
 
@@ -159,28 +167,28 @@ class SourceView : View() {
                     val selectedItem = treeView.selectionModel.selectedItem
                     treeView.edit(selectedItem)
                 }
-                if (event.code == KeyCode.MINUS) {//KeyCode.ENTER) {
-                    //add following brother
-                    treeView.selectedValue?.also {
-                        val node = it.node
-                        val parentNode = it.parent
-                        (parentNode?.source as? EditableSource)?.let { editableSource ->
-                            val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
-                            editableSource.add(parentNode, node, newNode)
-                            treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode), it.node)
-                            runLater {
-                                treeView.findItem { it.node.id == newNode.id }?.let {
-                                    treeView.expandToItem(it.parent)
-                                    treeView.selectionModel.select(it)
-                                    treeView.edit(it)
+                if (event.code == KeyCode.ENTER) {
+                        //add following brother
+                        treeView.selectedValue?.also {
+                            val node = it.node
+                            val parentNode = it.parent
+                            (parentNode?.source as? EditableSource)?.let { editableSource ->
+                                val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
+                                editableSource.add(parentNode, node, newNode)
+                                treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode), it.node)
+                                runLater {
+                                    treeView.findItem { it.node.id == newNode.id }?.let {
+                                        treeView.expandToItem(it.parent)
+                                        treeView.selectionModel.select(it)
+                                        treeView.edit(it)
+                                    }
                                 }
-                            }
 
-                        }
+                            }
                     }
 
                 }
-                if (event.code == KeyCode.EQUALS) { //KeyCode.TAB) {
+                if (event.code == KeyCode.TAB) {
                     //add child
                     treeView.selectedValue?.also {
                         val parentNode = it.node

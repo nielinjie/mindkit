@@ -13,17 +13,21 @@ import xyz.nietongxue.mindkit.util.ensureVisibleItem
 
 class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     override val root: HBox = HBox()
+    val sourceView =  find<SourceView>()
+
 
     var textField: TextField? = null
 
     private fun createTextField(): TextField {
         return TextField().apply {
             setOnKeyPressed { t ->
-                if (t.code === KeyCode.ENTER) {
+                if (t.code == KeyCode.ENTER) {
+
                     val text = this.text
                     item.node.title = text
                     this@ViewNodeTreeFragment.commitEdit(item)
-                } else if (t.code === KeyCode.ESCAPE) {
+
+                } else if (t.code == KeyCode.ESCAPE) {
                     this@ViewNodeTreeFragment.cancelEdit()
 
                 }
@@ -33,6 +37,8 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     }
 
     override fun startEdit() {
+
+
         super.startEdit()
 
         if (textField == null) textField = createTextField()
@@ -65,6 +71,7 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     override fun cancelEdit() {
         this.cell!!.graphic = root
         super.cancelEdit()
+
         runLater {
             cell?.requestFocus()
         }
