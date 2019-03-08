@@ -9,9 +9,12 @@ import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.model.Filters
 import xyz.nietongxue.mindkit.model.repository.FolderRepository
+import xyz.nietongxue.mindkit.model.repository.SimpleTextNode
+import xyz.nietongxue.mindkit.model.source.EditableSource
 import xyz.nietongxue.mindkit.util.*
 import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
 import java.io.File
+import java.util.*
 
 
 class SourceView : View() {
@@ -144,10 +147,54 @@ class SourceView : View() {
                 }
             }
             if (event.code == KeyCode.F2) {
-                val selectedItem = treeView.selectionModel.selectedItem
-                treeView.edit(selectedItem)
-
+                val node = treeView.selectedValue?.node
+                val parent = treeView.selectedValue?.parent
+                node?.let {
+                    nodeDialog(it.title)?.let { newTitle ->
+                        val source = it.source as? EditableSource
+                        it.title = newTitle
+                        source?.also { es ->
+                            es.edit(parent!!, it)
+                            runLater {
+                                treeView.refresh()
+                            }
+                        }
+                    }
+                }
             }
+
+
+            if (event.code == KeyCode.MINUS) {
+                //add following brother
+                treeView.selectedValue?.also {
+                    val node = it.node
+                    val parentNode = it.parent
+                    (parentNode?.source as? EditableSource)?.let { editableSource ->
+                        val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
+                        editableSource.add(parentNode, node, newNode)
+                        treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode),it.node)
+                        runLater {
+                            treeView.findItem { it.node.id == newNode.id }?.let {
+                                treeView.expandToItem(it.parent)
+                                treeView.selectionModel.select(it)
+                            }
+                        }
+
+                    }
+                }
+            }
+//            if (event.code == KeyCode.EQUALS){ //KeyCode.TAB) {
+//                //add child
+//                treeView.selectedValue?.also {
+//                    val parentNode = it.node
+//                    (parentNode.source as? EditableSource)?.let { editableSource ->
+//                        val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
+//                        editableSource.add(parentNode, null,newNode)
+//                        treeView.selectionModel.selectedItem.value.addChildren(listOf(newNode))
+//                    }
+//                }
+//            }
+
         }
     }
 

@@ -15,56 +15,11 @@ import xyz.nietongxue.mindkit.model.source.EditableSource
 class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
     override val root: HBox = HBox()
 
-    var textField : TextField? = null
 
-    private fun createTextField():TextField {
-        return TextField().apply {
-            setOnKeyPressed { t ->
-                if (t.code === KeyCode.ENTER) {
-                    val text = this.text
-                    item.node.title = text
-                    this@ViewNodeTreeFragment.commitEdit(item)
-                } else if (t.code === KeyCode.ESCAPE) {
-                    this@ViewNodeTreeFragment.cancelEdit()
-                }
-            }
-        }
-    }
 
-    override fun startEdit() {
-       if (textField == null) textField = createTextField()
-
-        this.cell!!.graphic = textField!!
-        with(textField!!){
-            text = item.node.title
-            requestFocus()
-//        setContentDisplay(ContentDisplay.GRAPHIC_ONLY)
-            selectAll()
-        }
-
-        super.startEdit()
-
-    }
-
-    override fun commitEdit(newValue: ViewNode) {
-        (newValue.node.source as EditableSource ).also{
-            it.edit(newValue.parent!!,newValue.node)
-        }
-        super.commitEdit(newValue)
-
-    }
-    override fun cancelEdit() {
-        this.cell!!.graphic = root
-        super.cancelEdit()
-
-    }
 
     init {
-        onEdit {
-            startEdit()
-        }
         itemProperty.onChange {
-            root.replaceChildren()
             it?.let {
                 setupContent()
             }
@@ -74,6 +29,7 @@ class ViewNodeTreeFragment : TreeCellFragment<ViewNode>() {
 
     private fun setupContent() {
         with(root) {
+            replaceChildren()
             alignment = Pos.CENTER_LEFT
             spacing = 10.0
             label(item.node.title)

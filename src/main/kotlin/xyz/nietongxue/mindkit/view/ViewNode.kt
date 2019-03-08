@@ -110,12 +110,21 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         return this.addChildren(nodes)
     }
 
-    fun addChildren(nodes: List<Node>): ViewNode {
-        node.children.addAll(nodes)
+    fun addChildren(nodes: List<Node>,afterNode:Node?=null): ViewNode {
         val ch = nodes.map {
             ViewNode.fromNode(it, this.node)
         }
-        this.children.addAll(ch)
+        if (afterNode != null) {
+            require(nodes.size ==1) {"not implemented yet."}
+            val brotherIndex =  this.children.indexOfFirst { it.node.id == afterNode.id }
+            require(brotherIndex != -1)
+            node.children.add(brotherIndex+1,nodes.first())
+            this.children.add(brotherIndex+1,ch.first())
+        } else {
+            node.children.addAll(nodes)
+            this.children.addAll(ch)
+        }
+
         this.descendantsMarkersCache.clear()
         this.descendantsMarkersCache.addAll(ch.flatMap { it.node.markers + it.descendantsMarkersCache }.distinct())
         return this
