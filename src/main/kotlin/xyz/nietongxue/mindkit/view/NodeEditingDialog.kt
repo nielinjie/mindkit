@@ -9,6 +9,5 @@ fun nodeDialog(initString:String): String? {
     dialog.title = "Text Input Dialog"
     dialog.headerText = "Look, a Text Input Dialog"
     dialog.contentText = "Please enter your name:"
-
     return dialog.showAndWait().orNull()
 }

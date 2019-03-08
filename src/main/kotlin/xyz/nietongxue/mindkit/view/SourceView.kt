@@ -71,6 +71,12 @@ class SourceView : View() {
 
 //      setupFavoriteSelectedEvent()
         setupRepositorySelectedEvent()
+
+
+        val treeOriginal = treeView.eventDispatcher
+        treeView.eventDispatcher = CellEventDispatcher(treeOriginal)
+
+
         setupTreeViewKeymap()
         setupSearchChangeEvent()
 
@@ -116,6 +122,7 @@ class SourceView : View() {
     }
 
     private fun setupTreeViewKeymap() {
+        //TODO - 独立map管理。
         treeView.onKeyReleased = EventHandler<KeyEvent> { event ->
             if (event.metaAnd("Right")) {
                 treeView.selectionModel.selectedItem.expandAll()
@@ -146,12 +153,15 @@ class SourceView : View() {
                     setupTreeView()
                 }
             }
-            if (event.code == KeyCode.F2) {
-                editNode()
+            if (event.code == KeyCode.F2|| event.code == KeyCode.SPACE) {
+                editNode(event)
             }
 
 
-            if (event.code == KeyCode.MINUS) {
+            if (event.code == KeyCode.MINUS || event.code == KeyCode.ENTER) {
+                if(event.code == KeyCode.ENTER){
+                    println(event)
+                }
                 //add following brother
                 treeView.selectedValue?.also {
                     val node = it.node
@@ -164,14 +174,14 @@ class SourceView : View() {
                             treeView.findItem { it.node.id == newNode.id }?.let {
                                 treeView.expandToItem(it.parent)
                                 treeView.selectionModel.select(it)
-                                editNode()
+                                editNode(event)
                             }
                         }
 
                     }
                 }
             }
-            if (event.code == KeyCode.EQUALS) { //KeyCode.TAB) {
+            if (event.code == KeyCode.EQUALS || event.code == KeyCode.TAB) {
                 //add child
                 treeView.selectedValue?.also {
                     val parentNode = it.node
@@ -183,7 +193,7 @@ class SourceView : View() {
                             treeView.findItem { it.node.id == newNode.id }?.let {
                                 treeView.expandToItem(it.parent)
                                 treeView.selectionModel.select(it)
-                                editNode()
+                                editNode(event)
                             }
                         }
                     }
@@ -194,7 +204,7 @@ class SourceView : View() {
         }
     }
 
-    private fun editNode() {
+    private fun editNode(event: KeyEvent?) {
         val node = treeView.selectedValue?.node
         val parent = treeView.selectedValue?.parent
         node?.let {
