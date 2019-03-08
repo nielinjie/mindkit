@@ -14,6 +14,9 @@ import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import tornadofx.*
 import xyz.nietongxue.mindkit.view.ViewNode
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object Clipboard {
@@ -89,3 +92,8 @@ fun <T> TreeView<T>.expandToItem(item: TreeItem<T>) {
     }
 }
 
+
+fun Date.shortString():String{
+    val format = "MM-dd HH:mm:ss"
+    return SimpleDateFormat(format).format(this)
+}

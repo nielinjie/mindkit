@@ -147,20 +147,7 @@ class SourceView : View() {
                 }
             }
             if (event.code == KeyCode.F2) {
-                val node = treeView.selectedValue?.node
-                val parent = treeView.selectedValue?.parent
-                node?.let {
-                    nodeDialog(it.title)?.let { newTitle ->
-                        val source = it.source as? EditableSource
-                        it.title = newTitle
-                        source?.also { es ->
-                            es.edit(parent!!, it)
-                            runLater {
-                                treeView.refresh()
-                            }
-                        }
-                    }
-                }
+                editNode()
             }
 
 
@@ -170,31 +157,57 @@ class SourceView : View() {
                     val node = it.node
                     val parentNode = it.parent
                     (parentNode?.source as? EditableSource)?.let { editableSource ->
-                        val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
+                        val newNode = SimpleTextNode.fromText(Date().shortString(), editableSource)
                         editableSource.add(parentNode, node, newNode)
-                        treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode),it.node)
+                        treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode), it.node)
                         runLater {
                             treeView.findItem { it.node.id == newNode.id }?.let {
                                 treeView.expandToItem(it.parent)
                                 treeView.selectionModel.select(it)
+                                editNode()
                             }
                         }
 
                     }
                 }
             }
-//            if (event.code == KeyCode.EQUALS){ //KeyCode.TAB) {
-//                //add child
-//                treeView.selectedValue?.also {
-//                    val parentNode = it.node
-//                    (parentNode.source as? EditableSource)?.let { editableSource ->
-//                        val newNode = SimpleTextNode.fromText("new node - ${Date()}", editableSource)
-//                        editableSource.add(parentNode, null,newNode)
-//                        treeView.selectionModel.selectedItem.value.addChildren(listOf(newNode))
-//                    }
-//                }
-//            }
+            if (event.code == KeyCode.EQUALS) { //KeyCode.TAB) {
+                //add child
+                treeView.selectedValue?.also {
+                    val parentNode = it.node
+                    (parentNode.source as? EditableSource)?.let { editableSource ->
+                        val newNode = SimpleTextNode.fromText(Date().shortString(), editableSource)
+                        editableSource.add(parentNode, null, newNode)
+                        treeView.selectionModel.selectedItem.value.insertChildren(listOf(newNode))
+                        runLater {
+                            treeView.findItem { it.node.id == newNode.id }?.let {
+                                treeView.expandToItem(it.parent)
+                                treeView.selectionModel.select(it)
+                                editNode()
+                            }
+                        }
+                    }
 
+                }
+            }
+
+        }
+    }
+
+    private fun editNode() {
+        val node = treeView.selectedValue?.node
+        val parent = treeView.selectedValue?.parent
+        node?.let {
+            nodeDialog(it.title)?.let { newTitle ->
+                val source = it.source as? EditableSource
+                it.title = newTitle
+                source?.also { es ->
+                    es.edit(parent!!, it)
+                    runLater {
+                        treeView.refresh()
+                    }
+                }
+            }
         }
     }
 
@@ -215,8 +228,6 @@ class SourceView : View() {
         iterateTree(treeView.root) {
             it.value.expanded = it.isExpanded
             //TODO 是否要把焦点状态存储在viewNode中？
-
-//            it.value.focus = treeView.selectedValue?.node?.id == it.value.node.id
         }
     }
 }

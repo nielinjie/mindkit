@@ -130,7 +130,28 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         return this
     }
 
-    fun removeChildren(): ViewNode {
+
+    //TODO copy 的代码。
+    fun insertChildren(nodes: List<Node>, beforeNode: Node? = null): ViewNode {
+        val ch = nodes.map {
+            ViewNode.fromNode(it, this.node)
+        }
+        if (beforeNode != null) {
+            require(nodes.size == 1) { "not implemented yet." }
+            val brotherIndex = this.children.indexOfFirst { it.node.id == beforeNode.id }
+            require(brotherIndex != -1)
+            node.children.add(brotherIndex, nodes.first())
+            this.children.add(brotherIndex, ch.first())
+        } else {
+            node.children.add(0, nodes.first())
+            this.children.add(0, ch.first())
+        }
+        this.descendantsMarkersCache.clear()
+        this.descendantsMarkersCache.addAll(ch.flatMap { it.node.markers + it.descendantsMarkersCache }.distinct())
+        return this
+    }
+
+        fun removeChildren(): ViewNode {
         node.children.clear()
         this.children.clear()
         this.descendantsMarkersCache.clear()
