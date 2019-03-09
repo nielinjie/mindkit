@@ -35,6 +35,7 @@ class SourceView : View() {
     }
 
     private val history = History<ViewNode>()
+    private var editing = false
 
 
     init {
@@ -153,14 +154,17 @@ class SourceView : View() {
                     setupTreeView()
                 }
             }
-            if (event.code == KeyCode.F2|| event.code == KeyCode.SPACE) {
+            if (event.code == KeyCode.F2 || event.code == KeyCode.SPACE) {
                 editNode(event)
             }
 
 
             if (event.code == KeyCode.MINUS || event.code == KeyCode.ENTER) {
-                if(event.code == KeyCode.ENTER){
-                    println(event)
+                if (event.code == KeyCode.ENTER) {
+                    if (editing) {//do nothing
+                        editing = false
+                        return@EventHandler
+                    }
                 }
                 //add following brother
                 treeView.selectedValue?.also {
@@ -208,7 +212,9 @@ class SourceView : View() {
         val node = treeView.selectedValue?.node
         val parent = treeView.selectedValue?.parent
         node?.let {
-            nodeDialog(it.title)?.let { newTitle ->
+            val text = nodeDialog(it.title)
+            text?.let { editing = true }
+            text?.let { newTitle ->
                 val source = it.source as? EditableSource
                 it.title = newTitle
                 source?.also { es ->
