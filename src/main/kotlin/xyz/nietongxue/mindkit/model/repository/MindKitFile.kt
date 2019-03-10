@@ -17,10 +17,10 @@ data class SimpleTextNode(override val id: String,
                           override val children: MutableList<Node>,
                           override val markers: MutableList<Marker>,
                           @Transient
-                          override val source: Source) : Node{
+                          override val source: Source) : Node {
     companion object {
-        fun fromText(text:String,source: Source): SimpleTextNode {
-            return SimpleTextNode(UUID.randomUUID().toString(),text, mutableListOf(), mutableListOf(),source)
+        fun fromText(text: String, source: Source): SimpleTextNode {
+            return SimpleTextNode(UUID.randomUUID().toString(), text, mutableListOf(), mutableListOf(), source)
         }
     }
 
@@ -40,15 +40,15 @@ class MindKitFileSource(override val file: File) : FileSource, EditableSource {
         save()
     }
 
-    override fun add(parent: Node,after:Node?, node: Node) {
-       if(after != null){
-           val index = nodeRecorders.indexOfLast { it.id == after.id }
-           nodeRecorders.add(index+1,fromNode(node,parent.id))
-       }else{
-           val index = nodeRecorders.indexOfLast { it.parentId == parent.id }
-           nodeRecorders.add(index+1,fromNode(node,parent.id))
+    override fun add(parent: Node, after: Node?, node: Node) {
+        if (after != null) {
+            val index = nodeRecorders.indexOfLast { it.id == after.id }
+            nodeRecorders.add(index + 1, fromNode(node, parent.id))
+        } else {
+            val index = nodeRecorders.indexOfLast { it.parentId == parent.id }
+            nodeRecorders.add(index + 1, fromNode(node, parent.id))
 
-       }
+        }
     }
 
     override val description: String = "MindKit文件 - ${file.name}"
@@ -63,8 +63,8 @@ class MindKitFileSource(override val file: File) : FileSource, EditableSource {
         return toNodes(nodeRecorders, this).groupBy { it.second }.map {
             val parentId = it.key
             val nodes = it.value.map { it.first }
-            tree.findById(parentId)?.let { it1 -> Mounting(it1) { nodes } }
-        }.filterNotNull()
+            Mounting(parentId) { nodes }
+        }
     }
 
     private fun save() {

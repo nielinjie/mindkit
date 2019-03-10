@@ -26,7 +26,7 @@ class FolderSource(val path: String, val flat: Boolean = true) : Source, Openabl
         }.toList().filter {
             it.second.isNotEmpty()
         }.flatMap { p ->
-            listOf(Mounting(mountPoint) { listOf(p.first) }) +
+            listOf(Mounting(mountPoint.id) { listOf(p.first) }) +
                     p.second.flatMap { it.mount(tree, p.first) }
         }
     }

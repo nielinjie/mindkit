@@ -38,7 +38,7 @@ class XMindSource(path: String) : FileSource, Openable {
         val content = xMindFile.content() ?: return emptyList()
         val json = Parser.default().parse(content) as? JsonArray<JsonObject>
         val mm = json?.let { MindMap.fromJson(it, this) }
-        return listOf(Mounting(mountPoint) {
+        return listOf(Mounting(mountPoint.id) {
             //NOTE 这里舍弃了sheet的名字，以每个sheet的root作为节点
             listOfNotNull((mm?.sheets ?: emptyList()).map {
                 it.root

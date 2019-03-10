@@ -96,13 +96,13 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         })
     }
 
-    fun findNode(node: Node): ViewNode? {
+    fun findNode(id:String): ViewNode? {
         //按值寻找
         return if (this.node.id
-                == node.id)
+                == id)
             this
         else
-            this.children.firstNotNullResult { it.findNode(node) }
+            this.children.firstNotNullResult { it.findNode(id) }
     }
 
     fun replaceChildren(nodes: List<Node>): ViewNode {

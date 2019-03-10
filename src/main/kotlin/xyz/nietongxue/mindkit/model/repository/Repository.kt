@@ -1,5 +1,6 @@
 package xyz.nietongxue.mindkit.model.repository
 
+import xyz.nietongxue.mindkit.model.source.EditableSource
 import xyz.nietongxue.mindkit.model.source.FolderSource
 import xyz.nietongxue.mindkit.model.source.Source
 import java.io.File
@@ -8,6 +9,7 @@ interface Repository {
     fun sources(): List<Source>
 
     fun name(): String
+    fun nodeAddSource():EditableSource?=null
 }
 
 data class FolderRepository(val base: File) : Repository {
@@ -52,4 +54,7 @@ data class FolderRepository(val base: File) : Repository {
         return "仓库 - ${base.name}"
     }
 
+    override fun nodeAddSource(): EditableSource? {
+        return this.nodesSource
+    }
 }

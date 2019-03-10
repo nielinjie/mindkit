@@ -155,7 +155,7 @@ class SourceView : View() {
                 }
             }
             if (event.code == KeyCode.F2 || event.code == KeyCode.SPACE) {
-                editNode(event)
+                editNode()
             }
 
 
@@ -169,8 +169,8 @@ class SourceView : View() {
                 //add following brother
                 treeView.selectedValue?.also {
                     val node = it.node
-                    val parentNode = it.parent
-                    (parentNode?.source as? EditableSource)?.let { editableSource ->
+                    val parentNode = it.parent ?: return@EventHandler
+                    (parentNode.source as? EditableSource ?: repositoryView.repositoryP.value.nodeAddSource())?.let { editableSource ->
                         val newNode = SimpleTextNode.fromText(Date().shortString(), editableSource)
                         editableSource.add(parentNode, node, newNode)
                         treeView.selectionModel.selectedItem.parent.value.addChildren(listOf(newNode), it.node)
@@ -178,10 +178,9 @@ class SourceView : View() {
                             treeView.findItem { it.node.id == newNode.id }?.let {
                                 treeView.expandToItem(it.parent)
                                 treeView.selectionModel.select(it)
-                                editNode(event)
+                                editNode()
                             }
                         }
-
                     }
                 }
             }
@@ -189,7 +188,7 @@ class SourceView : View() {
                 //add child
                 treeView.selectedValue?.also {
                     val parentNode = it.node
-                    (parentNode.source as? EditableSource)?.let { editableSource ->
+                    (parentNode.source as? EditableSource ?: repositoryView.repositoryP.value.nodeAddSource())?.let { editableSource ->
                         val newNode = SimpleTextNode.fromText(Date().shortString(), editableSource)
                         editableSource.add(parentNode, null, newNode)
                         treeView.selectionModel.selectedItem.value.insertChildren(listOf(newNode))
@@ -197,18 +196,17 @@ class SourceView : View() {
                             treeView.findItem { it.node.id == newNode.id }?.let {
                                 treeView.expandToItem(it.parent)
                                 treeView.selectionModel.select(it)
-                                editNode(event)
+                                editNode()
                             }
                         }
                     }
-
                 }
             }
 
         }
     }
 
-    private fun editNode(event: KeyEvent?) {
+    private fun editNode() {
         val node = treeView.selectedValue?.node
         val parent = treeView.selectedValue?.parent
         node?.let {
