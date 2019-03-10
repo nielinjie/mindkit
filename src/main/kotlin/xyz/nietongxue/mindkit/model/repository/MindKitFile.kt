@@ -60,6 +60,7 @@ class MindKitFileSource(override val file: File) : FileSource, EditableSource {
 
     override fun mount(tree: Node, mountPoint: Node): List<Mounting> {
         //NOTE mindkit文件是一条一条的node。有parent。没有child
+        //TODO mindkit节点附加在其他源的节点上时，顺序丢失，一般会附加在这个父节点的其他节点之后。因为没有记录兄节点。
         return toNodes(nodeRecorders, this).groupBy { it.second }.map {
             val parentId = it.key
             val nodes = it.value.map { it.first }
