@@ -12,7 +12,6 @@ import xyz.nietongxue.mindkit.model.repository.FolderRepository
 import xyz.nietongxue.mindkit.model.repository.SimpleTextNode
 import xyz.nietongxue.mindkit.model.source.EditableSource
 import xyz.nietongxue.mindkit.util.*
-import xyz.nietongxue.mindkit.view.ViewNode.SearchResult
 import java.io.File
 import java.util.*
 
@@ -86,16 +85,10 @@ class SourceView : View() {
 
     private fun setupSearchChangeEvent() {
         searchView.onChange = { filterS ->
-            if (filterS.length > 1) {
-                treeModel.root.filter = Filters.filter(filterS)
-            } else {
-                treeModel.root.filter = null
+            filterS.takeIf { it.length>1 }.let{
+                treeModel.setTextSearch(it)
             }
-            iterateTree(treeView.root) {
-                if (it.value.searchResult == SearchResult.CHILD_AND_SELF
-                        || it.value.searchResult == SearchResult.CHILD)
-                    it.isExpanded = true
-            }
+
         }
     }
 

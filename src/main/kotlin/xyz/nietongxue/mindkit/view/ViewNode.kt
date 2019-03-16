@@ -4,6 +4,7 @@ import com.beust.klaxon.internal.firstNotNullResult
 import javafx.collections.FXCollections
 import javafx.collections.FXCollections.observableArrayList
 import javafx.collections.ObservableList
+import tornadofx.observableList
 import tornadofx.onChange
 import xyz.nietongxue.mindkit.model.Filter
 import xyz.nietongxue.mindkit.model.Marker
@@ -17,63 +18,17 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
     val descendantsMarkersCache: MutableList<Marker> = mutableListOf()
 
 
-    enum class SearchResult {
-        CHILD_AND_SELF, SELF, CHILD, NONE
-
-    }
-
-    var searchResult: SearchResult = SearchResult.NONE
-
-    private fun filteredChildren(): List<ViewNode> {
-        return if (filter == null) {
-            this.children
-        } else {
-            children.filter {
-                filter!!.invoke(it.node) || it.filteredChildren().isNotEmpty()
-            }
-        }
-    }
-
-    private fun setSearchResult() {
-        if (filter == null) {
-            this.searchResult = SearchResult.NONE
-            return
-        }
-        val self: Boolean = (filter?.let { it -> it(this.node) } == true)
-        val child: Boolean = (children.any {
-            it.searchResult != SearchResult.NONE
-        })
-        this.searchResult = when (self to child) {
-            (true to true) -> SearchResult.CHILD_AND_SELF
-            (true to false) -> SearchResult.SELF
-            (false to true) -> SearchResult.CHILD
-            (false to false) -> SearchResult.NONE
-            else -> {
-                throw IllegalStateException()
-            }
-        }
+    var filterResult: FilterResult = FilterResult.NONE
 
 
-    }
 
-    var filter: Filter? = null
-        set(value) {
-            field = value
-            children.forEach {
-                it.filter = value
-            }
-            this.filteredChildren.setAll(filteredChildren())
-            setSearchResult()
-        }
 
-    val filteredChildren: ObservableList<ViewNode> = observableArrayList(children)
 
-    init {
-        children.onChange {
-            this.filteredChildren.setAll(filteredChildren())
-            setSearchResult()
-        }
-    }
+
+
+    val filteredChildren: ObservableList<ViewNode> = observableList()
+
+
 
     companion object {
         fun fromNode(n: Node, parent: Node? = null): ViewNode {
@@ -96,7 +51,7 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         })
     }
 
-    fun findNode(id:String): ViewNode? {
+    fun findNode(id: String): ViewNode? {
         //按值寻找
         return if (this.node.id
                 == id)
@@ -110,16 +65,16 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         return this.addChildren(nodes)
     }
 
-    fun addChildren(nodes: List<Node>,afterNode:Node?=null): ViewNode {
+    fun addChildren(nodes: List<Node>, afterNode: Node? = null): ViewNode {
         val ch = nodes.map {
             ViewNode.fromNode(it, this.node)
         }
         if (afterNode != null) {
-            require(nodes.size ==1) {"not implemented yet."}
-            val brotherIndex =  this.children.indexOfFirst { it.node.id == afterNode.id }
+            require(nodes.size == 1) { "not implemented yet." }
+            val brotherIndex = this.children.indexOfFirst { it.node.id == afterNode.id }
             require(brotherIndex != -1)
-            node.children.add(brotherIndex+1,nodes.first())
-            this.children.add(brotherIndex+1,ch.first())
+            node.children.add(brotherIndex + 1, nodes.first())
+            this.children.add(brotherIndex + 1, ch.first())
         } else {
             node.children.addAll(nodes)
             this.children.addAll(ch)
@@ -151,11 +106,21 @@ class ViewNode(val node: Node, val parent: Node?, val children: ObservableList<V
         return this
     }
 
-        fun removeChildren(): ViewNode {
+    fun removeChildren(): ViewNode {
         node.children.clear()
         this.children.clear()
         this.descendantsMarkersCache.clear()
         return this
     }
 
+    fun iteratorViewNode(fn: (ViewNode) -> Unit) {
+        this.children.forEach {
+            it.iteratorViewNode(fn)
+        }
+        fn(this)
+    }
+
+    fun findParent(root: ViewNode): ViewNode? {
+        return this.parent?.id?.let { root.findNode(it) }
+    }
 }

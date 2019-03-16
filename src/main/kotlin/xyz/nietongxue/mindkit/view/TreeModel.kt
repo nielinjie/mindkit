@@ -6,14 +6,54 @@ import tornadofx.task
 import xyz.nietongxue.mindkit.model.source.Source
 import javafx.animation.Timeline
 import javafx.animation.KeyFrame
+import javafx.collections.ObservableList
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.util.Duration
+import tornadofx.observableList
+import tornadofx.onChange
+import xyz.nietongxue.mindkit.model.Filters
 
 
 class TreeModel : Component() {
     var root: ViewNode = ViewNode.emptyRoot()
+    var viewRanges : ObservableList<ViewRange> = observableList()
     private val rootHistory: MutableList<ViewNode> = mutableListOf(root)
+
+    init {
+        viewRanges.onChange {
+            reFilter()
+        }
+        reFilter()
+    }
+
+    fun setTextSearch(text:String?){
+        viewRanges.removeIf { it is ModelFilterRange }
+        text?.let{
+            viewRanges.add(ModelFilterRange(Filters.filter(it)))
+        }
+    }
+
+    private fun reFilter(){
+        if(viewRanges.isEmpty())
+            root.iteratorViewNode { it.filterResult = FilterResult.SELF }
+        else{
+            root.iteratorViewNode { it.filterResult = FilterResult.NONE }
+        }
+        viewRanges.forEach {
+            it.markVisible(root)
+        }
+        root. iteratorViewNode {
+            if(it.children.any{it.filterResult != FilterResult.NONE}){
+                it.filterResult = it.filterResult.add(FilterResult.CHILD)
+            }
+        }
+        root.iteratorViewNode {
+            it.filteredChildren.setAll(it.children.filter {it.filterResult != FilterResult.NONE})
+        }
+    }
+
+
 
     fun moveRoot(viewNode: ViewNode) {
         this.rootHistory.add(this.root)
@@ -64,7 +104,9 @@ class TreeModel : Component() {
                     if (task.state == Worker.State.SUCCEEDED)
                         root.findNode(task.value.first)?.let { vn ->
                             vn.addChildren(task.value.second)
+                            reFilter()
                             iterator.remove()
+
                         }
                     if (task.state == Worker.State.CANCELLED || task.state == Worker.State.FAILED)
                         iterator.remove()
@@ -76,6 +118,7 @@ class TreeModel : Component() {
 
         }
     }
+
 
 
 }
