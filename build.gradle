@@ -1,13 +1,19 @@
 buildscript {
-    ext.kotlin_version = '1.3.20'
+    ext.kotlin_version = '1.3.21' // Required for Kotlin integration
+    ext.spring_boot_version = '2.1.3.RELEASE'
 
     repositories {
-        mavenCentral()
         maven { url 'https://plugins.gradle.org/m2/' }
+        mavenCentral()
     }
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version" // See https://kotlinlang.org/docs/reference/compiler-plugins.html#spring-support
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
+
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
     }
 }
@@ -16,14 +22,26 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'https://plugins.gradle.org/m2/' }
+        jcenter()
+
     }
 }
 
 
+
 apply plugin: "kotlin"
+
+apply plugin: "kotlin-spring" // https://kotlinlang.org/docs/reference/compiler-plugins.html#spring-support
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
+
+jar {
+    baseName = 'mindkit-server'
+    version = '0.1.0'
+}
 
 
 dependencies {
@@ -35,6 +53,10 @@ dependencies {
 //    compile 'org.jfxtras:jmetro:4.2'
     compile 'org.reflections:reflections:0.9.11'
     compile "org.jetbrains.kotlinx:kotlinx-html-jvm:0.6.11"
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Required for Kotlin integration
+    compile "org.springframework.boot:spring-boot-starter-web"
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testCompile("org.assertj:assertj-core:3.11.1")
